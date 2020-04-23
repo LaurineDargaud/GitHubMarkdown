@@ -1,5 +1,9 @@
 "
-I'm a parser for markdown implemented by K. Osterbye.
+# Markdown Parser and Elements
+
+I'm a parser for markdown implemented by K. Osterbye and maintained enhanced by S. Ducasse. 
+You are welcome to give an hand. 
+
 I follow the design mentioned in [https://github.github.com/gfm](https://github.github.com/gfm), in particular the parsing strategy in appendix A.
 
 In short, the strategy is that at any point in time, we might have a number of children of the root which are ""open"". The deepest in open in the tree is called ""current"". All the parents of current are open. 
@@ -14,6 +18,10 @@ When a new line is read we do the following:
 
 The other packages in this repository are the extensions made to produce Pillar model. 
 Such packages should be moved in the future to other location (probably pillar itself).
+
+# Todo
+- make all the test green
+- make the parser a bit more extensible (following the design of Pillar microdown grammar)
 "
 Class {
 	#name : #ManifestGithubMarkdown,
