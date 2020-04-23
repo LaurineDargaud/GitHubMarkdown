@@ -7,7 +7,7 @@ Class {
 	#instVars : [
 		'url'
 	],
-	#category : #GithubMarkdown
+	#category : #'GithubMarkdown-Model'
 }
 
 { #category : #accessing }

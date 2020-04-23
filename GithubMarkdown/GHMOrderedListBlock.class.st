@@ -7,7 +7,7 @@ Class {
 	#instVars : [
 		'startIndex'
 	],
-	#category : #GithubMarkdown
+	#category : #'GithubMarkdown-Model'
 }
 
 { #category : #testing }

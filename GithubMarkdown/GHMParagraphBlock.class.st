@@ -9,7 +9,7 @@ Class {
 	#instVars : [
 		'text'
 	],
-	#category : #GithubMarkdown
+	#category : #'GithubMarkdown-Model'
 }
 
 { #category : #'instance creation' }

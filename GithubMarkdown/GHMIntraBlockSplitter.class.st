@@ -9,7 +9,7 @@ No other method is part of the api.
 Class {
 	#name : #GHMIntraBlockSplitter,
 	#superclass : #Object,
-	#category : #GithubMarkdown
+	#category : #'GithubMarkdown-Model'
 }
 
 { #category : #'private-matching' }

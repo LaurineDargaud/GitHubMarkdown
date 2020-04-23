@@ -14,7 +14,7 @@ Class {
 		'next',
 		'children'
 	],
-	#category : #GithubMarkdown
+	#category : #'GithubMarkdown-Model'
 }
 
 { #category : #accessing }

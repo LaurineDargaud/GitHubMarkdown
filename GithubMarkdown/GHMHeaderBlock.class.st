@@ -13,7 +13,7 @@ Class {
 		'level',
 		'header'
 	],
-	#category : #GithubMarkdown
+	#category : #'GithubMarkdown-Model'
 }
 
 { #category : #testing }
