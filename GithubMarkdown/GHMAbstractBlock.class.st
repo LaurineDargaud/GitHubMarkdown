@@ -111,7 +111,7 @@ GHMAbstractBlock >> parent: aBlock [
 	aBlock addChild: self
 ]
 
-{ #category : #accessing }
+{ #category : #private }
 GHMAbstractBlock >> parserClass [ 
 	^ GHMParser 
 ]
