@@ -20,13 +20,13 @@ Class {
 		'current',
 		'root'
 	],
-	#category : #GithubMarkdown
+	#category : #'GithubMarkdown-Parser'
 }
 
 { #category : #private }
 GHMParser class >> allBlockNodeClasses [
 	^ GHMAbstractBlock allSubclasses
-		reject: [ :cl | cl category = self category ] 
+	
 ]
 
 { #category : #converting }
@@ -37,6 +37,12 @@ GHMParser class >> asRichText: aString [
 { #category : #converting }
 GHMParser class >> asText: aString [
 	^PRRichTextComposer new start: (GHMParser new parse: aString) asPillar
+]
+
+{ #category : #markups }
+GHMParser class >> codeblockMarkup [
+
+	^ '```'
 ]
 
 { #category : #examples }
@@ -53,6 +59,24 @@ GHMParser class >> fromUrl: aUrl [
 			beOneShot;
 			get: aUrl;
 			entity) string.
+]
+
+{ #category : #markups }
+GHMParser class >> headerMarkup [
+
+	^ '#'
+]
+
+{ #category : #markups }
+GHMParser class >> preformattedMarkup [
+
+	^ '> '
+]
+
+{ #category : #markups }
+GHMParser class >> unorderedListMarkups [
+
+	^ #('- ' '* ' '+ ')
 ]
 
 { #category : #parsing }

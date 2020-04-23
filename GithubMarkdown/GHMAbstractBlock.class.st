@@ -14,7 +14,7 @@ Class {
 		'parent',
 		'children'
 	],
-	#category : #GithubMarkdown
+	#category : #'GithubMarkdown-Model'
 }
 
 { #category : #adding }
@@ -109,6 +109,11 @@ GHMAbstractBlock >> parent [
 GHMAbstractBlock >> parent: aBlock [
 	parent := aBlock.
 	aBlock addChild: self
+]
+
+{ #category : #accessing }
+GHMAbstractBlock >> parserClass [ 
+	^ GHMParser 
 ]
 
 { #category : #public }

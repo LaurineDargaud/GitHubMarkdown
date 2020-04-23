@@ -17,7 +17,7 @@ Class {
 	#instVars : [
 		'indent'
 	],
-	#category : #GithubMarkdown
+	#category : #'GithubMarkdown-Model'
 }
 
 { #category : #testing }

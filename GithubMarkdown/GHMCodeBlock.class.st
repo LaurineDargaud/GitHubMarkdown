@@ -16,7 +16,7 @@ Class {
 		'arguments',
 		'done'
 	],
-	#category : #GithubMarkdown
+	#category : #'GithubMarkdown-Model'
 }
 
 { #category : #'as yet unclassified' }

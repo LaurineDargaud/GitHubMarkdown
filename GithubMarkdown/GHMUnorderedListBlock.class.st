@@ -4,7 +4,7 @@ I represent an unordered list of list items
 Class {
 	#name : #GHMUnorderedListBlock,
 	#superclass : #GHMListBlock,
-	#category : #GithubMarkdown
+	#category : #'GithubMarkdown-Model'
 }
 
 { #category : #testing }
