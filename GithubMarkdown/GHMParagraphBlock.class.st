@@ -45,7 +45,7 @@ GHMParagraphBlock >> canConsumeLine: line [
 	(self isRightlyIndented: line)
 		ifFalse: [ ^ false ].
 	unIndented := self asUnindented: line.
-	^ (self blockStarterFrom: unIndented) = self class
+	^ (self blockStarterClassFrom: unIndented) = self class
 ]
 
 { #category : #public }

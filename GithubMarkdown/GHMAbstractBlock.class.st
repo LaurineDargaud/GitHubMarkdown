@@ -32,7 +32,7 @@ GHMAbstractBlock >> addLine: line [
 ]
 
 { #category : #public }
-GHMAbstractBlock >> blockStarterFrom: line [
+GHMAbstractBlock >> blockStarterClassFrom: line [
 	"return the class of a block which can start with line, or nil if none"
 
 	(line beginsWith: '#')
@@ -93,7 +93,7 @@ GHMAbstractBlock >> initialize [
 { #category : #public }
 GHMAbstractBlock >> newBlockFor: line parent: parentBlock [
 	| newBlockClass |
-	newBlockClass := self blockStarterFrom: line.
+	newBlockClass := self blockStarterClassFrom: line.
 	newBlockClass ifNil: [ ^parentBlock ].
 	^ newBlockClass new
 		parent: parentBlock;

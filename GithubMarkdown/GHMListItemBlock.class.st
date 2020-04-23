@@ -22,7 +22,7 @@ GHMListItemBlock >> addLine: line [
 			^ self ].
 	normalized := line copyFrom: parent indent + 1 to: line size.	"drop indent"
 	({GHMOrderedListBlock.
-	GHMUnorderedListBlock} includes: (self blockStarterFrom: normalized))
+	GHMUnorderedListBlock} includes: (self blockStarterClassFrom: normalized))
 		ifTrue: [ ^ self newBlockFor: normalized parent: self ]
 		ifFalse: [ text := text , String cr , normalized ]
 ]
