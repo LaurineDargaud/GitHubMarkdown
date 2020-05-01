@@ -3,7 +3,7 @@ A GHMParagraphBlockTest is a test class for testing the behavior of GHMParagraph
 "
 Class {
 	#name : #GHMParagraphBlockTest,
-	#superclass : #TestCase,
+	#superclass : #GHMBlockTest,
 	#category : #'GithubMarkdown-Tests'
 }
 
@@ -12,7 +12,7 @@ GHMParagraphBlockTest >> testSingleParagraph [
 	| source root |
 	source := 'This is
 a paragraph on two lines'.
-	root := GHMParser new parse: source.
+	root := self parser parse: source.
 	self assert: root children size equals: 1.
 	self assert: root children first text equals: source
 ]
@@ -26,6 +26,6 @@ GHMParagraphBlockTest >> testSingleParagraphWithIndentedText [
 	expected := 'This is
 a paragraph with spaces
 and one with tabs'.
-	root := GHMParser new parse: source.
+	root := self parser parse: source.
 	self assert: root children first text equals: expected
 ]

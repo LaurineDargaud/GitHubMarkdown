@@ -20,14 +20,15 @@ GHMRootBlock >> addLine: line [
 
 { #category : #testing }
 GHMRootBlock >> canConsumeLine: line [
-	"return if this block can consume line"
+	"The root block can always consume everything no matter what it is."
 
 	^ true
 ]
 
 { #category : #'as yet unclassified' }
 GHMRootBlock >> contents [ 
-	^super contents , '[ ', self text, ' ]'
+	"not clear what tesxt is."
+	^super contents , '[ ', (self contents: 0), ' ]'
 ]
 
 { #category : #accessing }

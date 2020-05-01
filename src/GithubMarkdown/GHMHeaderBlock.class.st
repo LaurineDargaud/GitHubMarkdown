@@ -35,7 +35,7 @@ GHMHeaderBlock >> canConsumeLine: line [
 
 { #category : #public }
 GHMHeaderBlock >> contents [ 
-	^super contents , '[ ', self level printString, '/', self header, ' ]'
+	^ super contents , '[ ', self level printString, '/', self header, ' ]'
 ]
 
 { #category : #accessing }

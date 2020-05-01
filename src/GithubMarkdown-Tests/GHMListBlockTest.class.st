@@ -12,7 +12,7 @@ GHMListBlockTest >> testIndentFromLine [
 	| root listBlock |
 	root := GHMRootBlock new.
 	listBlock := GHMListBlock new parent: root.
-	self assert: (listBlock indentFromLine: '- joe';indent) value equals: 2.
+	self assert: (listBlock indentFromLine: '- joe';indent) equals: 2.
 	listBlock := GHMListBlock new parent: root.
 	self assert: (listBlock indentFromLine: '*  joe';indent) equals: 3.
 	listBlock := GHMListBlock new parent: root.

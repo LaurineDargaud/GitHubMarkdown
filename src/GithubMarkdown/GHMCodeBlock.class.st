@@ -1,7 +1,8 @@
 "
 I am a code block. I look like this, starting and ending with three $`
+my 'arguments' is just the text from the fourth character up to the end of line.
 
-```annotations
+```arguments
 line 1
 line 2
 line 3
@@ -43,13 +44,13 @@ GHMCodeBlock >> arguments [
 ]
 
 { #category : #accessing }
-GHMCodeBlock >> arguments: anObject [
-	^ arguments := anObject
+GHMCodeBlock >> arguments: aString [
+	arguments := aString
 ]
 
 { #category : #testing }
 GHMCodeBlock >> canCloseWith: line [
-	^ line beginsWith: '```'
+	^ line beginsWith: self codeblockMarkup
 ]
 
 { #category : #testing }
@@ -58,7 +59,7 @@ GHMCodeBlock >> canConsumeLine: line [
 
 	done
 		ifTrue: [ ^ false ].
-	done := line beginsWith: '```'.
+	done := line beginsWith: self codeblockMarkup.
 	^ true
 ]
 
@@ -68,8 +69,13 @@ GHMCodeBlock >> code [
 ]
 
 { #category : #accessing }
-GHMCodeBlock >> code: anObject [
-	^ code := anObject
+GHMCodeBlock >> code: aString [
+	code := aString
+]
+
+{ #category : #testing }
+GHMCodeBlock >> codeblockMarkup [
+	^ '```'
 ]
 
 { #category : #public }
@@ -79,6 +85,6 @@ GHMCodeBlock >> contents [
 
 { #category : #initialization }
 GHMCodeBlock >> initialize [
-	arguments := nil.
+	super initialize. 
 	done := false
 ]

@@ -1,11 +1,11 @@
 "
-I am the abstract node for parsing full/multi-line aspects of github mark down.
+I am the abstract node for parsing full/multi-line aspects of github markdown.
 
-I have a set of children, and a up link to my parent.
+I have a set of children, and an uplink to my parent.
 
 The root of the parsetree is an instance of GHMRootBlock.
 
-See the comment in GHMParser for an overview of the algorithm used in parsing github mark down.
+See the comment in GHMParser for an overview of the algorithm used in parsing github markdown.
 "
 Class {
 	#name : #GHMAbstractBlock,
@@ -67,12 +67,12 @@ GHMAbstractBlock >> closeMe [
 	Transcript << 'Closing ' << self class name; cr; endEntry
 ]
 
-{ #category : #public }
+{ #category : #debugging }
 GHMAbstractBlock >> contents [
 	^ ''
 ]
 
-{ #category : #public }
+{ #category : #debugging }
 GHMAbstractBlock >> contents: indent [
 	| ind |
 	ind := String tab repeat: indent.
@@ -85,8 +85,8 @@ GHMAbstractBlock >> indent [
 ]
 
 { #category : #initialization }
-GHMAbstractBlock >> initialize [ 
-	parent := nil.
+GHMAbstractBlock >> initialize [
+	super initialize. 
 	children := OrderedCollection new.
 ]
 
@@ -114,6 +114,15 @@ GHMAbstractBlock >> parent: aBlock [
 { #category : #private }
 GHMAbstractBlock >> parserClass [ 
 	^ GHMParser 
+]
+
+{ #category : #debugging }
+GHMAbstractBlock >> showStructure: indent [
+	"Produce a string representing the structure in terms of block classes of the receiver"
+	
+	| ind |
+	ind := String tab repeat: indent.
+	^ ind, self class name, String cr, ((children collect: [:c | c contents: indent+1]) joinUsing: String cr).
 ]
 
 { #category : #public }
