@@ -84,6 +84,12 @@ GHMParser >> codeblockMarkup [
 	^ self class codeblockMarkup 
 ]
 
+{ #category : #accessing }
+GHMParser >> current [ 
+
+	^ current
+]
+
 { #category : #parsing }
 GHMParser >> handleErrorInLine: line [
 	"This implementation is temporary.

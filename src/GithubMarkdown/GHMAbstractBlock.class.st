@@ -122,7 +122,7 @@ GHMAbstractBlock >> showStructure: indent [
 	
 	| ind |
 	ind := String tab repeat: indent.
-	^ ind, self class name, String cr, ((children collect: [:c | c contents: indent+1]) joinUsing: String cr).
+	^ ind, self class name, String cr, ((children collect: [:c | c showStructure: indent + 1]) joinUsing: String cr).
 ]
 
 { #category : #public }
