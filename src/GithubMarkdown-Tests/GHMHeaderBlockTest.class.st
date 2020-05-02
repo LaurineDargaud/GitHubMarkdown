@@ -3,15 +3,34 @@ A GHMHeaderBlockTest is a test class for testing the behavior of GHMHeaderBlock
 "
 Class {
 	#name : #GHMHeaderBlockTest,
-	#superclass : #TestCase,
+	#superclass : #GHMBlockTest,
 	#category : #'GithubMarkdown-Tests'
 }
 
 { #category : #tests }
+GHMHeaderBlockTest >> testContents [
+	| root parser |
+	parser := self parser. 
+	root := parser parse: (parser headerMarkup, ' Level1').
+	self assert: root children first contents equals: '[ 1/Level1 ]'
+]
+
+{ #category : #tests }
 GHMHeaderBlockTest >> testHeaderLevel1 [
-	| source root |
-	source := '# Level1'.
-	root := GHMParser new parse: source.
+	| root parser |
+	parser := self parser. 
+	root := parser parse: (parser headerMarkup, ' Level1').
+	self assert: root children size equals: 1.
+	self assert: root children first header equals: 'Level1'.
+	self assert: root children first level equals: 1
+]
+
+{ #category : #tests }
+GHMHeaderBlockTest >> testHeaderLevel1NoSpace [
+	| source root parser |
+	parser := self parser.
+	source := parser headerMarkup, 'Level1'.
+	root := parser parse: source.
 	self assert: root children size equals: 1.
 	self assert: root children first header equals: 'Level1'.
 	self assert: root children first level equals: 1
@@ -19,9 +38,10 @@ GHMHeaderBlockTest >> testHeaderLevel1 [
 
 { #category : #tests }
 GHMHeaderBlockTest >> testHeaderLevel4 [
-	| source root |
-	source := '####    Level four'.
-	root := GHMParser new parse: source.
+	| source root parser |
+	parser := self parser.
+	source := (parser headerMarkup repeat: 4), '    Level four'.
+	root := self parser parse: source.
 	self assert: root children size equals: 1.
 	self assert: root children first header equals: 'Level four'.
 	self assert: root children first level equals: 4

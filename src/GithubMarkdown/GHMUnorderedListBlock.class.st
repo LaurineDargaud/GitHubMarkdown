@@ -7,13 +7,6 @@ Class {
 	#category : #'GithubMarkdown-Model'
 }
 
-{ #category : #testing }
-GHMUnorderedListBlock >> addLine: line [
-	"Create a new item, and insert it into me."
-	"line is on the format '- item text'"
-	^ super addLine: line
-]
-
 { #category : #converting }
 GHMUnorderedListBlock >> asPillar [
 	^ PRUnorderedList new

@@ -109,6 +109,11 @@ GHMParser >> handleLine: line [
 	self handleLine: normalized] on: Error do: [ self handleErrorInLine: line ]
 ]
 
+{ #category : #markups }
+GHMParser >> headerMarkup [ 
+	^ self class headerMarkup 
+]
+
 { #category : #parsing }
 GHMParser >> parse: aStreamOrString [
 	"returns the root node of aStreamOrText"

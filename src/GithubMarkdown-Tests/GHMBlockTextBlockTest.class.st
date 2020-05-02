@@ -3,16 +3,36 @@ A GHMBlockTextBlockTest is a test class for testing the behavior of GHMBlockText
 "
 Class {
 	#name : #GHMBlockTextBlockTest,
-	#superclass : #TestCase,
+	#superclass : #GHMBlockTest,
 	#category : #'GithubMarkdown-Tests'
 }
 
 { #category : #tests }
-GHMBlockTextBlockTest >> testSingleBlockTextBlock [
-	| source root text |
+GHMBlockTextBlockTest >> testContents [
+	| source root |
 	source := '> text1
 >    text2'.
-	root := GHMParser new parse: source.
+	root := self parser parse: source.
+	self assert: root children first contents equals: '[ text1
+text2 ]'
+]
+
+{ #category : #tests }
+GHMBlockTextBlockTest >> testShowStructure [
+	| source root |
+	source := '> text1
+>    text2'.
+	root := self parser parse: source.
+	self assert: (root children first showStructure: 0) equals: 'GHMBlockTextBlock
+'
+]
+
+{ #category : #tests }
+GHMBlockTextBlockTest >> testSingleBlockTextBlock [
+	| source root text  |
+	source := '> text1
+>    text2'.
+	root := self parser parse: source.
 	self assert: root children size equals: 1.
 	text := root children first.
 	self

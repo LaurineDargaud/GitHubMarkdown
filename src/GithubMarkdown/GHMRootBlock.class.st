@@ -28,7 +28,7 @@ GHMRootBlock >> canConsumeLine: line [
 { #category : #'as yet unclassified' }
 GHMRootBlock >> contents [ 
 	"not clear what tesxt is."
-	^super contents , '[ ', (self contents: 0), ' ]'
+	^super contents , '[ ', (self showStructure: 0), ' ]'
 ]
 
 { #category : #accessing }

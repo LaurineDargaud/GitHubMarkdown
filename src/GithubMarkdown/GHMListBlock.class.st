@@ -23,11 +23,12 @@ Class {
 { #category : #testing }
 GHMListBlock >> addLine: inLine [
 	"Create a new item, and insert it into me.
-	line is on the format '1. item text'"
-	|  line |
+	line is on the format 'markup text'"
+
+	| line |
 	line := inLine trim.
 	self indentFromLine: line.
-	^ GHMListItemBlock new
+	^ self listItemBlockClass new
 		parent: self;
 		addLine: (line copyFrom: indent - parent indent to: line size)
 ]
@@ -49,7 +50,8 @@ GHMListBlock >> indent [
 
 { #category : #indent }
 GHMListBlock >> indentFromLine: aLine [
-	"The line is expected to have the form: '<bullet> space+ [text]', where bullet is one of *,+,- or 1. or 1). more than one space is allowed. 
+	"The line is expected to have the form: '<bullet> space+ [text]', where bullet is one of *,+,- or 1. or 1). More than one space is allowed. 
+	indentFromLine returns the position of the last character before the text.
 	The indentation returned is *the number of characters*, that is, tab counts for but one char."
 
 	| regEx |

@@ -72,13 +72,6 @@ GHMAbstractBlock >> contents [
 	^ ''
 ]
 
-{ #category : #debugging }
-GHMAbstractBlock >> contents: indent [
-	| ind |
-	ind := String tab repeat: indent.
-	^ind, self class name, String cr, ((children collect: [:c | c contents: indent+1]) joinUsing: String cr).
-]
-
 { #category : #accessing }
 GHMAbstractBlock >> indent [
 	^ parent indent
@@ -88,6 +81,11 @@ GHMAbstractBlock >> indent [
 GHMAbstractBlock >> initialize [
 	super initialize. 
 	children := OrderedCollection new.
+]
+
+{ #category : #testing }
+GHMAbstractBlock >> listItemBlockClass [
+	^ GHMListItemBlock
 ]
 
 { #category : #public }

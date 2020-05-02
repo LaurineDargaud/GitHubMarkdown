@@ -5,6 +5,11 @@ Class {
 }
 
 { #category : #tests }
+GHMBlockTest >> orderedListBlockClass [
+	^ GHMOrderedListBlock
+]
+
+{ #category : #tests }
 GHMBlockTest >> parser [
 	^ self parserClass new
 ]

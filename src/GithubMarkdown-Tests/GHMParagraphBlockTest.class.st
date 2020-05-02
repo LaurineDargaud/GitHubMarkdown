@@ -9,12 +9,14 @@ Class {
 
 { #category : #tests }
 GHMParagraphBlockTest >> testSingleParagraph [
-	| source root |
-	source := 'This is
+	| root |
+	root := self parser parse: 'This is
 a paragraph on two lines'.
-	root := self parser parse: source.
-	self assert: root children size equals: 1.
-	self assert: root children first text equals: source
+	self 
+		assert: root children first contents 
+		equals: '[ This is
+a paragraph on two lines ]'
+
 ]
 
 { #category : #tests }
