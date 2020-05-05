@@ -40,6 +40,7 @@ paragraph on two lines.'
 { #category : #tests }
 MicroDownParserTest >> testAnnotatedBlockWithList [
 	| source root annotated |
+	self skip.
 	source := '@@important this is an important because:
 - first
 - second'.
