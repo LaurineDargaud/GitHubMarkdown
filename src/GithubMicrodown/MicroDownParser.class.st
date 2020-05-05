@@ -1,11 +1,11 @@
 Class {
-	#name : #GHMicroDownParser,
+	#name : #MicroDownParser,
 	#superclass : #GHMParser,
 	#category : #GithubMicrodown
 }
 
 { #category : #'node creation' }
-GHMicroDownParser >> blockExtensionStarterClassFrom: line [
+MicroDownParser >> blockExtensionStarterClassFrom: line [
 	"return the class of a block which can start with line, or nil if none"
 
 	(line beginsWith: '@@')

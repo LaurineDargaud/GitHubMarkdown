@@ -16,7 +16,7 @@ GHMBlockTextBlock >> addLine: line [
 	the prefix spaces after $> are removed"
 
 	| argText |
-	argText := (line copyFrom: 2 to: line size) trim.
+	argText := (line copyFrom: self lineMarkup size + 1 to: line size) trim.
 	text := text
 		ifNil: [ argText ]
 		ifNotNil: [ text , String cr , argText ]
@@ -32,6 +32,12 @@ GHMBlockTextBlock >> canConsumeLine: line [
 { #category : #public }
 GHMBlockTextBlock >> contents [ 
 	^super contents , '[ ', self text, ' ]'
+]
+
+{ #category : #testing }
+GHMBlockTextBlock >> lineMarkup [
+
+	^ '@@'
 ]
 
 { #category : #accessing }

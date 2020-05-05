@@ -34,7 +34,7 @@ GHMCodeBlock >> addLine: line [
 	done
 		ifTrue: [ ^ self ].
 	arguments
-		ifNil: [ arguments := line copyFrom: 4 to: line size ]
+		ifNil: [ arguments := line copyFrom: self lineMarkup size + 1 to: line size ]
 		ifNotNil: [ code := (code ifNil: [ line ] ifNotNil: [ code , String cr , line ])  ]
 ]
 
@@ -50,6 +50,8 @@ GHMCodeBlock >> arguments: aString [
 
 { #category : #testing }
 GHMCodeBlock >> canCloseWith: line [
+	self flag: #nosenders.
+	"looks like unfinished but this is probably an important hook to add"
 	^ line beginsWith: self codeblockMarkup
 ]
 
@@ -59,7 +61,7 @@ GHMCodeBlock >> canConsumeLine: line [
 
 	done
 		ifTrue: [ ^ false ].
-	done := line beginsWith: self codeblockMarkup.
+	done := line beginsWith: self lineMarkup.
 	^ true
 ]
 
@@ -87,4 +89,10 @@ GHMCodeBlock >> contents [
 GHMCodeBlock >> initialize [
 	super initialize. 
 	done := false
+]
+
+{ #category : #testing }
+GHMCodeBlock >> lineMarkup [
+
+	^ self codeblockMarkup 
 ]
