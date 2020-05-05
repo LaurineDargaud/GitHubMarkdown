@@ -12,7 +12,8 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'parent',
-		'children'
+		'children',
+		'parser'
 	],
 	#category : #'GithubMarkdown-Model'
 }
@@ -28,7 +29,8 @@ GHMAbstractBlock >> addLine: line [
 	Notice, the action is allowed to create new nodes in the block tree.
 	Returns the node to handle next line - typically self."
 
-	self subclassResponsibility 
+	self subclassResponsibility.
+	^ self
 ]
 
 { #category : #public }
