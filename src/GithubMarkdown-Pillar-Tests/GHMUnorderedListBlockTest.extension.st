@@ -6,7 +6,7 @@ GHMUnorderedListBlockTest >> testSingleLevelList2asPillar [
 	source := '- item 1
   expanded
 - item 2'.
-	root := GHMParser new parse: source.
+	root := self parser parse: source.
 	list := root children first asPillar.
 	self assert: list class equals: PRUnorderedList.
 	self assert: list children size equals: 2.
@@ -25,7 +25,7 @@ GHMUnorderedListBlockTest >> testTwoLevelList1AsPillar [
 	source := '- item 1
   - sublevel
 - item 2'.
-	root := GHMParser new parse: source.
+	root := self parser parse: source.
 	list := root children first asPillar.
 	secondItem := list children second.
 	self assert: secondItem class equals: PRListItem.
