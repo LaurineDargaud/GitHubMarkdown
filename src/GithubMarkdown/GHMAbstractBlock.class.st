@@ -34,22 +34,17 @@ GHMAbstractBlock >> addLine: line [
 ]
 
 { #category : #public }
+GHMAbstractBlock >> blockExtensionStarterClassFrom: line [
+	"return the class of a block which can start with line, or nil if none"
+
+	^ nil
+]
+
+{ #category : #public }
 GHMAbstractBlock >> blockStarterClassFrom: line [
 	"return the class of a block which can start with line, or nil if none"
 
-	(line beginsWith: '#')
-		ifTrue: [ ^ GHMHeaderBlock ].
-	(line beginsWith: '```')
-		ifTrue: [ ^ GHMCodeBlock ].
-	(line beginsWith: '- ') | (line beginsWith: '* ')
-		| (line beginsWith: '+ ')
-		ifTrue: [ ^ GHMUnorderedListBlock ].
-	(line prefixMatchesRegex: '\d+(\.|\))')
-		ifTrue: [ ^ GHMOrderedListBlock ].	"number followed by . or )"
-	(line beginsWith: '>')
-		ifTrue: [ ^ GHMBlockTextBlock ].
-	line ifNotEmpty: [ ^ GHMParagraphBlock ].
-	^ nil
+	^ self parser blockStarterClassFrom: line
 ]
 
 { #category : #public }
@@ -96,6 +91,7 @@ GHMAbstractBlock >> newBlockFor: line parent: parentBlock [
 	newBlockClass := self blockStarterClassFrom: line.
 	newBlockClass ifNil: [ ^parentBlock ].
 	^ newBlockClass new
+		setParser: parser;
 		parent: parentBlock;
 		addLine: line
 ]
@@ -112,8 +108,18 @@ GHMAbstractBlock >> parent: aBlock [
 ]
 
 { #category : #private }
+GHMAbstractBlock >> parser [
+	^ parser 
+]
+
+{ #category : #private }
 GHMAbstractBlock >> parserClass [ 
 	^ GHMParser 
+]
+
+{ #category : #private }
+GHMAbstractBlock >> setParser: aParser [
+	parser := aParser 
 ]
 
 { #category : #debugging }

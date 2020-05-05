@@ -79,6 +79,36 @@ GHMParser class >> unorderedListMarkups [
 	^ #('- ' '* ' '+ ')
 ]
 
+{ #category : #'node creation' }
+GHMParser >> blockExtensionStarterClassFrom: line [
+	"return the class of a block which can start with line, or nil if none"
+
+	^ nil
+]
+
+{ #category : #'node creation' }
+GHMParser >> blockStarterClassFrom: line [
+	"return the class of a block which can start with line, or nil if none"
+
+	(line beginsWith: '#')
+		ifTrue: [ ^ GHMHeaderBlock ].
+	(line beginsWith: '```')
+		ifTrue: [ ^ GHMCodeBlock ].
+	(line beginsWith: '- ') | (line beginsWith: '* ')
+		| (line beginsWith: '+ ')
+		ifTrue: [ ^ GHMUnorderedListBlock ].
+	(line prefixMatchesRegex: '\d+(\.|\))')
+		ifTrue: [ ^ GHMOrderedListBlock ].	"number followed by . or )"
+	(line beginsWith: '>')
+		ifTrue: [ ^ GHMBlockTextBlock ].
+	
+	"trying to provide an extension mechanism."
+	(self blockExtensionStarterClassFrom: line)
+		ifNotNil: [ :c | ^ c ]
+		ifNil: [ line ifNotEmpty: [ ^ GHMParagraphBlock ].
+					^ nil ]
+]
+
 { #category : #markups }
 GHMParser >> codeblockMarkup [ 
 	^ self class codeblockMarkup 
@@ -119,7 +149,7 @@ GHMParser >> parse: aStreamOrString [
 	"returns the root node of aStreamOrText"
 
 	| inStream line |
-	current := root := GHMRootBlock new.
+	current := root := GHMRootBlock new setParser: self; yourself.
 	inStream := aStreamOrString readStream.
 	[ line := inStream nextLine.
 	line isNil ] whileFalse: [ self handleLine: line ].
