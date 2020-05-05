@@ -82,7 +82,7 @@ GHMParser class >> unorderedListMarkups [
 { #category : #'node creation' }
 GHMParser >> blockExtensionStarterClassFrom: line [
 	"return the class of a block which can start with line, or nil if none"
-
+		
 	^ nil
 ]
 
