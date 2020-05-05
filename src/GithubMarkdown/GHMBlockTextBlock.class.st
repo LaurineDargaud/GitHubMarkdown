@@ -24,9 +24,9 @@ GHMBlockTextBlock >> addLine: line [
 
 { #category : #testing }
 GHMBlockTextBlock >> canConsumeLine: line [
-	"return if this block can consume line"
+	"return if this block can consume line i.e., it starts with > "
 
-	^ line beginsWith: '>'
+	^ line beginsWith: self lineMarkup
 ]
 
 { #category : #public }
@@ -37,7 +37,7 @@ GHMBlockTextBlock >> contents [
 { #category : #testing }
 GHMBlockTextBlock >> lineMarkup [
 
-	^ '@@'
+	^ '>'
 ]
 
 { #category : #accessing }

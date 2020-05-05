@@ -20,7 +20,7 @@ Class {
 	#category : #'GithubMarkdown-Model'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #'instance creation' }
 GHMCodeBlock class >> opensBy: aLine [
 	^ aLine beginsWith: '> '
 ]
