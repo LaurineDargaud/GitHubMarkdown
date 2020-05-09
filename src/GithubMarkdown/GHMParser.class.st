@@ -29,16 +29,6 @@ GHMParser class >> allBlockNodeClasses [
 	
 ]
 
-{ #category : #converting }
-GHMParser class >> asRichText: aString [
-	^PRRichTextComposer new start: (GHMParser new parse: aString) asPillar
-]
-
-{ #category : #converting }
-GHMParser class >> asText: aString [
-	^PRRichTextComposer new start: (GHMParser new parse: aString) asPillar
-]
-
 { #category : #markups }
 GHMParser class >> codeblockMarkup [
 
