@@ -10,20 +10,23 @@ Class {
 { #category : #tests }
 GHMParagraphBlockTest >> testCanConsumeLine [
 
-	| root parser paragraph |
+	| root listitem parser paragraph |
+	self skip.
 	parser := self parser. 
 	root := parser parse: ''.
-	paragraph := parser handleLine: 'This is'.
-	self assert: paragraph equals: parser current.	
-	self assert: paragraph text equals: 'This is'.
+	listitem := parser handleLine: '- This is'.
 	
-	self deny: (paragraph canConsumeLine: '* Another line').
-	self deny: (paragraph canConsumeLine: '```Another line').
-	self deny: (paragraph canConsumeLine: '> Another line').
-	self deny: (paragraph canConsumeLine: '').
-	self deny: (paragraph canConsumeLine: '# Section1').
-	self deny: (paragraph canConsumeLine: '- ').
-	self deny: (paragraph canConsumeLine: '1.  ').
+	"self assert: (listitem canConsumeLine: 'a paragraph in a list item')."
+	"strange I thought that we would get a paragraph in a list item"
+	
+	parser handleLine: 'a paragraph in a list item'.
+	paragraph := parser current.
+	self assert: paragraph parent equals: listitem. 
+	
+
+	self assert: listitem text equals: 'This is'.
+	
+
 ]
 
 { #category : #tests }
@@ -43,6 +46,25 @@ GHMParagraphBlockTest >> testCanConsumeLineBasic [
 	paragraph := parser handleLine: 'Another line'.
 	self assert: paragraph text equals: 'This is
 Another line'.
+]
+
+{ #category : #tests }
+GHMParagraphBlockTest >> testCanConsumeLineOtherBlocks [
+
+	| root parser paragraph |
+	parser := self parser. 
+	root := parser parse: ''.
+	paragraph := parser handleLine: 'This is'.
+	self assert: paragraph equals: parser current.	
+	self assert: paragraph text equals: 'This is'.
+	
+	self deny: (paragraph canConsumeLine: '* Another line').
+	self deny: (paragraph canConsumeLine: '```Another line').
+	self deny: (paragraph canConsumeLine: '> Another line').
+	self deny: (paragraph canConsumeLine: '').
+	self deny: (paragraph canConsumeLine: '# Section1').
+	self deny: (paragraph canConsumeLine: '- ').
+	self deny: (paragraph canConsumeLine: '1.  ').
 ]
 
 { #category : #tests }

@@ -38,7 +38,7 @@ GHMParagraphBlock >> asUnindented: line [
 
 { #category : #parsing }
 GHMParagraphBlock >> canConsumeLine: line [
-	"return if this block can consume line"
+	"A paragraph is closed by an empty line, "
 
 	| unIndented |
 	line ifEmpty: [ ^ false ].
