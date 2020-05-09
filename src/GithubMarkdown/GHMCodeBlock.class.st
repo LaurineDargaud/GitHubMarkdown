@@ -100,6 +100,11 @@ GHMCodeBlock >> initialize [
 	isClosed := false
 ]
 
+{ #category : #testing }
+GHMCodeBlock >> isClosed [
+	^ isClosed		
+]
+
 { #category : #utils }
 GHMCodeBlock >> lineMarkup [
 	"a code block is delimited by ``` "
