@@ -8,6 +8,59 @@ Class {
 }
 
 { #category : #tests }
+GHMParagraphBlockTest >> testCanConsumeLine [
+
+	| root parser paragraph |
+	parser := self parser. 
+	root := parser parse: ''.
+	paragraph := parser handleLine: 'This is'.
+	self assert: paragraph equals: parser current.	
+	self assert: paragraph text equals: 'This is'.
+	
+	self deny: (paragraph canConsumeLine: '* Another line').
+	self deny: (paragraph canConsumeLine: '```Another line').
+	self deny: (paragraph canConsumeLine: '> Another line').
+	self deny: (paragraph canConsumeLine: '').
+	self deny: (paragraph canConsumeLine: '# Section1').
+	self deny: (paragraph canConsumeLine: '- ').
+	self deny: (paragraph canConsumeLine: '1.  ').
+]
+
+{ #category : #tests }
+GHMParagraphBlockTest >> testCanConsumeLineBasic [
+
+	| root parser paragraph |
+	parser := self parser. 
+	root := parser parse: ''.
+	self assert: root equals: parser current.
+	
+	root canConsumeLine: 'This is'.
+	paragraph := parser handleLine: 'This is'.
+	self assert: paragraph equals: parser current.
+	
+	self assert: paragraph text equals: 'This is'.
+	self assert: (paragraph canConsumeLine: 'Another line').
+	paragraph := parser handleLine: 'Another line'.
+	self assert: paragraph text equals: 'This is
+Another line'.
+]
+
+{ #category : #tests }
+GHMParagraphBlockTest >> testHandlingSequenceOfBasicLinesProducesAParagraph [
+
+	| root parser paragraph |
+	parser := self parser. 
+	root := parser parse: ''.
+	paragraph := parser handleLine: 'This is'.
+	paragraph := parser handleLine: 'Another line'.
+	paragraph := parser handleLine: '  And that other line'.
+	self assert: paragraph text equals: 'This is
+Another line
+And that other line'.
+	self assert: root children size equals: 1
+]
+
+{ #category : #tests }
 GHMParagraphBlockTest >> testSingleParagraph [
 	| root |
 	root := self parser parse: 'This is
