@@ -41,3 +41,23 @@ GHMBlockTextBlockTest >> testSingleBlockTextBlock [
 			'text1
 text2'
 ]
+
+{ #category : #tests }
+GHMBlockTextBlockTest >> testSingleBlockTextBlockFollowedByList [
+	| source root text list |
+	source := '> text1
+>    text2
+1. first
+2. second
+3. third'.
+	root := self parser parse: source.
+	self assert: root children size equals: 2.
+	text := root children first.
+	self
+		assert: text text
+		equals:
+			'text1
+text2'.
+	list := root children second.
+	self assert: list children size equals: 3
+]

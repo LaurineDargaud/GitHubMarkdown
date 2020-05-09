@@ -4,7 +4,7 @@ Extension { #name : #GHMHeaderBlockTest }
 GHMHeaderBlockTest >> testHeaderLevel4AsPillar [
 	| source root pillar |
 	source := '####    Level four'.
-	root := GHMParser new parse: source.
+	root := self parser parse: source.
 	pillar := root children first asPillar.
 	self assert: pillar class equals: PRHeader.
 	self assert: pillar children first class equals: PRText.

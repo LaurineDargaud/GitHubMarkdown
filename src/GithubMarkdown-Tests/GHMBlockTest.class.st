@@ -18,3 +18,8 @@ GHMBlockTest >> parser [
 GHMBlockTest >> parserClass [
 	^ GHMParser
 ]
+
+{ #category : #tests }
+GHMBlockTest >> rootBlockClass [
+	^ GHMRootBlock
+]
