@@ -15,18 +15,18 @@ Class {
 	#instVars : [
 		'code',
 		'arguments',
-		'done'
+		'isClosed'
 	],
 	#category : #'GithubMarkdown-Model'
 }
 
 { #category : #testing }
-GHMCodeBlock >> addLine: line [
+GHMCodeBlock >> addLineAndReturnNextNode: line [
 	"add line to this node. 
 	Notice, the action is allowed to create new nodes in the block tree.
 	Returns the node to handle next line - typically self."
 
-	done
+	isClosed
 		ifTrue: [ ^ self ].
 	arguments
 		ifNil: [ arguments := line copyFrom: self lineMarkup size + 1 to: line size ]
@@ -53,11 +53,21 @@ GHMCodeBlock >> canCloseWith: line [
 
 { #category : #testing }
 GHMCodeBlock >> canConsumeLine: line [
-	"return if this block can consume line"
+	"As soon as a line closes a code block, it does not accept anymore any line.
+	Indeed imagine 
+	
+	```
+	a line 
+	```
+	The first line was accepted by its parent (a root block and the code block got created.
+	then a line was accepting since done was false...
+	then the closing line was reached and the code block got closed.)
+	
+	"
 
-	done
+	isClosed
 		ifTrue: [ ^ false ].
-	done := self doesLineStartWithMarkup: line.
+	isClosed := self doesLineStartWithMarkup: line.
 	^ true
 ]
 
@@ -87,7 +97,7 @@ GHMCodeBlock >> doesLineStartWithMarkup: line [
 { #category : #initialization }
 GHMCodeBlock >> initialize [
 	super initialize. 
-	done := false
+	isClosed := false
 ]
 
 { #category : #utils }

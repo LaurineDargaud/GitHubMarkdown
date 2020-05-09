@@ -12,7 +12,7 @@ Class {
 }
 
 { #category : #testing }
-GHMBlockTextBlock >> addLine: line [
+GHMBlockTextBlock >> addLineAndReturnNextNode: line [
 	"line is assumed to be of the form '> some text'
 	the prefix spaces after $> are removed"
 

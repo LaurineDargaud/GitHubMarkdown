@@ -11,7 +11,7 @@ Class {
 }
 
 { #category : #testing }
-GHMListItemBlock >> addLine: line [
+GHMListItemBlock >> addLineAndReturnNextNode: line [
 	"add line to this node. 
 	Notice, the action is allowed to create new nodes in the block tree.
 	Returns the node to handle next line - typically self."
@@ -21,6 +21,8 @@ GHMListItemBlock >> addLine: line [
 		ifNil: [ text := line trim.
 			^ self ].
 	normalized := line copyFrom: parent indent + 1 to: line size.	"drop indent"
+		
+	"to clean: but for now if the block to be created is list... create one"	
 	({GHMOrderedListBlock.
 	GHMUnorderedListBlock} includes: (self blockStarterClassFrom: normalized))
 		ifTrue: [ ^ self newBlockFor: normalized parent: self ]

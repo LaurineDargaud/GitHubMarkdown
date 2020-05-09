@@ -24,7 +24,7 @@ GHMAbstractBlock >> addChild: childBlock [
 ]
 
 { #category : #public }
-GHMAbstractBlock >> addLine: line [
+GHMAbstractBlock >> addLineAndReturnNextNode: line [
 	"add line to this node. 
 	Notice, the action is allowed to create new nodes in the block tree.
 	Returns the node to handle next line - typically self."
@@ -93,7 +93,7 @@ GHMAbstractBlock >> newBlockFor: line parent: parentBlock [
 	^ newBlockClass new
 		setParser: parser;
 		parent: parentBlock;
-		addLine: line
+		addLineAndReturnNextNode: line
 ]
 
 { #category : #accessing }

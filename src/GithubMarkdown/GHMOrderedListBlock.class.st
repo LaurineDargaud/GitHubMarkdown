@@ -11,12 +11,12 @@ Class {
 }
 
 { #category : #testing }
-GHMOrderedListBlock >> addLine: line [
+GHMOrderedListBlock >> addLineAndReturnNextNode: line [
 	"Create a new item, and insert it into me."
 	"line is on the format '1. item text'"
 
 	self startIndexFrom: line.
-	^ super addLine: line
+	^ super addLineAndReturnNextNode: line
 ]
 
 { #category : #testing }

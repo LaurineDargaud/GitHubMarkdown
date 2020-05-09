@@ -8,6 +8,23 @@ Class {
 }
 
 { #category : #tests }
+GHMCodeBlockTest >> testCanConsumeLine [ 
+	| source root parser textBody argument |
+	parser := self parser.
+	textBody := 'my fancy code
+is really cool'.
+	argument := 'ArgumentGoesHere'.
+	source := parser codeblockMarkup, argument, String cr, textBody, String cr, parser codeblockMarkup. 
+	root := parser parse: source.
+	
+	"An already created blockNode cannot consume a new code block since no nesting is allowed."
+	self deny: (root children first canConsumeLine: '```language=zork').
+	
+	"An already close blockNode cannot consume even plain text"
+	self deny: (root children first canConsumeLine: 'plain text')
+]
+
+{ #category : #tests }
 GHMCodeBlockTest >> testContents [
 	| source root parser textBody argument |
 	parser := self parser.

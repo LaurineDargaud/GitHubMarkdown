@@ -21,7 +21,7 @@ Class {
 }
 
 { #category : #testing }
-GHMListBlock >> addLine: inLine [
+GHMListBlock >> addLineAndReturnNextNode: inLine [
 	"Create a new item, and insert it into me.
 	line is on the format 'markup text'"
 
@@ -31,7 +31,7 @@ GHMListBlock >> addLine: inLine [
 	^ self listItemBlockClass new
 		setParser: parser; 
 		parent: self;
-		addLine: (line copyFrom: indent - parent indent to: line size)
+		addLineAndReturnNextNode: (line copyFrom: indent - parent indent to: line size)
 ]
 
 { #category : #testing }

@@ -124,7 +124,7 @@ GHMParser >> handleLine: line [
 	normalized := line copyReplaceAll: String tab with: String space.
 	
 	[ (current canConsumeLine: normalized)
-		ifTrue: [ ^ current := current addLine: normalized ]
+		ifTrue: [ ^ current := current addLineAndReturnNextNode: normalized ]
 		ifFalse: [ current closeMe ].
 	current := current parent.
 	self handleLine: normalized] on: Error do: [ self handleErrorInLine: line ]

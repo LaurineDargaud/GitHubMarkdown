@@ -8,13 +8,13 @@ Class {
 }
 
 { #category : #testing }
-MicAnnotatedBlock >> addLine: line [
+MicAnnotatedBlock >> addLineAndReturnNextNode: line [
 	"line is assumed to be of the form '@@label some text
 	
 	'
 	"
 
-	done
+	isClosed
 		ifTrue: [ ^ self ].
 	label 
 		ifNil: [ 

@@ -8,6 +8,16 @@ Class {
 }
 
 { #category : #tests }
+GHMHeaderBlockTest >> testCanConsumeLine [
+
+	| root parser headerString |
+	parser := self parser. 
+	headerString := (parser headerMarkup, ' Level1').
+	root := parser parse: headerString.
+	self deny: (root children first canConsumeLine: headerString) 
+]
+
+{ #category : #tests }
 GHMHeaderBlockTest >> testContents [
 	| root parser |
 	parser := self parser. 

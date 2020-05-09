@@ -17,7 +17,7 @@ Class {
 }
 
 { #category : #testing }
-GHMHeaderBlock >> addLine: line [
+GHMHeaderBlock >> addLineAndReturnNextNode: line [
 	"Line is on the form '#### my heading at forth level'"
 	level := ('(#+)' asRegex
 		matchesPrefix: line;
