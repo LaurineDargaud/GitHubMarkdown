@@ -17,6 +17,8 @@ BaselineOfGithubMarkdown >> baseline: spec [
 			package: #'GithubMarkdown';
 			package: #'GithubMarkdown-Tests' with: [
 				spec requires:  #('GithubMarkdown') ];
+			package: #'GithubMicrodown' with: [
+				spec requires:  #('GithubMarkdown') ];
 			package: #'GithubMarkdown-RichTextComposer' with: [
 				spec requires:  #('GithubMarkdown') ];
 			package: #'GithubMarkdown-Pillar';
