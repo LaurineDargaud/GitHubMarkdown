@@ -27,12 +27,20 @@ GHMBlockTextBlock >> addLine: line [
 GHMBlockTextBlock >> canConsumeLine: line [
 	"return if this block can consume line i.e., it starts with > "
 
-	^ line beginsWith: self lineMarkup
+	^ self doesLineStartWithMarkup: line
 ]
 
 { #category : #public }
 GHMBlockTextBlock >> contents [ 
 	^super contents , '[ ', self text, ' ]'
+]
+
+{ #category : #testing }
+GHMBlockTextBlock >> doesLineStartWithMarkup: line [
+	"return if the line starts with a markup"
+
+	^ line beginsWith: self lineMarkup
+	
 ]
 
 { #category : #testing }

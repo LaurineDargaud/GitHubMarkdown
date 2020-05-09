@@ -122,7 +122,8 @@ GHMParser >> handleErrorInLine: line [
 GHMParser >> handleLine: line [
 	| normalized |
 	normalized := line copyReplaceAll: String tab with: String space.
-	[(current canConsumeLine: normalized)
+	
+	[ (current canConsumeLine: normalized)
 		ifTrue: [ ^ current := current addLine: normalized ]
 		ifFalse: [ current closeMe ].
 	current := current parent.
@@ -135,15 +136,24 @@ GHMParser >> headerMarkup [
 ]
 
 { #category : #parsing }
+GHMParser >> newRootBlock [
+	^ GHMRootBlock new
+]
+
+{ #category : #parsing }
 GHMParser >> parse: aStreamOrString [
 	"returns the root node of aStreamOrText"
 
 	| inStream line |
-	current := root := GHMRootBlock new setParser: self; yourself.
+	current := root := self newRootBlock
+		setParser: self;
+		yourself.
 	inStream := aStreamOrString readStream.
 	[ line := inStream nextLine.
 	line isNil ] whileFalse: [ self handleLine: line ].
-	[ current = root ] whileFalse: [ current closeMe. current := current parent ].
+	[ current = root ]
+		whileFalse: [ current closeMe.
+			current := current parent ].
 	^ root
 ]
 

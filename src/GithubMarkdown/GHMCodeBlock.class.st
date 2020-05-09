@@ -57,7 +57,7 @@ GHMCodeBlock >> canConsumeLine: line [
 
 	done
 		ifTrue: [ ^ false ].
-	done := line beginsWith: self lineMarkup.
+	done := self doesLineStartWithMarkup: line.
 	^ true
 ]
 
@@ -74,6 +74,14 @@ GHMCodeBlock >> code: aString [
 { #category : #public }
 GHMCodeBlock >> contents [ 
 	^super contents , '[ ', self code, ' ]'
+]
+
+{ #category : #testing }
+GHMCodeBlock >> doesLineStartWithMarkup: line [
+	"return if the line starts with a markup"
+
+	^ line beginsWith: self lineMarkup
+	
 ]
 
 { #category : #initialization }

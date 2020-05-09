@@ -42,7 +42,6 @@ GHMCodeBlockTest >> testSingleCodeBlockTwoLines [
 is really cool'.
 	argument := 'ArgumentGoesHere'.
 	source := parser codeblockMarkup, argument, String cr, textBody, String cr, parser codeblockMarkup. 
-	root := self parser parse: source.
 	root := parser parse: source.
 	self 
 		assert: root children size 
