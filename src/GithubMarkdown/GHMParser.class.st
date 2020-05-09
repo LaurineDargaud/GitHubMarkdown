@@ -89,7 +89,7 @@ GHMParser >> blockStarterClassFrom: line [
 		ifTrue: [ ^ GHMUnorderedListBlock ].
 	(line prefixMatchesRegex: '\d+(\.|\))')
 		ifTrue: [ ^ GHMOrderedListBlock ].	"number followed by . or )"
-	(line beginsWith: '>')
+	(line beginsWith: '>') "or '> '??"
 		ifTrue: [ ^ GHMBlockTextBlock ].
 	
 	"trying to provide an extension mechanism."
@@ -145,4 +145,9 @@ GHMParser >> parse: aStreamOrString [
 	line isNil ] whileFalse: [ self handleLine: line ].
 	[ current = root ] whileFalse: [ current closeMe. current := current parent ].
 	^ root
+]
+
+{ #category : #markups }
+GHMParser >> preformattedMarkup [ 
+	^ self class preformattedMarkup 
 ]

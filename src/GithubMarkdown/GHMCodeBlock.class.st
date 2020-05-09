@@ -20,11 +20,6 @@ Class {
 	#category : #'GithubMarkdown-Model'
 }
 
-{ #category : #'instance creation' }
-GHMCodeBlock class >> opensBy: aLine [
-	^ aLine beginsWith: '> '
-]
-
 { #category : #testing }
 GHMCodeBlock >> addLine: line [
 	"add line to this node. 
@@ -35,7 +30,8 @@ GHMCodeBlock >> addLine: line [
 		ifTrue: [ ^ self ].
 	arguments
 		ifNil: [ arguments := line copyFrom: self lineMarkup size + 1 to: line size ]
-		ifNotNil: [ code := (code ifNil: [ line ] ifNotNil: [ code , String cr , line ])  ]
+		ifNotNil: [ code := (code ifNil: [ line ] ifNotNil: [ code , String cr , line ]) ].
+	^ self
 ]
 
 { #category : #accessing }
@@ -51,7 +47,7 @@ GHMCodeBlock >> arguments: aString [
 { #category : #testing }
 GHMCodeBlock >> canCloseWith: line [
 	self flag: #nosenders.
-	"looks like unfinished but this is probably an important hook to add"
+	"looks like unfinished but this is probably an important hook to add for example for our <? ?>"
 	^ line beginsWith: self codeblockMarkup
 ]
 
@@ -75,11 +71,6 @@ GHMCodeBlock >> code: aString [
 	code := aString
 ]
 
-{ #category : #testing }
-GHMCodeBlock >> codeblockMarkup [
-	^ '```'
-]
-
 { #category : #public }
 GHMCodeBlock >> contents [ 
 	^super contents , '[ ', self code, ' ]'
@@ -91,8 +82,8 @@ GHMCodeBlock >> initialize [
 	done := false
 ]
 
-{ #category : #testing }
+{ #category : #utils }
 GHMCodeBlock >> lineMarkup [
-
-	^ self codeblockMarkup 
+	"a code block is delimited by ``` "
+	^ self parser codeblockMarkup 
 ]

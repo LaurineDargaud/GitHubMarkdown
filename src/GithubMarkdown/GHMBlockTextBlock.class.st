@@ -1,5 +1,6 @@
 "
 I represent block markup, indicated by '> ' at the beginning of a line. 
+I'm like a preformatted in HTML or Pillar '= '.
 "
 Class {
 	#name : #GHMBlockTextBlock,
@@ -37,7 +38,7 @@ GHMBlockTextBlock >> contents [
 { #category : #testing }
 GHMBlockTextBlock >> lineMarkup [
 
-	^ '>'
+	^ self parser preformattedMarkup
 ]
 
 { #category : #accessing }
