@@ -3,7 +3,7 @@ A GHMOrderedListBlockTest is a test class for testing the behavior of GHMOrdered
 "
 Class {
 	#name : #GHMUnorderedListBlockTest,
-	#superclass : #TestCase,
+	#superclass : #GHMBlockTest,
 	#category : #'GithubMarkdown-Tests'
 }
 
@@ -16,7 +16,7 @@ GHMUnorderedListBlockTest >> testEmbeddedOrdered [
   1. sublevel item 1
   4. sublevel item 2
 + item 2'.
-	root := GHMParser new parse: source.
+	root := self parser parse: source.
 	list := root children first.
 	self assert: list children size equals: 2.
 	self assert: list children second text equals: 'item 2'.
@@ -32,7 +32,7 @@ GHMUnorderedListBlockTest >> testSingleLevelList [
 	source := 
 '- item 1
 - item 2'.
-	root := GHMParser new parse: source.
+	root := self parser parse: source.
 	list := root children first.
 	self assert: list children size equals: 2.
 	self assert: list children second text equals: 'item 2'
@@ -45,7 +45,7 @@ GHMUnorderedListBlockTest >> testSingleLevelList2 [
 '- item 1
   expanded
 - item 2'.
-	root := GHMParser new parse: source.
+	root := self parser parse: source.
 	list := root children first.
 	self assert: list children size equals: 2.
 	self assert: list children first text equals: 'item 1
@@ -59,7 +59,7 @@ GHMUnorderedListBlockTest >> testTwoLevelList1 [
 '- item 1
   - sublevel
 - item 2'.
-	root := GHMParser new parse: source.
+	root := self parser parse: source.
 	list := root children first.
 	self assert: list children size equals: 2.
 	self assert: list children second text equals: 'item 2'.

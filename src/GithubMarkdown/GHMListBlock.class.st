@@ -29,6 +29,7 @@ GHMListBlock >> addLine: inLine [
 	line := inLine trim.
 	self indentFromLine: line.
 	^ self listItemBlockClass new
+		setParser: parser; 
 		parent: self;
 		addLine: (line copyFrom: indent - parent indent to: line size)
 ]
