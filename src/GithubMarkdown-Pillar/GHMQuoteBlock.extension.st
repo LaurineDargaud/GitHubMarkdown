@@ -1,7 +1,7 @@
-Extension { #name : #GHMBlockTextBlock }
+Extension { #name : #GHMQuoteBlock }
 
 { #category : #'*GithubMarkdown-Pillar' }
-GHMBlockTextBlock >> asPillar [
+GHMQuoteBlock >> asPillar [
 	self flag: #fixMe. 
 	"this is not an environment in Pillar but a preformatted"
 	^ PREnvironment new

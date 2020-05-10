@@ -40,7 +40,7 @@ GHMBlockTextBlockTest >> testShowStructure [
 	source := '> text1
 >    text2'.
 	root := self parser parse: source.
-	self assert: (root children first showStructure: 0) equals: 'GHMBlockTextBlock
+	self assert: (root children first showStructure: 0) equals: 'GHMQuoteBlock
 '
 ]
 

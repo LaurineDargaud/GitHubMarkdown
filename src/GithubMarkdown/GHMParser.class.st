@@ -119,7 +119,7 @@ GHMParser >> blockStarterClassFrom: line [
 	(self matchOrdered: line)
 		ifTrue: [ ^ GHMOrderedListBlock ].	"number followed by . or )"
 	(line beginsWith: '>')
-		ifTrue: [ ^ GHMBlockTextBlock ].	"or '> '??"
+		ifTrue: [ ^ GHMQuoteBlock ].	"or '> '??"
 
 	"trying to provide an extension mechanism."
 	(self blockExtensionStarterClassFrom: line)

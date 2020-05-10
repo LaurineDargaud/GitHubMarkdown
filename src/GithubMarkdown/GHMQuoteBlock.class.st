@@ -9,7 +9,7 @@ In githubmarkdown the definitions are just super complex and we do not follow th
 
 "
 Class {
-	#name : #GHMBlockTextBlock,
+	#name : #GHMQuoteBlock,
 	#superclass : #GHMAbstractBlock,
 	#instVars : [
 		'text'
@@ -18,7 +18,7 @@ Class {
 }
 
 { #category : #testing }
-GHMBlockTextBlock >> addLineAndReturnNextNode: line [
+GHMQuoteBlock >> addLineAndReturnNextNode: line [
 	"line is assumed to be of the form '> some text'
 	the prefix spaces after $> are removed"
 
@@ -30,19 +30,19 @@ GHMBlockTextBlock >> addLineAndReturnNextNode: line [
 ]
 
 { #category : #testing }
-GHMBlockTextBlock >> canConsumeLine: line [
+GHMQuoteBlock >> canConsumeLine: line [
 	"return if this block can consume line i.e., it starts with > "
 
 	^ self doesLineStartWithMarkup: line
 ]
 
 { #category : #public }
-GHMBlockTextBlock >> contents [ 
+GHMQuoteBlock >> contents [ 
 	^super contents , '[ ', self text, ' ]'
 ]
 
 { #category : #testing }
-GHMBlockTextBlock >> doesLineStartWithMarkup: line [
+GHMQuoteBlock >> doesLineStartWithMarkup: line [
 	"return if the line starts with a markup"
 
 	^ line beginsWith: self lineMarkup
@@ -50,12 +50,12 @@ GHMBlockTextBlock >> doesLineStartWithMarkup: line [
 ]
 
 { #category : #testing }
-GHMBlockTextBlock >> lineMarkup [
+GHMQuoteBlock >> lineMarkup [
 
 	^ self parser preformattedMarkup
 ]
 
 { #category : #accessing }
-GHMBlockTextBlock >> text [
+GHMQuoteBlock >> text [
 	^ text
 ]
