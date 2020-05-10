@@ -17,6 +17,7 @@ IntraBlockSplitterTest >> testSplitBlock [
 	| res |
 	res := self splitter splitString: 'abc'.
 	self assert: res first printString equals: 'abc'.
+	
 	res := self splitter splitString: 'abc**bold**def'.
 	self
 		assert: (res collect: [ :x | x printString ])
