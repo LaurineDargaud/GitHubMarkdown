@@ -35,6 +35,7 @@ Now the implementation for now does not create a paragraph in the list_item elem
 
 Todo
 - write tests for text in listitem
+- move includes based testing logic for nested list into the parser (and not in the itemlist>>#addLineAndReturnNextNode: line)
 - extract a superclass of codeBlock named GHMStartStopDelimitedBlock (for starting and closing markup <? >)
 - rename blocktext (check because if it cannot be name preformatted) 
 - extract a superclass of blocktext named GHMContinuousMarkedBlock (>  for each line)

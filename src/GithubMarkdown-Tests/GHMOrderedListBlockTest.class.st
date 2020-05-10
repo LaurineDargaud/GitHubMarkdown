@@ -41,6 +41,28 @@ expanded'.
 ]
 
 { #category : #tests }
+GHMOrderedListBlockTest >> testSingleLevelList2WithNoIndent [
+	"when we want a paragraph to be part of an item it should be indented "
+
+	| source root list |
+	source := 
+'19. item 1
+expanded as new paragraph
+7.  item 2
+    part of item2'.
+	root := self parser parse: source.
+	self assert: root children size equals: 3.
+	"two lists + one paragraph"	
+	list := root children first.
+	self assert: list children size equals: 1.
+	self assert: list children first text equals: 'item 1'.
+	self assert: list  startIndex equals: 19.
+	
+	self assert: root children last children first text equals: 'item 2
+part of item2'
+]
+
+{ #category : #tests }
 GHMOrderedListBlockTest >> testSingleLevelListWithNormalNumbering [
 	| root list |
 	root := self parser
