@@ -130,9 +130,3 @@ GHMAbstractBlock >> showStructure: indent [
 	ind := String tab repeat: indent.
 	^ ind, self class name, String cr, ((children collect: [:c | c showStructure: indent + 1]) joinUsing: String cr).
 ]
-
-{ #category : #public }
-GHMAbstractBlock >> splitString: aString [
-	"convenience method"
-	^GHMIntraBlockSplitter new pillarFrom: aString.
-]
