@@ -18,6 +18,23 @@ text2 ]'
 ]
 
 { #category : #tests }
+GHMBlockTextBlockTest >> testNotLazy [
+	"the spec says that the last > could be omitted but we do not support it."
+	| source root text  |
+	source := '> text1
+>   - text2
+text3'.
+	root := self parser parse: source.
+	self assert: root children size equals: 2.
+	text := root children first.
+	self
+		assert: text text
+		equals:
+			'text1
+- text2'
+]
+
+{ #category : #tests }
 GHMBlockTextBlockTest >> testShowStructure [
 	| source root |
 	source := '> text1

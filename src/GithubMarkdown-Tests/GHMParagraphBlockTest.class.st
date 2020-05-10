@@ -9,22 +9,18 @@ Class {
 
 { #category : #tests }
 GHMParagraphBlockTest >> testCanConsumeLine [
-
-	| root listitem parser paragraph |
-	self skip.
+	"A list item does not force the creation of a new paragraph when the line is correctly indented"
+	| listitem parser |
 	parser := self parser. 
-	root := parser parse: ''.
 	listitem := parser handleLine: '- This is'.
-	self halt.
-	"self assert: (listitem canConsumeLine: 'a paragraph in a list item')."
-	"strange I thought that we would get a paragraph in a list item"
 	
-	parser handleLine: 'a paragraph in a list item'.
-	paragraph := parser current.
-	self assert: paragraph parent equals: listitem. 
+	self assert: (listitem canConsumeLine: '  a paragraph in a list item').
+	self deny: (listitem canConsumeLine: 'a paragraph in a list item').
 	
-
-	self assert: listitem text equals: 'This is'.
+	parser handleLine: '  a paragraph in a list item'.
+	self assert: parser current equals: listitem.  
+	self assert: listitem text equals: 'This is
+a paragraph in a list item'.
 	
 
 ]
