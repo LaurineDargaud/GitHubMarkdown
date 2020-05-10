@@ -13,34 +13,6 @@ IntraBlockSplitterTest >> splitter [
 ]
 
 { #category : #tests }
-IntraBlockSplitterTest >> testSplitBlock [
-	| res |
-	res := self splitter splitString: 'abc'.
-	self assert: res first printString equals: 'abc'.
-	
-	res := self splitter splitString: 'abc**bold**def'.
-	self
-		assert: (res collect: [ :x | x printString ])
-		equals: {'abc' . '[bold]' . 'def'}.
-	self assert: res second kind equals: #bold.
-	res := self splitter splitString: 'abc*italics*def'.
-	self
-		assert: (res collect: [ :x | x printString ])
-		equals: {'abc' . '[italics]' . 'def'}.
-	self assert: res second kind equals: #italics.
-	res := self splitter splitString: 'abc~strike~def'.
-	self
-		assert: (res collect: [ :x | x printString ])
-		equals: {'abc' . '[strike]' . 'def'}.
-	self assert: res second kind equals: #strike.
-	res := self splitter splitString: 'abc`block`def'.
-	self
-		assert: (res collect: [ :x | x printString ])
-		equals: {'abc' . '[block]' . 'def'}.
-	self assert: res second kind equals: #block
-]
-
-{ #category : #tests }
 IntraBlockSplitterTest >> testSplitBlock2 [
 	"Test with multiple annotations"
 
@@ -49,6 +21,33 @@ IntraBlockSplitterTest >> testSplitBlock2 [
 	self
 		assert: (res collect: [ :x | x printString ])
 		equals: {'abc' . '[abc]' . 'xyz' . '[xyz]' . 'last'}
+]
+
+{ #category : #tests }
+IntraBlockSplitterTest >> testSplitBlockBold [
+	| res |
+	res := self splitter splitString: 'abc**bold**def'.
+	self
+		assert: (res collect: [ :x | x printString ])
+		equals: {'abc' . '[bold]' . 'def'}.
+	self assert: res second kind equals: #bold.
+
+	res := self splitter splitString: 'abc** b old **def'.
+	self
+		assert: (res collect: [ :x | x printString ])
+		equals: {'abc' . '[ b old ]' . 'def'}.
+	self assert: res second kind equals: #bold.
+
+]
+
+{ #category : #tests }
+IntraBlockSplitterTest >> testSplitBlockCode [
+	| res |
+	res := self splitter splitString: 'abc`block`def'.
+	self
+		assert: (res collect: [ :x | x printString ])
+		equals: {'abc' . '[block]' . 'def'}.
+	self assert: res second kind equals: #block
 ]
 
 { #category : #tests }
@@ -61,6 +60,22 @@ IntraBlockSplitterTest >> testSplitBlockImage [
 		assert: (res collect: [ :x | x printString ])
 		equals: {'abc' . '[AltText]' . 'last'}.
 	self assert: res second url equals: 'imageAddress'
+]
+
+{ #category : #tests }
+IntraBlockSplitterTest >> testSplitBlockItalics [
+	| res |
+	res := self splitter splitString: 'abc*italics*def'.
+	self
+		assert: (res collect: [ :x | x printString ])
+		equals: {'abc' . '[italics]' . 'def'}.
+	self assert: res second kind equals: #italics.
+	
+	res := self splitter splitString: 'abc* ita lics *def'.
+	self
+		assert: (res collect: [ :x | x printString ])
+		equals: {'abc' . '[ ita lics ]' . 'def'}.
+	self assert: res second kind equals: #italics.
 ]
 
 { #category : #tests }
@@ -102,15 +117,46 @@ IntraBlockSplitterTest >> testSplitBlockLinkInlineImage [
 ]
 
 { #category : #tests }
-IntraBlockSplitterTest >> testSplitBlockNested [
+IntraBlockSplitterTest >> testSplitBlockMultipleSequenceAnnotation [
 	"Test with multiple annotations"
 
 	| res |
-	res := self splitter splitString: 'abc`xxx**www**yyy`last'.
+	res := self splitter splitString: 'abc**abc**xyz`xyz`last'.
 	self
 		assert: (res collect: [ :x | x printString ])
-		equals: {'abc' . '[xxx [www] yyy]' . 'last'}.
-	self assert: res second children second kind equals: #bold
+		equals: {'abc' . '[abc]' . 'xyz' . '[xyz]' . 'last'}
+]
+
+{ #category : #tests }
+IntraBlockSplitterTest >> testSplitBlockNested [
+	"Test with nested annotations"
+
+	| res |
+	res := self splitter splitString: 'abc**bold*italic*bold**xyz'.
+	self
+		assert: (res collect: [ :x | x printString ])
+		equals: {'abc' . '[bold [italic] bold]' . 'xyz'}
+]
+
+{ #category : #tests }
+IntraBlockSplitterTest >> testSplitBlockNoAnnotation [
+	| res |
+	res := self splitter splitString: 'abc'.
+	self assert: res first printString equals: 'abc'.
+	
+	res := self splitter splitString: 'abc def gh'.
+	self assert: res first printString equals: 'abc def gh'.
+]
+
+{ #category : #tests }
+IntraBlockSplitterTest >> testSplitBlockStrike [
+	| res |
+	res := self splitter splitString: 'abc~strike~def'.
+	self
+		assert: (res collect: [ :x | x printString ])
+		equals: {'abc' . '[strike]' . 'def'}.
+	self assert: res second kind equals: #strike.
+	
 ]
 
 { #category : #tests }
