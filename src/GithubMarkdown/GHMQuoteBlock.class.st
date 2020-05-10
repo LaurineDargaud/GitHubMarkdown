@@ -10,52 +10,12 @@ In githubmarkdown the definitions are just super complex and we do not follow th
 "
 Class {
 	#name : #GHMQuoteBlock,
-	#superclass : #GHMAbstractBlock,
-	#instVars : [
-		'text'
-	],
+	#superclass : #GHMContinuousMarkedBlock,
 	#category : #'GithubMarkdown-Model'
 }
-
-{ #category : #testing }
-GHMQuoteBlock >> addLineAndReturnNextNode: line [
-	"line is assumed to be of the form '> some text'
-	the prefix spaces after $> are removed"
-
-	| argText |
-	argText := (line copyFrom: self lineMarkup size + 1 to: line size) trim.
-	text := text
-		ifNil: [ argText ]
-		ifNotNil: [ text , String cr , argText ]
-]
-
-{ #category : #testing }
-GHMQuoteBlock >> canConsumeLine: line [
-	"return if this block can consume line i.e., it starts with > "
-
-	^ self doesLineStartWithMarkup: line
-]
-
-{ #category : #public }
-GHMQuoteBlock >> contents [ 
-	^super contents , '[ ', self text, ' ]'
-]
-
-{ #category : #testing }
-GHMQuoteBlock >> doesLineStartWithMarkup: line [
-	"return if the line starts with a markup"
-
-	^ line beginsWith: self lineMarkup
-	
-]
 
 { #category : #testing }
 GHMQuoteBlock >> lineMarkup [
 
 	^ self parser preformattedMarkup
-]
-
-{ #category : #accessing }
-GHMQuoteBlock >> text [
-	^ text
 ]
