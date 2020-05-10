@@ -1,3 +1,6 @@
+"
+I'm an attempt to see how we can extend markdown parser.
+"
 Class {
 	#name : #MicAnnotatedBlock,
 	#superclass : #GHMCodeBlock,
@@ -21,7 +24,7 @@ MicAnnotatedBlock >> addLineAndReturnNextNode: line [
 			| indexOfFirstSpace |
 			indexOfFirstSpace := line indexOf: Character space.
 			label := line copyFrom: self lineMarkup size + 1 to: indexOfFirstSpace - 1.
-			code := line copyFrom: indexOfFirstSpace + 1 to: line size ]
+			code := (line copyFrom: indexOfFirstSpace + 1 to: line size) trim ]
 		ifNotNil: [ code := code , String cr , line ]
 ]
 

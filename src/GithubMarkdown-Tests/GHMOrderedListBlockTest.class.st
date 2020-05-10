@@ -73,10 +73,7 @@ GHMOrderedListBlockTest >> testSingleLevelListWithNormalNumbering [
 	self assert: list children size equals: 2.
 	self assert: list class equals: self orderedListBlockClass.
 	self assert: list children second text equals: 'second item'.
-	"self halt."
 	
-	self flag: #fixme. 
-	"is see that a list has an indent and I do not get why"
 ]
 
 { #category : #tests }
