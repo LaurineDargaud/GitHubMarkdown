@@ -9,9 +9,12 @@ Class {
 
 { #category : #tests }
 GHMParagraphBlockTest >> testCanConsumeLine [
-	"A list item does not force the creation of a new paragraph when the line is correctly indented"
+	"A list item does not force the creation of a new paragraph when the line is correctly indented.
+	currently the implementation does not create a paragraph as a child of list item."
+	
 	| listitem parser |
 	parser := self parser. 
+	parser parse: ''. 
 	listitem := parser handleLine: '- This is'.
 	
 	self assert: (listitem canConsumeLine: '  a paragraph in a list item').
