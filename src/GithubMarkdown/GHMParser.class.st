@@ -1,7 +1,8 @@
 "
-I am a parser for github markdown.
+I am a light parser for github markdown. I'm not fully implementing markdown (far too complex and clumsy). I do not accept lazy definition. I do not accept three different ways to do the same. Except for bulleted list where * and - are accepted. 
 
-I am based on the specification in https://github.github.com/gfm, in particular the parsing strategy in appendix A.
+
+My implementation strategy is based on the specification in https://github.github.com/gfm, in particular the parsing strategy in appendix A.
 
 In short, the strategy is that at any point in time, we might have a number of children of the root which are ""open"". The deepest open in the tree is called ""current"". All the parents of current are open. 
 
@@ -17,6 +18,7 @@ When a new line is read we do the following:
 
 
 The spec says:
+```
 -> document
   -> block_quote
        paragraph
@@ -28,17 +30,19 @@ The spec says:
       -> list_item
         -> paragraph
              ""aliquando id""
-
+```
 Now the implementation for now does not create a paragraph in the list_item element. 
 
 
 
-Todo
+!! Todo
+
 - write tests for text in listitem
 - move includes based testing logic for nested list into the parser (and not in the itemlist>>#addLineAndReturnNextNode: line)
 - extract a superclass of codeBlock named GHMStartStopDelimitedBlock (for starting and closing markup <? >)
 - rename blocktext (check because if it cannot be name preformatted) 
 - extract a superclass of blocktext named GHMContinuousMarkedBlock (>  for each line)
+- read and check the intrablock parser. 
 
 "
 Class {
