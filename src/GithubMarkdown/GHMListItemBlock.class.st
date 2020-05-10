@@ -16,14 +16,14 @@ GHMListItemBlock >> addLineAndReturnNextNode: line [
 	Notice, the action is allowed to create new nodes in the block tree.
 	Returns the node to handle next line - typically self."
 	
-	"SD: I thought that a list item was holding a paragraph but it holds directly text."
+	
 	| normalized |
 	text
 		ifNil: [ text := line trim.
 			^ self ].
 	normalized := line copyFrom: parent indent + 1 to: line size.	"drop indent"
+	"SD: I thought that a list item was holding a paragraph but it holds directly text."
 		
-	"to clean: but for now if the block to be created is list... create one"	
 	({GHMOrderedListBlock.
 	GHMUnorderedListBlock} includes: (self blockStarterClassFrom: normalized))
 		ifTrue: [ ^ self newBlockFor: normalized parent: self ]

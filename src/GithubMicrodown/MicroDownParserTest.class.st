@@ -64,7 +64,7 @@ paragraph on two lines.'.
 	self assert: root children size equals: 1.
 	annotated := root children first. 
 	self assert: annotated label equals: 'important'.
-	self assert: annotated text equals: 'this is an important 
+	self assert: annotated text equals: 'this is an important
 paragraph on two lines.'
 
 ]
