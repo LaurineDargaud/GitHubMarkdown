@@ -4,8 +4,18 @@ A GHMCodeBlockTest is a test class for testing the behavior of GHMCodeBlock
 Class {
 	#name : #GHMCodeBlockTest,
 	#superclass : #GHMBlockTest,
+	#instVars : [
+		'parser'
+	],
 	#category : #'GithubMarkdown-Tests'
 }
+
+{ #category : #running }
+GHMCodeBlockTest >> setUp [
+
+	super setUp.
+	parser := self parser. 
+]
 
 { #category : #tests }
 GHMCodeBlockTest >> testCanConsumeLine [ 
@@ -13,8 +23,7 @@ GHMCodeBlockTest >> testCanConsumeLine [
 	"It also show that consume is not just blindly do a line starts with the markup 
 	since often the first line is consumed by the parent of the block."
 	
-	| source root parser textBody argument |
-	parser := self parser.
+	| source root textBody argument |
 	textBody := 'my fancy code
 is really cool'.
 	argument := 'ArgumentGoesHere'.
@@ -30,8 +39,7 @@ is really cool'.
 
 { #category : #tests }
 GHMCodeBlockTest >> testContents [
-	| source root parser textBody argument |
-	parser := self parser.
+	| source root textBody argument |
 	textBody := 'my fancy code
 is really cool'.
 	argument := 'ArgumentGoesHere'.
@@ -43,8 +51,7 @@ is really cool ]'
 
 { #category : #tests }
 GHMCodeBlockTest >> testOpenCanConsumeLine [
-	| source root parser textBody argument line code |
-	parser := self parser.
+	| source root textBody argument line code |
 	
 	"ready for code factory"
 	textBody := 'my fancy code
@@ -79,8 +86,7 @@ is really cool'.
 
 { #category : #tests }
 GHMCodeBlockTest >> testSingleCodeBlock [
-	| source root code parser textBody argument |
-	parser := self parser.
+	| source root code  textBody argument |
 	textBody := 'my fancy code'.
 	argument := 'Argument'.
 	source := parser codeblockMarkup, argument, String cr, textBody, String cr, parser codeblockMarkup. 
@@ -95,8 +101,7 @@ GHMCodeBlockTest >> testSingleCodeBlock [
 GHMCodeBlockTest >> testSingleCodeBlockListInside [
 	"This test shows that list inside a codeblock are not managed as list but as plain text."
 	
-	| source root code parser textBody argument |
-	parser := self parser.
+	| source root code textBody argument |
 	textBody := '* my fancy code
 * is really cool'.
 	argument := 'ArgumentGoesHere'.
@@ -118,8 +123,7 @@ GHMCodeBlockTest >> testSingleCodeBlockListInside [
 
 { #category : #tests }
 GHMCodeBlockTest >> testSingleCodeBlockTwoLines [
-	| source root code parser textBody argument |
-	parser := self parser.
+	| source root code textBody argument |
 	textBody := 'my fancy code
 is really cool'.
 	argument := 'ArgumentGoesHere'.

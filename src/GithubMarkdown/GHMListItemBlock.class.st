@@ -15,7 +15,8 @@ GHMListItemBlock >> addLineAndReturnNextNode: line [
 	"add line to this node. 
 	Notice, the action is allowed to create new nodes in the block tree.
 	Returns the node to handle next line - typically self."
-
+	
+	"SD: I thought that a list item was holding a paragraph but it holds directly text."
 	| normalized |
 	text
 		ifNil: [ text := line trim.

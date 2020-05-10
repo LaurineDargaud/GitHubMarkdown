@@ -2,8 +2,7 @@ Extension { #name : #GHMCodeBlockTest }
 
 { #category : #'*GithubMarkdown-Pillar-Tests' }
 GHMCodeBlockTest >> testSingleCodeBlockTwoLinesAsPillar [
-	| source root code parser textBody argument |
-	parser := self parser.
+	| source root code textBody argument |
 	textBody := 'my fancy code
 is really cool'.
 	argument := 'ArgumentGoesHere'.

@@ -15,7 +15,7 @@ GHMParagraphBlockTest >> testCanConsumeLine [
 	parser := self parser. 
 	root := parser parse: ''.
 	listitem := parser handleLine: '- This is'.
-	
+	self halt.
 	"self assert: (listitem canConsumeLine: 'a paragraph in a list item')."
 	"strange I thought that we would get a paragraph in a list item"
 	

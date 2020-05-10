@@ -43,6 +43,25 @@ text2'
 ]
 
 { #category : #tests }
+GHMBlockTextBlockTest >> testSingleBlockTextBlockDoesNotInterpretOtherBlockMarkup [
+	| source root text  |
+	source := '> text1
+>   - text2
+> ```languague=pharo
+> Yeah cool'.
+	root := self parser parse: source.
+	self assert: root children size equals: 1.
+	text := root children first.
+	self
+		assert: text text
+		equals:
+			'text1
+- text2
+```languague=pharo
+Yeah cool'
+]
+
+{ #category : #tests }
 GHMBlockTextBlockTest >> testSingleBlockTextBlockFollowedByList [
 	| source root text list |
 	source := '> text1

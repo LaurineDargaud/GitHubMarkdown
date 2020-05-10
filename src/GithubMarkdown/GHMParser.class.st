@@ -16,6 +16,29 @@ When a new line is read we do the following:
 4. The root node is not closed until input is exhausted.
 
 
+The spec says:
+-> document
+  -> block_quote
+       paragraph
+         ""Lorem ipsum dolor\nsit amet.""
+    -> list (type=bullet tight=true bullet_char=-)
+         list_item
+           paragraph
+             ""Qui *quodsi iracundia*""
+      -> list_item
+        -> paragraph
+             ""aliquando id""
+
+Now the implementation for now does not create a paragraph in the list_item element. 
+
+
+
+Todo
+- write tests for text in listitem
+- extract a superclass of codeBlock named GHMStartStopDelimitedBlock (for starting and closing markup <? >)
+- rename blocktext (check because if it cannot be name preformatted) 
+- extract a superclass of blocktext named GHMContinuousMarkedBlock (>  for each line)
+
 "
 Class {
 	#name : #GHMParser,

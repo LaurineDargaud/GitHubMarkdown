@@ -8,11 +8,6 @@ Class {
 }
 
 { #category : #tests }
-GHMListBlockTest >> listBlockClass [
-	^ GHMListBlock
-]
-
-{ #category : #tests }
 GHMListBlockTest >> testIndentFromLineDashForm [
 	"indent from line return the position of the last character before the text."
 

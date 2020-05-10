@@ -1,5 +1,8 @@
 "
 I am an abstract class for the two kind of lists, ordered and unordered.
+When I created I automatically add a listitem as my child.
+
+An empty or a wrong indent close me.
 
 I look like this:
 
@@ -9,7 +12,7 @@ I look like this:
   - sublist item 2.2
 - bullet list item 3
 
-Indentation matters and is crusial
+Indentation matters and is crucial
 "
 Class {
 	#name : #GHMListBlock,
@@ -37,6 +40,7 @@ GHMListBlock >> addLineAndReturnNextNode: inLine [
 { #category : #testing }
 GHMListBlock >> canConsumeLine: line [
 	"to consume this line there must be a ListItem starting at the right indentation"
+	
 	line ifEmpty: [ ^ false ].
 	(parent indent = 0
 		or: [ line beginsWith: (' ' repeat: parent indent) ])

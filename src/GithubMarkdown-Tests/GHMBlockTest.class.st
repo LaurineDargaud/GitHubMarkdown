@@ -4,22 +4,27 @@ Class {
 	#category : #'GithubMarkdown-Tests'
 }
 
-{ #category : #tests }
+{ #category : #factory }
+GHMBlockTest >> listBlockClass [
+	^ GHMListBlock
+]
+
+{ #category : #factory }
 GHMBlockTest >> orderedListBlockClass [
 	^ GHMOrderedListBlock
 ]
 
-{ #category : #tests }
+{ #category : #factory }
 GHMBlockTest >> parser [
 	^ self parserClass new
 ]
 
-{ #category : #tests }
+{ #category : #factory }
 GHMBlockTest >> parserClass [
 	^ GHMParser
 ]
 
-{ #category : #tests }
+{ #category : #factory }
 GHMBlockTest >> rootBlockClass [
 	^ GHMRootBlock
 ]
