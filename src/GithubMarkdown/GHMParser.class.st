@@ -37,8 +37,6 @@ Now the implementation for now does not create a paragraph in the list_item elem
 
 !! Todo
 
-- write tests for text in listitem
-- move includes based testing logic for nested list into the parser (and not in the itemlist>>#addLineAndReturnNextNode: line)
 - extract a superclass of codeBlock named GHMStartStopDelimitedBlock (for starting and closing markup <? >)
 - rename blocktext (check because if it cannot be name preformatted) 
 - extract a superclass of blocktext named GHMContinuousMarkedBlock (>  for each line)
@@ -116,19 +114,18 @@ GHMParser >> blockStarterClassFrom: line [
 		ifTrue: [ ^ GHMHeaderBlock ].
 	(line beginsWith: '```')
 		ifTrue: [ ^ GHMCodeBlock ].
-	(line beginsWith: '- ') | (line beginsWith: '* ')
-		| (line beginsWith: '+ ')
+	(self matchUnordered: line)
 		ifTrue: [ ^ GHMUnorderedListBlock ].
-	(line prefixMatchesRegex: '\d+(\.|\))')
+	(self matchOrdered: line)
 		ifTrue: [ ^ GHMOrderedListBlock ].	"number followed by . or )"
-	(line beginsWith: '>') "or '> '??"
-		ifTrue: [ ^ GHMBlockTextBlock ].
-	
+	(line beginsWith: '>')
+		ifTrue: [ ^ GHMBlockTextBlock ].	"or '> '??"
+
 	"trying to provide an extension mechanism."
 	(self blockExtensionStarterClassFrom: line)
 		ifNotNil: [ :c | ^ c ]
 		ifNil: [ line ifNotEmpty: [ ^ GHMParagraphBlock ].
-					^ nil ]
+			^ nil ]
 ]
 
 { #category : #markups }
@@ -169,14 +166,19 @@ GHMParser >> headerMarkup [
 
 { #category : #testing }
 GHMParser >> isAList: normalized [
-	"to be refactored to avoid duplication!"
-	^ (normalized beginsWith: '- ') | (normalized beginsWith: '* ')
-		| (normalized beginsWith: '+ ') or: [ normalized prefixMatchesRegex: '\d+(\.|\))' ]
+	
+	^ (self matchUnordered: normalized) or: [ self matchOrdered: normalized ]
 ]
 
-{ #category : #testing }
-GHMParser >> isAListElement: normalized [
-	
+{ #category : #'node creation' }
+GHMParser >> matchOrdered: line [
+	^ line prefixMatchesRegex: '\d+(\.|\))'
+]
+
+{ #category : #'node creation' }
+GHMParser >> matchUnordered: line [
+	^ (line beginsWith: '- ') | (line beginsWith: '* ')
+		| (line beginsWith: '+ ')
 ]
 
 { #category : #parsing }

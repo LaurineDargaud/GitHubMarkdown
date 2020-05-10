@@ -24,8 +24,8 @@ MicAnnotatedBlock >> addLineAndReturnNextNode: line [
 			| indexOfFirstSpace |
 			indexOfFirstSpace := line indexOf: Character space.
 			label := line copyFrom: self lineMarkup size + 1 to: indexOfFirstSpace - 1.
-			code := (line copyFrom: indexOfFirstSpace + 1 to: line size) trim ]
-		ifNotNil: [ code := code , String cr , line ]
+			body := (line copyFrom: indexOfFirstSpace + 1 to: line size) trim ]
+		ifNotNil: [ body := body , String cr , line ]
 ]
 
 { #category : #testing }

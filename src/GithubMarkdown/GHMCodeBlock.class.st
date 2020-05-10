@@ -11,11 +11,9 @@ line 3
 "
 Class {
 	#name : #GHMCodeBlock,
-	#superclass : #GHMAbstractBlock,
+	#superclass : #GHMStartStopDelimitedBlock,
 	#instVars : [
-		'code',
-		'arguments',
-		'isClosed'
+		'arguments'
 	],
 	#category : #'GithubMarkdown-Model'
 }
@@ -29,8 +27,9 @@ GHMCodeBlock >> addLineAndReturnNextNode: line [
 	isClosed
 		ifTrue: [ ^ self ].
 	arguments
-		ifNil: [ arguments := line copyFrom: self lineMarkup size + 1 to: line size ]
-		ifNotNil: [ code := (code ifNil: [ line ] ifNotNil: [ code , String cr , line ]) ].
+		ifNil: [ arguments := line copyFrom: self lineStartMarkup size + 1 to: line size ]
+		ifNotNil:
+			[ self bodyFromLine: line ].
 	^ self
 ]
 
@@ -51,34 +50,9 @@ GHMCodeBlock >> canCloseWith: line [
 	^ line beginsWith: self codeblockMarkup
 ]
 
-{ #category : #testing }
-GHMCodeBlock >> canConsumeLine: line [
-	"As soon as a line closes a code block, it does not accept anymore any line.
-	Indeed imagine 
-	
-	```
-	a line 
-	```
-	The first line was accepted by its parent (a root block and the code block got created.
-	then a line was accepting since done was false...
-	then the closing line was reached and the code block got closed.)
-	
-	"
-
-	isClosed
-		ifTrue: [ ^ false ].
-	isClosed := self doesLineStartWithMarkup: line.
-	^ true
-]
-
 { #category : #accessing }
 GHMCodeBlock >> code [
-	^ code
-]
-
-{ #category : #accessing }
-GHMCodeBlock >> code: aString [
-	code := aString
+	^ self body
 ]
 
 { #category : #public }
@@ -86,27 +60,9 @@ GHMCodeBlock >> contents [
 	^super contents , '[ ', self code, ' ]'
 ]
 
-{ #category : #testing }
-GHMCodeBlock >> doesLineStartWithMarkup: line [
-	"return if the line starts with a markup"
-
-	^ line beginsWith: self lineMarkup
-	
-]
-
-{ #category : #initialization }
-GHMCodeBlock >> initialize [
-	super initialize. 
-	isClosed := false
-]
-
-{ #category : #testing }
-GHMCodeBlock >> isClosed [
-	^ isClosed		
-]
-
 { #category : #utils }
-GHMCodeBlock >> lineMarkup [
+GHMCodeBlock >> lineStartMarkup [
 	"a code block is delimited by ``` "
+	
 	^ self parser codeblockMarkup 
 ]
