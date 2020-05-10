@@ -167,6 +167,18 @@ GHMParser >> headerMarkup [
 	^ self class headerMarkup 
 ]
 
+{ #category : #testing }
+GHMParser >> isAList: normalized [
+	"to be refactored to avoid duplication!"
+	^ (normalized beginsWith: '- ') | (normalized beginsWith: '* ')
+		| (normalized beginsWith: '+ ') or: [ normalized prefixMatchesRegex: '\d+(\.|\))' ]
+]
+
+{ #category : #testing }
+GHMParser >> isAListElement: normalized [
+	
+]
+
 { #category : #parsing }
 GHMParser >> newRootBlock [
 	^ GHMRootBlock new

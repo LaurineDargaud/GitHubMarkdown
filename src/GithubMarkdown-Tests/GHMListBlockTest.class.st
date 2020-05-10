@@ -39,6 +39,22 @@ GHMListBlockTest >> testIndentFromLineNumberedForm [
 ]
 
 { #category : #tests }
+GHMListBlockTest >> testIndentFromLinePlusForm [
+	"indent from line return the position of the last character before the text."
+
+	| root listBlock |
+	root := self rootBlockClass new.
+	listBlock := self listBlockClass new parent: root.
+	self
+		assert:
+			(listBlock
+				indentFromLine: '+ joe';
+				indent)
+		equals: 2.
+	
+]
+
+{ #category : #tests }
 GHMListBlockTest >> testIndentFromLineStarForm [
 	"indent from line return the position of the last character before the text."
 

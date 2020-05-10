@@ -24,8 +24,7 @@ GHMListItemBlock >> addLineAndReturnNextNode: line [
 	normalized := line copyFrom: parent indent + 1 to: line size.	"drop indent"
 	"SD: I thought that a list item was holding a paragraph but it holds directly text."
 		
-	({GHMOrderedListBlock.
-	GHMUnorderedListBlock} includes: (self blockStarterClassFrom: normalized))
+	(self isAList: normalized)
 		ifTrue: [ ^ self newBlockFor: normalized parent: self ]
 		ifFalse: [ text := text , String cr , normalized ]
 ]
@@ -40,6 +39,12 @@ GHMListItemBlock >> canConsumeLine: line [
 { #category : #public }
 GHMListItemBlock >> contents [ 
 	^super contents , '[ ', self text, ' ]'
+]
+
+{ #category : #testing }
+GHMListItemBlock >> isAList: normalized [
+
+	^ parser isAList: normalized
 ]
 
 { #category : #accessing }

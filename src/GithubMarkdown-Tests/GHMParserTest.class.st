@@ -1,14 +1,23 @@
 Class {
 	#name : #GHMParserTest,
 	#superclass : #GHMBlockTest,
+	#instVars : [
+		'parser'
+	],
 	#category : #'GithubMarkdown-Tests'
 }
+
+{ #category : #tests }
+GHMParserTest >> setUp [
+	super setUp.
+	parser := self parser
+]
 
 { #category : #tests }
 GHMParserTest >> testEmpty [
 	| source root |
 	source := ''.
-	root := self parser parse: source.
+	root := parser parse: source.
 	self assert: root children size equals: 0.
 
 ]
@@ -20,9 +29,44 @@ GHMParserTest >> testEmptyOnMultipleLines [
 
 
 '.
-	root := self parser parse: source.
+	root := parser parse: source.
 	self assert: root children size equals: 0
 
+]
+
+{ #category : #tests }
+GHMParserTest >> testIsAListDash [
+
+	self assert: (parser isAList: '- one')
+	
+]
+
+{ #category : #tests }
+GHMParserTest >> testIsAListNumbered [
+
+	self assert: (parser isAList: '11. one')
+	
+]
+
+{ #category : #tests }
+GHMParserTest >> testIsAListPlus [
+
+	self assert: (parser isAList: '+ one')
+	
+]
+
+{ #category : #tests }
+GHMParserTest >> testIsAListStar [
+
+	self assert: (parser isAList: '* one')
+	
+]
+
+{ #category : #tests }
+GHMParserTest >> testIsAListStar2 [
+
+	self assert: (parser isAList: '  * one' trim)
+	
 ]
 
 { #category : #tests }
