@@ -4,16 +4,26 @@ A GHMParagraphBlockTest is a test class for testing the behavior of GHMParagraph
 Class {
 	#name : #GHMParagraphBlockTest,
 	#superclass : #GHMBlockTest,
+	#instVars : [
+		'parser'
+	],
 	#category : #'GithubMarkdown-Tests'
 }
+
+{ #category : #running }
+GHMParagraphBlockTest >> setUp [
+	"Hooks that subclasses may override to define the fixture of test."
+
+	super setUp.
+	parser := self parser.
+]
 
 { #category : #tests }
 GHMParagraphBlockTest >> testCanConsumeLine [
 	"A list item does not force the creation of a new paragraph when the line is correctly indented.
 	currently the implementation does not create a paragraph as a child of list item."
 	
-	| listitem parser |
-	parser := self parser. 
+	| listitem |
 	parser parse: ''. 
 	listitem := parser handleLine: '- This is'.
 	
@@ -31,8 +41,7 @@ a paragraph in a list item'.
 { #category : #tests }
 GHMParagraphBlockTest >> testCanConsumeLineBasic [
 
-	| root parser paragraph |
-	parser := self parser. 
+	| root paragraph |
 	root := parser parse: ''.
 	self assert: root equals: parser current.
 	
@@ -50,8 +59,7 @@ Another line'.
 { #category : #tests }
 GHMParagraphBlockTest >> testCanConsumeLineOtherBlocks [
 
-	| root parser paragraph |
-	parser := self parser. 
+	| root paragraph |
 	root := parser parse: ''.
 	paragraph := parser handleLine: 'This is'.
 	self assert: paragraph equals: parser current.	
@@ -69,8 +77,7 @@ GHMParagraphBlockTest >> testCanConsumeLineOtherBlocks [
 { #category : #tests }
 GHMParagraphBlockTest >> testHandlingSequenceOfBasicLinesProducesAParagraph [
 
-	| root parser paragraph |
-	parser := self parser. 
+	| root paragraph |
 	root := parser parse: ''.
 	paragraph := parser handleLine: 'This is'.
 	paragraph := parser handleLine: 'Another line'.
@@ -84,7 +91,7 @@ And that other line'.
 { #category : #tests }
 GHMParagraphBlockTest >> testSingleParagraph [
 	| root |
-	root := self parser parse: 'This is
+	root := parser parse: 'This is
 a paragraph on two lines'.
 	self 
 		assert: root children first contents 
@@ -102,6 +109,6 @@ GHMParagraphBlockTest >> testSingleParagraphWithIndentedText [
 	expected := 'This is
 a paragraph with spaces
 and one with tabs'.
-	root := self parser parse: source.
+	root := parser parse: source.
 	self assert: root children first text equals: expected
 ]

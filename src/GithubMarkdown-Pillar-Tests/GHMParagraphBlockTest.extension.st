@@ -9,7 +9,7 @@ GHMParagraphBlockTest >> testSingleParagraphWithIndentedTextAsPillar [
 	expected := 'This is
 a paragraph with spaces
 and one with tabs'.
-	root := self parser parse: source.
+	root := parser parse: source.
 	pillar := root children first asPillar.
 	self assert: pillar class equals: PRParagraph.
 	self assert: pillar children first class equals: PRText.

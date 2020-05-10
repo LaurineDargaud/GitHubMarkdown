@@ -4,15 +4,24 @@ A GHMBlockTextBlockTest is a test class for testing the behavior of GHMBlockText
 Class {
 	#name : #GHMBlockTextBlockTest,
 	#superclass : #GHMBlockTest,
+	#instVars : [
+		'parser'
+	],
 	#category : #'GithubMarkdown-Tests'
 }
+
+{ #category : #running }
+GHMBlockTextBlockTest >> setUp [
+	super setUp.
+	parser := self parser.
+]
 
 { #category : #tests }
 GHMBlockTextBlockTest >> testContents [
 	| source root |
 	source := '> text1
 >    text2'.
-	root := self parser parse: source.
+	root := parser parse: source.
 	self assert: root children first contents equals: '[ text1
 text2 ]'
 ]
@@ -24,7 +33,7 @@ GHMBlockTextBlockTest >> testNotLazy [
 	source := '> text1
 >   - text2
 text3'.
-	root := self parser parse: source.
+	root := parser parse: source.
 	self assert: root children size equals: 2.
 	text := root children first.
 	self
@@ -39,7 +48,7 @@ GHMBlockTextBlockTest >> testShowStructure [
 	| source root |
 	source := '> text1
 >    text2'.
-	root := self parser parse: source.
+	root := parser parse: source.
 	self assert: (root children first showStructure: 0) equals: 'GHMQuoteBlock
 '
 ]
@@ -49,7 +58,7 @@ GHMBlockTextBlockTest >> testSingleBlockTextBlock [
 	| source root text  |
 	source := '> text1
 >    text2'.
-	root := self parser parse: source.
+	root := parser parse: source.
 	self assert: root children size equals: 1.
 	text := root children first.
 	self
@@ -66,7 +75,7 @@ GHMBlockTextBlockTest >> testSingleBlockTextBlockDoesNotInterpretOtherBlockMarku
 >   - text2
 > ```languague=pharo
 > Yeah cool'.
-	root := self parser parse: source.
+	root := parser parse: source.
 	self assert: root children size equals: 1.
 	text := root children first.
 	self
@@ -86,7 +95,7 @@ GHMBlockTextBlockTest >> testSingleBlockTextBlockFollowedByList [
 1. first
 2. second
 3. third'.
-	root := self parser parse: source.
+	root := parser parse: source.
 	self assert: root children size equals: 2.
 	text := root children first.
 	self

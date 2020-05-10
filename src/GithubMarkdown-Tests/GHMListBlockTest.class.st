@@ -4,16 +4,25 @@ A GHMListBlockTest is a test class for testing the behavior of GHMListBlock
 Class {
 	#name : #GHMListBlockTest,
 	#superclass : #GHMBlockTest,
+	#instVars : [
+		'root',
+		'listBlock'
+	],
 	#category : #'GithubMarkdown-Tests'
 }
+
+{ #category : #tests }
+GHMListBlockTest >> setUp [
+	super setUp.
+	root := self rootBlockClass new.
+	listBlock := self listBlockClass new parent: root.
+	
+]
 
 { #category : #tests }
 GHMListBlockTest >> testIndentFromLineDashForm [
 	"indent from line return the position of the last character before the text."
 
-	| root listBlock |
-	root := self rootBlockClass new.
-	listBlock := self listBlockClass new parent: root.
 	self
 		assert:
 			(listBlock
@@ -27,9 +36,6 @@ GHMListBlockTest >> testIndentFromLineDashForm [
 GHMListBlockTest >> testIndentFromLineNumberedForm [
 	"indent from line return the position of the last character before the text."
 
-	| root listBlock |
-	root := self rootBlockClass new.
-	listBlock := self listBlockClass new parent: root.
 	self
 		assert:
 			(listBlock
@@ -42,9 +48,6 @@ GHMListBlockTest >> testIndentFromLineNumberedForm [
 GHMListBlockTest >> testIndentFromLinePlusForm [
 	"indent from line return the position of the last character before the text."
 
-	| root listBlock |
-	root := self rootBlockClass new.
-	listBlock := self listBlockClass new parent: root.
 	self
 		assert:
 			(listBlock
@@ -58,9 +61,6 @@ GHMListBlockTest >> testIndentFromLinePlusForm [
 GHMListBlockTest >> testIndentFromLineStarForm [
 	"indent from line return the position of the last character before the text."
 
-	| root listBlock |
-	root := self rootBlockClass new.
-	listBlock := self listBlockClass new parent: root.
 	self
 		assert:
 			(listBlock

@@ -4,14 +4,24 @@ A GHMHeaderBlockTest is a test class for testing the behavior of GHMHeaderBlock
 Class {
 	#name : #GHMHeaderBlockTest,
 	#superclass : #GHMBlockTest,
+	#instVars : [
+		'parser'
+	],
 	#category : #'GithubMarkdown-Tests'
 }
+
+{ #category : #running }
+GHMHeaderBlockTest >> setUp [
+	"Hooks that subclasses may override to define the fixture of test."
+	
+	super setUp.
+	parser := self parser
+]
 
 { #category : #tests }
 GHMHeaderBlockTest >> testCanConsumeLine [
 
-	| root parser headerString |
-	parser := self parser. 
+	| root headerString |
 	headerString := (parser headerMarkup, ' Level1').
 	root := parser parse: headerString.
 	self deny: (root children first canConsumeLine: headerString) 
@@ -19,16 +29,14 @@ GHMHeaderBlockTest >> testCanConsumeLine [
 
 { #category : #tests }
 GHMHeaderBlockTest >> testContents [
-	| root parser |
-	parser := self parser. 
+	| root |
 	root := parser parse: (parser headerMarkup, ' Level1').
 	self assert: root children first contents equals: '[ 1/Level1 ]'
 ]
 
 { #category : #tests }
 GHMHeaderBlockTest >> testHeaderLevel1 [
-	| root parser |
-	parser := self parser. 
+	| root |
 	root := parser parse: (parser headerMarkup, ' Level1').
 	self assert: root children size equals: 1.
 	self assert: root children first header equals: 'Level1'.
@@ -37,8 +45,7 @@ GHMHeaderBlockTest >> testHeaderLevel1 [
 
 { #category : #tests }
 GHMHeaderBlockTest >> testHeaderLevel1NoSpace [
-	| source root parser |
-	parser := self parser.
+	| source root |
 	source := parser headerMarkup, 'Level1'.
 	root := parser parse: source.
 	self assert: root children size equals: 1.
@@ -48,10 +55,9 @@ GHMHeaderBlockTest >> testHeaderLevel1NoSpace [
 
 { #category : #tests }
 GHMHeaderBlockTest >> testHeaderLevel4 [
-	| source root parser |
-	parser := self parser.
+	| source root |
 	source := (parser headerMarkup repeat: 4), '    Level four'.
-	root := self parser parse: source.
+	root := parser parse: source.
 	self assert: root children size equals: 1.
 	self assert: root children first header equals: 'Level four'.
 	self assert: root children first level equals: 4

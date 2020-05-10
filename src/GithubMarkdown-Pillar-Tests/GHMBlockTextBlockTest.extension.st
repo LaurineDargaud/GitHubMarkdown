@@ -5,7 +5,7 @@ GHMBlockTextBlockTest >> testBlockTextAsPilar [
 	| source root pillarNode |
 	source := '> text1
 >    text2'.
-	root := self parser parse: source.
+	root := parser parse: source.
 	self assert: root children size equals: 1.
 	pillarNode := root children first asPillar.
 	self flag: #fixme. "This is not an environment"
