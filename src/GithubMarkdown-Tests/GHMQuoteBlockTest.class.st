@@ -2,7 +2,7 @@
 A GHMBlockTextBlockTest is a test class for testing the behavior of GHMBlockTextBlock
 "
 Class {
-	#name : #GHMBlockTextBlockTest,
+	#name : #GHMQuoteBlockTest,
 	#superclass : #GHMBlockTest,
 	#instVars : [
 		'parser'
@@ -11,13 +11,13 @@ Class {
 }
 
 { #category : #running }
-GHMBlockTextBlockTest >> setUp [
+GHMQuoteBlockTest >> setUp [
 	super setUp.
 	parser := self parser.
 ]
 
 { #category : #tests }
-GHMBlockTextBlockTest >> testContents [
+GHMQuoteBlockTest >> testContents [
 	| source root |
 	source := '> text1
 >    text2'.
@@ -27,7 +27,7 @@ text2 ]'
 ]
 
 { #category : #tests }
-GHMBlockTextBlockTest >> testNotLazy [
+GHMQuoteBlockTest >> testNotLazy [
 	"the spec says that the last > could be omitted but we do not support it."
 	| source root text  |
 	source := '> text1
@@ -44,32 +44,7 @@ text3'.
 ]
 
 { #category : #tests }
-GHMBlockTextBlockTest >> testShowStructure [
-	| source root |
-	source := '> text1
->    text2'.
-	root := parser parse: source.
-	self assert: (root children first showStructure: 0) equals: 'GHMQuoteBlock
-'
-]
-
-{ #category : #tests }
-GHMBlockTextBlockTest >> testSingleBlockTextBlock [
-	| source root text  |
-	source := '> text1
->    text2'.
-	root := parser parse: source.
-	self assert: root children size equals: 1.
-	text := root children first.
-	self
-		assert: text text
-		equals:
-			'text1
-text2'
-]
-
-{ #category : #tests }
-GHMBlockTextBlockTest >> testSingleBlockTextBlockDoesNotInterpretOtherBlockMarkup [
+GHMQuoteBlockTest >> testQuoteBlockDoesNotInterpretOtherBlockMarkup [
 	| source root text  |
 	source := '> text1
 >   - text2
@@ -88,7 +63,32 @@ Yeah cool'
 ]
 
 { #category : #tests }
-GHMBlockTextBlockTest >> testSingleBlockTextBlockFollowedByList [
+GHMQuoteBlockTest >> testShowStructure [
+	| source root |
+	source := '> text1
+>    text2'.
+	root := parser parse: source.
+	self assert: (root children first showStructure: 0) equals: 'GHMQuoteBlock
+'
+]
+
+{ #category : #tests }
+GHMQuoteBlockTest >> testSingleQuoteBlock [
+	| source root text  |
+	source := '> text1
+>    text2'.
+	root := parser parse: source.
+	self assert: root children size equals: 1.
+	text := root children first.
+	self
+		assert: text text
+		equals:
+			'text1
+text2'
+]
+
+{ #category : #tests }
+GHMQuoteBlockTest >> testSingleQuoteBlockFollowedByList [
 	| source root text list |
 	source := '> text1
 >    text2

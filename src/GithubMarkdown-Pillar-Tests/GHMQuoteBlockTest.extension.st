@@ -1,7 +1,7 @@
-Extension { #name : #GHMBlockTextBlockTest }
+Extension { #name : #GHMQuoteBlockTest }
 
 { #category : #'*GithubMarkdown-Pillar-Tests' }
-GHMBlockTextBlockTest >> testBlockTextAsPilar [
+GHMQuoteBlockTest >> testQuoteBlockAsPilar [
 	| source root pillarNode |
 	source := '> text1
 >    text2'.
