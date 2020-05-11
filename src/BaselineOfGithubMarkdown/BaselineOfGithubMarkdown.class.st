@@ -24,7 +24,7 @@ BaselineOfGithubMarkdown >> baseline: spec [
 			package: #'GithubMarkdown-Pillar' with: [
 				spec requires:  #( #'GithubMarkdown') ];
 			package: #'GithubMarkdown-Pillar-Tests' with: [
-				spec requires:  #(#'GithubMarkdown-Pillar') ];
+				spec requires:  #(#'GithubMarkdown-Pillar' #'GithubMarkdown') ];
 			package: #'GithubMarkdown-Pillar-Tests';
 			package: #'GithubMarkdown-Tests' with: [
 				spec requires:  #('GithubMarkdown-Pillar-Tests' 'GithubMarkdown') ]]
