@@ -15,6 +15,12 @@ MicroDownParser class >> annotatedParagraphMarkup [
 ]
 
 { #category : #markups }
+MicroDownParser class >> commentedLineMarkup [
+
+	^ '%'
+]
+
+{ #category : #markups }
 MicroDownParser >> anchorMarkup [
 	^ self class anchorMarkup
 ]
@@ -32,5 +38,13 @@ MicroDownParser >> blockExtensionStarterClassFrom: line [
 		ifTrue: [ ^ MicAnnotatedBlock ].
 	(line beginsWith: self anchorMarkup )
 		ifTrue: [ ^ MicAnchorBlock ].
+	(line beginsWith: self commentedLineMarkup )
+		ifTrue: [ ^ MicCommentBlock ].
 	^ nil
+]
+
+{ #category : #markups }
+MicroDownParser >> commentedLineMarkup [
+
+	^ self class commentedLineMarkup
 ]
