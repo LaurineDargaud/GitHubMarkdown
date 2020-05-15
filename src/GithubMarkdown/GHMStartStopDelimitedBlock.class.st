@@ -12,7 +12,8 @@ Class {
 	#superclass : #GHMAbstractBlock,
 	#instVars : [
 		'isClosed',
-		'body'
+		'body',
+		'firstLine'
 	],
 	#category : #'GithubMarkdown-Model'
 }
@@ -25,7 +26,10 @@ GHMStartStopDelimitedBlock >> addLineAndReturnNextNode: line [
 
 	isClosed
 		ifTrue: [ ^ self ].
-	self bodyFromLine: line.
+	firstLine
+		ifNil: [ firstLine := line copyFrom: self lineStartMarkup size + 1 to: line size ]
+		ifNotNil:
+			[ self bodyFromLine: line ].
 	^ self
 ]
 
@@ -41,6 +45,7 @@ GHMStartStopDelimitedBlock >> body: anObject [
 
 { #category : #handle }
 GHMStartStopDelimitedBlock >> bodyFromLine: line [
+	
 	body := body ifNil: [ line ] ifNotNil: [ body , String cr , line ]
 ]
 
@@ -70,6 +75,16 @@ GHMStartStopDelimitedBlock >> doesLineStartWithMarkup: line [
 
 	^ line beginsWith: self lineStartMarkup
 	
+]
+
+{ #category : #accessing }
+GHMStartStopDelimitedBlock >> firstLine [
+	^ firstLine
+]
+
+{ #category : #accessing }
+GHMStartStopDelimitedBlock >> firstLine: anObject [
+	firstLine := anObject
 ]
 
 { #category : #initialization }

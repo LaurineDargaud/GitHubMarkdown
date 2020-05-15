@@ -18,29 +18,14 @@ Class {
 	#category : #'GithubMarkdown-Model'
 }
 
-{ #category : #testing }
-GHMCodeBlock >> addLineAndReturnNextNode: line [
-	"add line to this node. 
-	Notice, the action is allowed to create new nodes in the block tree.
-	Returns the node to handle next line - typically self."
-
-	isClosed
-		ifTrue: [ ^ self ].
-	arguments
-		ifNil: [ arguments := line copyFrom: self lineStartMarkup size + 1 to: line size ]
-		ifNotNil:
-			[ self bodyFromLine: line ].
-	^ self
-]
-
 { #category : #accessing }
 GHMCodeBlock >> arguments [
-	^ arguments
+	^ firstLine
 ]
 
 { #category : #accessing }
 GHMCodeBlock >> arguments: aString [
-	arguments := aString
+	firstLine := aString
 ]
 
 { #category : #testing }

@@ -21,6 +21,21 @@ MicroDownParser class >> commentedLineMarkup [
 ]
 
 { #category : #markups }
+MicroDownParser class >> mathClosingBlockMarkup [
+	self flag: #fixMe. 
+	"should implement block logic for different opening and closing this way we could have 
+	a different markup."
+	
+	^ '&'
+]
+
+{ #category : #markups }
+MicroDownParser class >> mathOpeningBlockMarkup [
+
+	^ '&'
+]
+
+{ #category : #markups }
 MicroDownParser >> anchorMarkup [
 	^ self class anchorMarkup
 ]
@@ -40,6 +55,8 @@ MicroDownParser >> blockExtensionStarterClassFrom: line [
 		ifTrue: [ ^ MicAnchorBlock ].
 	(line beginsWith: self commentedLineMarkup )
 		ifTrue: [ ^ MicCommentBlock ].
+	(line beginsWith: self mathOpeningBlockMarkup)
+		ifTrue: [ ^ MicMathBlock ].
 	^ nil
 ]
 
@@ -47,4 +64,14 @@ MicroDownParser >> blockExtensionStarterClassFrom: line [
 MicroDownParser >> commentedLineMarkup [
 
 	^ self class commentedLineMarkup
+]
+
+{ #category : #markups }
+MicroDownParser >> mathClosingBlockMarkup [
+	^ self class mathClosingBlockMarkup
+]
+
+{ #category : #markups }
+MicroDownParser >> mathOpeningBlockMarkup [
+	^ self class mathOpeningBlockMarkup
 ]

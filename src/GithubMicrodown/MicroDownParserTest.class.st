@@ -191,3 +191,19 @@ MicroDownParserTest >> testCommentedLineMarkupInsideLine [
 	self assert: paragraph text equals: 'this is not the start', parser commentedLineMarkup , 'a comment'
 	
 ]
+
+{ #category : #'tests-math' }
+MicroDownParserTest >> testMathBlock [
+
+	| source root math |
+	source := parser mathOpeningBlockMarkup , String cr, 
+	 '\mathcal{F} = \{ I \subseteq B | support(I) \geq minsup \}', String cr,
+	parser mathClosingBlockMarkup, String cr.
+
+	root :=  parser parse: source.
+	self assert: root children size equals: 1.
+	math := root children first. 
+	self assert: (math isKindOf: MicMathBlock). 
+	self assert: math body equals: '\mathcal{F} = \{ I \subseteq B | support(I) \geq minsup \}'
+	
+]
