@@ -110,24 +110,21 @@ GHMParser >> blockExtensionStarterClassFrom: line [
 GHMParser >> blockStarterClassFrom: line [
 	"return the class of a block which can start with line, or nil if none"
 
-	(line beginsWith: '#')
-		ifTrue: [ ^ GHMHeaderBlock ].
-	(line beginsWith: '```')
-		ifTrue: [ ^ GHMCodeBlock ].
-	(self matchUnordered: line)
-		ifTrue: [ ^ GHMUnorderedListBlock ].
-	(self matchOrdered: line)
-		ifTrue: [ ^ GHMOrderedListBlock ].	"number followed by . or )"
-	(line beginsWith: '>')
-		ifTrue: [ ^ GHMQuoteBlock ].	"or '> '??"
-
-	"trying to provide an extension mechanism.
-	But that we cannot redefine existing one. 
-	For example, we cannot extend ```language=....key=value&"
 	(self blockExtensionStarterClassFrom: line)
 		ifNotNil: [ :c | ^ c ]
-		ifNil: [ line ifNotEmpty: [ ^ GHMParagraphBlock ].
-			^ nil ]
+		ifNil: [ 
+		(line beginsWith: '#')
+			ifTrue: [ ^ GHMHeaderBlock ].
+		(line beginsWith: '```')
+			ifTrue: [ ^ GHMCodeBlock ].
+		(self matchUnordered: line)
+			ifTrue: [ ^ GHMUnorderedListBlock ].
+		(self matchOrdered: line)
+			ifTrue: [ ^ GHMOrderedListBlock ].	"number followed by . or )"
+		(line beginsWith: '>')
+			ifTrue: [ ^ GHMQuoteBlock ].	"or '> '??"
+		 line ifNotEmpty: [ ^ GHMParagraphBlock ]
+				ifEmpty: [  ^ nil ]]
 ]
 
 { #category : #markups }
