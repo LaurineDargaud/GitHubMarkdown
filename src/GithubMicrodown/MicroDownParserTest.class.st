@@ -149,3 +149,15 @@ MicroDownParserTest >> testCommentSimple [
 	self assert: comment text equals: 'a comment'
 	
 ]
+
+{ #category : #'tests-comments' }
+MicroDownParserTest >> testCommentedLineMarkupInsideLine [
+
+	| source root paragraph |
+	source := 'this is not the start', parser commentedLineMarkup , 'a comment'.
+	root :=  parser parse: source.
+	self assert: root children size equals: 1.
+	paragraph := root children first. 
+	self assert: paragraph text equals: 'this is not the start', parser commentedLineMarkup , 'a comment'
+	
+]
