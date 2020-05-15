@@ -8,7 +8,7 @@ Class {
 	#instVars : [
 		'label'
 	],
-	#category : #GithubMicrodown
+	#category : #'GithubMicrodown-Core'
 }
 
 { #category : #testing }

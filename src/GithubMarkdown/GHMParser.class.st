@@ -121,7 +121,9 @@ GHMParser >> blockStarterClassFrom: line [
 	(line beginsWith: '>')
 		ifTrue: [ ^ GHMQuoteBlock ].	"or '> '??"
 
-	"trying to provide an extension mechanism."
+	"trying to provide an extension mechanism.
+	But that we cannot redefine existing one. 
+	For example, we cannot extend ```language=....key=value&"
 	(self blockExtensionStarterClassFrom: line)
 		ifNotNil: [ :c | ^ c ]
 		ifNil: [ line ifNotEmpty: [ ^ GHMParagraphBlock ].

@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'parser'
 	],
-	#category : #GithubMicrodown
+	#category : #'GithubMicrodown-Test'
 }
 
 { #category : #running }

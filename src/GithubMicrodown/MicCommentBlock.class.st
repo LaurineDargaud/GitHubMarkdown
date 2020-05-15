@@ -1,7 +1,7 @@
 Class {
 	#name : #MicCommentBlock,
 	#superclass : #GHMContinuousMarkedBlock,
-	#category : #GithubMicrodown
+	#category : #'GithubMicrodown-Core'
 }
 
 { #category : #markups }
