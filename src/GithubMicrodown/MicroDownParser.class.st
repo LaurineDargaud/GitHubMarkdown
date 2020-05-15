@@ -5,20 +5,32 @@ Class {
 }
 
 { #category : #markups }
-MicroDownParser class >> annotatedBlockMarkup [
+MicroDownParser class >> anchorMarkup [
 	^ '@@'
 ]
 
 { #category : #markups }
-MicroDownParser >> annotatedBlockMarkup [
-	^ self class annotatedBlockMarkup
+MicroDownParser class >> annotatedParagraphMarkup [
+	^ '!!'
+]
+
+{ #category : #markups }
+MicroDownParser >> anchorMarkup [
+	^ self class anchorMarkup
+]
+
+{ #category : #markups }
+MicroDownParser >> annotatedParagraphMarkup [
+	^ self class annotatedParagraphMarkup
 ]
 
 { #category : #'node creation' }
 MicroDownParser >> blockExtensionStarterClassFrom: line [
 	"return the class of a block which can start with line, or nil if none"
 
-	(line beginsWith: self annotatedBlockMarkup)
+	(line beginsWith: self annotatedParagraphMarkup)
 		ifTrue: [ ^ MicAnnotatedBlock ].
+	(line beginsWith: self anchorMarkup )
+		ifTrue: [ ^ MicAnchorBlock ].
 	^ nil
 ]

@@ -1,20 +1,43 @@
 Class {
 	#name : #MicroDownParserTest,
 	#superclass : #TestCase,
+	#instVars : [
+		'parser'
+	],
 	#category : #GithubMicrodown
 }
 
-{ #category : #tests }
+{ #category : #'tests-anchor' }
 MicroDownParserTest >> parser [ 
 
 	^ MicroDownParser new
 ]
 
-{ #category : #tests }
+{ #category : #running }
+MicroDownParserTest >> setUp [
+	"Hooks that subclasses may override to define the fixture of test."
+	
+	super setUp.
+	parser := self parser
+]
+
+{ #category : #'tests-annotated-paragraph' }
+MicroDownParserTest >> testAnchorBlock [
+	| source root annotated |
+	source := parser anchorMarkup, 'label1'.
+	root := parser parse: source.
+	self assert: root children size equals: 1.
+	annotated := root children first. 
+	self assert: annotated label equals: 'label1'.
+	
+
+]
+
+{ #category : #'tests-annotated-paragraph' }
 MicroDownParserTest >> testAnnotatedBlock [
 	| source root annotated |
-	source := '@@important this is an important paragraph on one line.'.
-	root := self parser parse: source.
+	source := parser annotatedParagraphMarkup , 'important this is an important paragraph on one line.'.
+	root :=  parser parse: source.
 	self assert: root children size equals: 1.
 	annotated := root children first. 
 	self assert: annotated label equals: 'important'.
@@ -23,15 +46,12 @@ MicroDownParserTest >> testAnnotatedBlock [
 
 ]
 
-{ #category : #tests }
-MicroDownParserTest >> testAnnotatedBlockOnMultipleLines [
+{ #category : #'tests-annotated-paragraph' }
+MicroDownParserTest >> testAnnotatedBlockOnMultipleLinesParserLogic [
 
-	| parser source root annotated  line |
-	
-	source := '@@important this is an 
-important point because...!' readStream.
-
- 	parser := self parser. 
+	| source root annotated  line |
+	source := (parser annotatedParagraphMarkup , 'important this is an 
+important point because...!') readStream.
 	
 	"first the root block"
 	root := parser parse: ''.
@@ -55,12 +75,12 @@ important point because...!'.
 	
 ]
 
-{ #category : #tests }
+{ #category : #'tests-annotated-paragraph' }
 MicroDownParserTest >> testAnnotatedBlockOnTwoLines [
 	| source root annotated |
-	source := '@@important this is an important 
+	source := parser annotatedParagraphMarkup , 'important this is an important 
 paragraph on two lines.'.
-	root := self parser parse: source.
+	root := parser parse: source.
 	self assert: root children size equals: 1.
 	annotated := root children first. 
 	self assert: annotated label equals: 'important'.
@@ -69,14 +89,14 @@ paragraph on two lines.'
 
 ]
 
-{ #category : #tests }
-MicroDownParserTest >> testAnnotatedBlockWithList [
+{ #category : #'tests-annotated-paragraph' }
+MicroDownParserTest >> testAnnotatedBlockWithListParserLogic [
 	"The test does not test what we want. We want a listblock inside the annotatedBlock"
-	| parser source root annotated  line |
+	|  source root annotated  line |
 	self flag: #fixme.
-	source := '@@important this is a point
+	source := (parser annotatedParagraphMarkup , 'important this is a point
 - one
-* two ' readStream.
+* two ' ) readStream.
 
  	parser := self parser. 
 	
