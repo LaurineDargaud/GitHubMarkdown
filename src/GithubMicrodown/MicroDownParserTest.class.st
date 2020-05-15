@@ -125,6 +125,20 @@ MicroDownParserTest >> testAnnotatedBlockWithListParserLogic [
 ]
 
 { #category : #'tests-comments' }
+MicroDownParserTest >> testCommentOnMultipleLines [
+
+	| source root comment |
+	source := parser commentedLineMarkup , 'a comment', String cr.
+	source := source, parser commentedLineMarkup , 'a second comment'.
+	root :=  parser parse: source.
+	self assert: root children size equals: 1.
+	comment := root children first. 
+	self assert: comment text equals: 'a comment
+a second comment'
+	
+]
+
+{ #category : #'tests-comments' }
 MicroDownParserTest >> testCommentSimple [
 
 	| source root comment |
