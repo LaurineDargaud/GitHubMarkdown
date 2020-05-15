@@ -1,5 +1,6 @@
 "
 I'm an attempt to see how we can extend markdown parser.
+I should not be a subclass of CodeBlock since I want to be able to include lists and others. 
 "
 Class {
 	#name : #MicAnnotatedBlock,

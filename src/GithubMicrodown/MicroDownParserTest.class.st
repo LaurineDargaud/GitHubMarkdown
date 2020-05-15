@@ -73,7 +73,7 @@ paragraph on two lines.'
 MicroDownParserTest >> testAnnotatedBlockWithList [
 	"The test does not test what we want. We want a listblock inside the annotatedBlock"
 	| parser source root annotated  line |
-	
+	self flag: #fixme.
 	source := '@@important this is a point
 - one
 * two ' readStream.
