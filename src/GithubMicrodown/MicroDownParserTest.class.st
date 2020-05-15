@@ -7,7 +7,7 @@ Class {
 	#category : #GithubMicrodown
 }
 
-{ #category : #'tests-anchor' }
+{ #category : #running }
 MicroDownParserTest >> parser [ 
 
 	^ MicroDownParser new
@@ -21,7 +21,7 @@ MicroDownParserTest >> setUp [
 	parser := self parser
 ]
 
-{ #category : #'tests-annotated-paragraph' }
+{ #category : #'tests-anchor' }
 MicroDownParserTest >> testAnchorBlock [
 	| source root annotated |
 	source := parser anchorMarkup, 'label1'.
@@ -29,6 +29,35 @@ MicroDownParserTest >> testAnchorBlock [
 	self assert: root children size equals: 1.
 	annotated := root children first. 
 	self assert: annotated label equals: 'label1'.
+	
+
+]
+
+{ #category : #'tests-anchor' }
+MicroDownParserTest >> testAnchorBlockFollowingEachOther [
+	| source root annotated |
+	source := parser anchorMarkup, 'label1', String cr.
+	source := source, parser anchorMarkup, 'label2'.
+	root := parser parse: source.
+	self assert: root children size equals: 2.
+	annotated := root children first. 
+	self assert: annotated label equals: 'label1'.
+	
+	annotated := root children second. 
+	self assert: annotated label equals: 'label2'.
+	
+
+]
+
+{ #category : #'tests-anchor' }
+MicroDownParserTest >> testAnchorMarkupInsideLine [
+	| source root paragraph |
+	source := 'this is not an anchor', parser anchorMarkup, 'label1'.
+	root := parser parse: source.
+	self assert: root children size equals: 1.
+	paragraph := root children first. 
+	self assert: (paragraph isKindOf: GHMParagraphBlock).
+	self assert: paragraph text equals: 'this is not an anchor', parser anchorMarkup, 'label1'.
 	
 
 ]
@@ -158,6 +187,7 @@ MicroDownParserTest >> testCommentedLineMarkupInsideLine [
 	root :=  parser parse: source.
 	self assert: root children size equals: 1.
 	paragraph := root children first. 
+	self assert: (paragraph isKindOf: GHMParagraphBlock).
 	self assert: paragraph text equals: 'this is not the start', parser commentedLineMarkup , 'a comment'
 	
 ]
