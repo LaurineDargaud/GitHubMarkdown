@@ -5,7 +5,7 @@ GHMRootBlockTest >> testRootAsPillar [
 	| source root pillar |
 	source := '####    Level four
 ## Level 2'.
-	root := GHMParser new parse: source.
+	root := parser parse: source.
 	pillar := root asPillar.
 	self assert: pillar class equals: PRDocument.
 	self assert: pillar children second class equals: PRHeader.

@@ -23,11 +23,11 @@ GHMContinuousMarkedBlock >> addLineAndReturnNextNode: line [
 	"line is assumed to be of the form 'chararacters some text' e.g., '> some text'
 	the prefix spaces after $> are removed"
 
-	| argText |
-	argText := (line copyFrom: self lineMarkup size + 1 to: line size) trim.
+	| treatedLine |
+	treatedLine := self extractLine: line.
 	text := text
-		ifNil: [ argText ]
-		ifNotNil: [ text , String cr , argText ]
+		ifNil: [ treatedLine ]
+		ifNotNil: [ text , String cr , treatedLine ]
 ]
 
 { #category : #testing }
@@ -48,6 +48,11 @@ GHMContinuousMarkedBlock >> doesLineStartWithMarkup: line [
 
 	^ line beginsWith: self lineMarkup
 	
+]
+
+{ #category : #testing }
+GHMContinuousMarkedBlock >> extractLine: line [
+	^ (line copyFrom: self lineMarkup size + 1 to: line size) trim
 ]
 
 { #category : #markups }

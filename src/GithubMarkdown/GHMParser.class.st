@@ -94,6 +94,12 @@ GHMParser class >> preformattedMarkup [
 ]
 
 { #category : #markups }
+GHMParser class >> tableCellMarkup [
+
+	^ '|'
+]
+
+{ #category : #markups }
 GHMParser class >> unorderedListMarkups [
 
 	^ #('- ' '* ' '+ ')
@@ -109,20 +115,23 @@ GHMParser >> blockExtensionStarterClassFrom: line [
 { #category : #'node creation' }
 GHMParser >> blockStarterClassFrom: line [
 	"return the class of a block which can start with line, or nil if none"
-
+	
 	(self blockExtensionStarterClassFrom: line)
 		ifNotNil: [ :c | ^ c ]
 		ifNil: [ 
-		(line beginsWith: '#')
+		(line beginsWith: self headerMarkup)
 			ifTrue: [ ^ GHMHeaderBlock ].
-		(line beginsWith: '```')
+		(line beginsWith: self codeblockMarkup)
 			ifTrue: [ ^ GHMCodeBlock ].
-		(self matchUnordered: line)
+		(self matchUnordered: line) "this one could be split if we move to a dictionary based structure"
 			ifTrue: [ ^ GHMUnorderedListBlock ].
 		(self matchOrdered: line)
-			ifTrue: [ ^ GHMOrderedListBlock ].	"number followed by . or )"
-		(line beginsWith: '>')
+			ifTrue: [ ^ GHMOrderedListBlock ].	"number followed by . or ). We could treat this one separated and fall back on a dictionary
+			By moving this into the extension for example."
+		(line beginsWith: self preformattedMarkup)
 			ifTrue: [ ^ GHMQuoteBlock ].	"or '> '??"
+		(line beginsWith: self tableCellMarkup)
+			ifTrue: [ ^ GHMTableBlock ].	
 		 line ifNotEmpty: [ ^ GHMParagraphBlock ]
 				ifEmpty: [  ^ nil ]]
 ]
@@ -150,7 +159,6 @@ GHMParser >> handleErrorInLine: line [
 GHMParser >> handleLine: line [
 	| normalized |
 	normalized := line copyReplaceAll: String tab with: String space.
-	
 	[ (current canConsumeLine: normalized)
 		ifTrue: [ ^ current := current addLineAndReturnNextNode: normalized ]
 		ifFalse: [ current closeMe ].
@@ -205,4 +213,10 @@ GHMParser >> parse: aStreamOrString [
 { #category : #markups }
 GHMParser >> preformattedMarkup [ 
 	^ self class preformattedMarkup 
+]
+
+{ #category : #markups }
+GHMParser >> tableCellMarkup [
+
+	^ self class tableCellMarkup
 ]

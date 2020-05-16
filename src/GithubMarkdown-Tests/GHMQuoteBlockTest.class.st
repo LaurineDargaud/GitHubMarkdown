@@ -4,17 +4,8 @@ A GHMBlockTextBlockTest is a test class for testing the behavior of GHMBlockText
 Class {
 	#name : #GHMQuoteBlockTest,
 	#superclass : #GHMBlockTest,
-	#instVars : [
-		'parser'
-	],
 	#category : #'GithubMarkdown-Tests'
 }
-
-{ #category : #running }
-GHMQuoteBlockTest >> setUp [
-	super setUp.
-	parser := self parser.
-]
 
 { #category : #tests }
 GHMQuoteBlockTest >> testContents [

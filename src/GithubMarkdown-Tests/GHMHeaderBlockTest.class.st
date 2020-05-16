@@ -4,19 +4,8 @@ A GHMHeaderBlockTest is a test class for testing the behavior of GHMHeaderBlock
 Class {
 	#name : #GHMHeaderBlockTest,
 	#superclass : #GHMBlockTest,
-	#instVars : [
-		'parser'
-	],
 	#category : #'GithubMarkdown-Tests'
 }
-
-{ #category : #running }
-GHMHeaderBlockTest >> setUp [
-	"Hooks that subclasses may override to define the fixture of test."
-	
-	super setUp.
-	parser := self parser
-]
 
 { #category : #tests }
 GHMHeaderBlockTest >> testCanConsumeLine [
