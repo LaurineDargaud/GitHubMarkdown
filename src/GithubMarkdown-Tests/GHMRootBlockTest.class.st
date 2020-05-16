@@ -23,7 +23,7 @@ GHMRootBlockTest >> testShowStructure [
 	| source root |
 	source := 'This is
 a paragraph on two lines'.
-	root := self parser parse: source.
+	root := parser parse: source.
 	self assert: root children size equals: 1.
 	self assert: (root showStructure: 0) equals:  
 'GHMRootBlock

@@ -94,6 +94,12 @@ GHMParser class >> preformattedMarkup [
 ]
 
 { #category : #markups }
+GHMParser class >> tableCellMarkup [
+
+	^ '|'
+]
+
+{ #category : #markups }
 GHMParser class >> unorderedListMarkups [
 
 	^ #('- ' '* ' '+ ')
@@ -205,4 +211,10 @@ GHMParser >> parse: aStreamOrString [
 { #category : #markups }
 GHMParser >> preformattedMarkup [ 
 	^ self class preformattedMarkup 
+]
+
+{ #category : #markups }
+GHMParser >> tableCellMarkup [
+
+	^ self class tableCellMarkup
 ]

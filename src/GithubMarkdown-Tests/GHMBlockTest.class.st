@@ -1,6 +1,9 @@
 Class {
 	#name : #GHMBlockTest,
 	#superclass : #TestCase,
+	#instVars : [
+		'parser'
+	],
 	#category : #'GithubMarkdown-Tests'
 }
 
@@ -27,4 +30,11 @@ GHMBlockTest >> parserClass [
 { #category : #factory }
 GHMBlockTest >> rootBlockClass [
 	^ GHMRootBlock
+]
+
+{ #category : #running }
+GHMBlockTest >> setUp [
+
+	super setUp.
+	parser := self parser. 
 ]

@@ -4,18 +4,8 @@ A GHMCodeBlockTest is a test class for testing the behavior of GHMCodeBlock
 Class {
 	#name : #GHMCodeBlockTest,
 	#superclass : #GHMBlockTest,
-	#instVars : [
-		'parser'
-	],
 	#category : #'GithubMarkdown-Tests'
 }
-
-{ #category : #running }
-GHMCodeBlockTest >> setUp [
-
-	super setUp.
-	parser := self parser. 
-]
 
 { #category : #tests }
 GHMCodeBlockTest >> testCanConsumeLine [ 

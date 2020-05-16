@@ -4,19 +4,8 @@ A GHMParagraphBlockTest is a test class for testing the behavior of GHMParagraph
 Class {
 	#name : #GHMParagraphBlockTest,
 	#superclass : #GHMBlockTest,
-	#instVars : [
-		'parser'
-	],
 	#category : #'GithubMarkdown-Tests'
 }
-
-{ #category : #running }
-GHMParagraphBlockTest >> setUp [
-	"Hooks that subclasses may override to define the fixture of test."
-
-	super setUp.
-	parser := self parser.
-]
 
 { #category : #tests }
 GHMParagraphBlockTest >> testCanConsumeLine [

@@ -15,7 +15,7 @@ GHMUnorderedListBlockTest >> testEmbeddedOrdered [
   1. sublevel item 1
   4. sublevel item 2
 - item 2'.
-	root := self parser parse: source.
+	root := parser parse: source.
 	list := root children first.
 	self assert: list children size equals: 2.
 	self assert: list children second text equals: 'item 2'.
@@ -31,7 +31,7 @@ GHMUnorderedListBlockTest >> testSingleLevelList [
 	source := 
 '- item 1
 - item 2'.
-	root := self parser parse: source.
+	root := parser parse: source.
 	list := root children first.
 	self assert: list children size equals: 2.
 	self assert: list children second text equals: 'item 2'
@@ -44,7 +44,7 @@ GHMUnorderedListBlockTest >> testSingleLevelList2 [
 '- item 1
   expanded
 - item 2'.
-	root := self parser parse: source.
+	root := parser parse: source.
 	list := root children first.
 	self assert: list children size equals: 2.
 	self assert: list children first text equals: 'item 1
@@ -57,7 +57,7 @@ GHMUnorderedListBlockTest >> testSingleLevelListWithStar [
 	source := 
 '* item 1
 * item 2'.
-	root := self parser parse: source.
+	root := parser parse: source.
 	list := root children first.
 	self assert: list children size equals: 2.
 	self assert: list children second text equals: 'item 2'
@@ -70,7 +70,7 @@ GHMUnorderedListBlockTest >> testSingleLevelMixedList [
 '- item 1
 * item 2
 - item 3'.
-	root := self parser parse: source.
+	root := parser parse: source.
 	list := root children first.
 	self assert: list children size equals: 3.
 	self assert: list children second text equals: 'item 2'
@@ -84,7 +84,7 @@ GHMUnorderedListBlockTest >> testTwoLevelList [
   * sublevel1
   * sublevel2
 - item 2'.
-	root := self parser parse: source.
+	root := parser parse: source.
 	list := root children first.
 	self assert: list children size equals: 2.
 	self assert: list children second text equals: 'item 2'.
@@ -106,7 +106,7 @@ GHMUnorderedListBlockTest >> testTwoLevelList1 [
 '- item 1
   - sublevel
 - item 2'.
-	root := self parser parse: source.
+	root := parser parse: source.
 	list := root children first.
 	self assert: list children size equals: 2.
 	self assert: list children second text equals: 'item 2'.

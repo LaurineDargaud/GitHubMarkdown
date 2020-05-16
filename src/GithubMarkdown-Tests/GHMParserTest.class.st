@@ -1,17 +1,8 @@
 Class {
 	#name : #GHMParserTest,
 	#superclass : #GHMBlockTest,
-	#instVars : [
-		'parser'
-	],
 	#category : #'GithubMarkdown-Tests'
 }
-
-{ #category : #tests }
-GHMParserTest >> setUp [
-	super setUp.
-	parser := self parser
-]
 
 { #category : #tests }
 GHMParserTest >> testEmpty [

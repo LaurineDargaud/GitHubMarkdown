@@ -15,7 +15,7 @@ GHMOrderedListBlockTest >> testEmbeddedUnordered [
    - sublevel item 1
    - sublevel item 2
 1. item 2'.
-	root := self parser parse: source.
+	root := parser parse: source.
 	list := root children first.
 	self assert: list children size equals: 2.
 	self assert: list children second text equals: 'item 2'.
@@ -32,7 +32,7 @@ GHMOrderedListBlockTest >> testSingleLevelList2 [
 '19. item 1
     expanded
 7.  item 2'.
-	root := self parser parse: source.
+	root := parser parse: source.
 	list := root children first.
 	self assert: list children size equals: 2.
 	self assert: list children first text equals: 'item 1
@@ -50,7 +50,7 @@ GHMOrderedListBlockTest >> testSingleLevelList2WithNoIndent [
 expanded as new paragraph
 7.  item 2
     part of item2'.
-	root := self parser parse: source.
+	root := parser parse: source.
 	self assert: root children size equals: 3.
 	"two lists + one paragraph"	
 	list := root children first.
@@ -65,7 +65,7 @@ part of item2'
 { #category : #tests }
 GHMOrderedListBlockTest >> testSingleLevelListWithNormalNumbering [
 	| root list |
-	root := self parser
+	root :=  parser
 		parse:
 '1. first item
 2. second item'.
@@ -79,7 +79,7 @@ GHMOrderedListBlockTest >> testSingleLevelListWithNormalNumbering [
 { #category : #tests }
 GHMOrderedListBlockTest >> testSingleLevelListWithStrangelyNumberedItems [
 	| root list |
-	root := self parser
+	root := parser
 		parse:
 			'11. item 1
 2. item 2'.
@@ -96,7 +96,7 @@ GHMOrderedListBlockTest >> testTwoLevelList1 [
 '1. item 1
    6) sublevel
 1. item 2'.
-	root := GHMParser new parse: source.
+	root := parser parse: source.
 	list := root children first.
 	self assert: list children size equals: 2.
 	self assert: list children second text equals: 'item 2'.
