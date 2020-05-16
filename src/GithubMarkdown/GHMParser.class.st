@@ -119,16 +119,19 @@ GHMParser >> blockStarterClassFrom: line [
 	(self blockExtensionStarterClassFrom: line)
 		ifNotNil: [ :c | ^ c ]
 		ifNil: [ 
-		(line beginsWith: '#')
+		(line beginsWith: self headerMarkup)
 			ifTrue: [ ^ GHMHeaderBlock ].
-		(line beginsWith: '```')
+		(line beginsWith: self codeblockMarkup)
 			ifTrue: [ ^ GHMCodeBlock ].
-		(self matchUnordered: line)
+		(self matchUnordered: line) "this one could be split if we move to a dictionary based structure"
 			ifTrue: [ ^ GHMUnorderedListBlock ].
 		(self matchOrdered: line)
-			ifTrue: [ ^ GHMOrderedListBlock ].	"number followed by . or )"
+			ifTrue: [ ^ GHMOrderedListBlock ].	"number followed by . or ). We could treat this one separated and fall back on a dictionary
+			By moving this into the extension for example."
 		(line beginsWith: '>')
 			ifTrue: [ ^ GHMQuoteBlock ].	"or '> '??"
+		(line beginsWith: self tableCellMarkup)
+			ifTrue: [ ^ GHMTableBlock ].	
 		 line ifNotEmpty: [ ^ GHMParagraphBlock ]
 				ifEmpty: [  ^ nil ]]
 ]

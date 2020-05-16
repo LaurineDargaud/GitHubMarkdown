@@ -4,8 +4,13 @@ Class {
 	#category : #'GithubMarkdown-Tests'
 }
 
-{ #category : #running }
-GHMTableBlockTest >> setUp [
-	"Hooks that subclasses may override to define the fixture of test."
+{ #category : #tests }
+GHMTableBlockTest >> testSimpleTable [
+
+	| source root |
+	source := '| col1 row1 | col2 row1 |
+| col1 row1 | col2 row1 |'.
+	root := parser parse: source.
+	self assert: (root children first isKindOf: GHMTableBlock)
 
 ]
