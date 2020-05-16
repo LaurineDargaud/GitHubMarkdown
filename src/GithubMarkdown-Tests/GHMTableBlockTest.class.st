@@ -7,9 +7,12 @@ Class {
 { #category : #tests }
 GHMTableBlockTest >> testExtractLine [
 
-	| source root table |
+	| table |
 	table := GHMTableBlock new.
-	self assert: (table extractLine: '| x y | z k |') asArray equals: #( 'x y' 'z k')
+	self assert: (table extractLine: '| x y | z k |') asArray equals: #( 'x y' 'z k').
+	self assert: (table extractLine: '| x y | z k') asArray equals: #( 'x y' 'z k').
+	self assert: (table extractLine: '| x y | z k | |') asArray equals: #( 'x y' 'z k' '').
+	self assert: (table extractLine: '|     | z k | oui |') asArray equals: #( '' 'z k' 'oui').
 ]
 
 { #category : #tests }

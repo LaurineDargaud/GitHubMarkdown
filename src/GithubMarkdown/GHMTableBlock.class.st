@@ -21,7 +21,7 @@ GHMTableBlock >> extractLine: line [
 	"For now we have 
 		| something | something | 
 		or 
-		| something | something "
+		| something | something"
 		| acc rowElements cLine |
 		acc := ''.
 		rowElements := OrderedCollection new. 
@@ -31,6 +31,8 @@ GHMTableBlock >> extractLine: line [
 					ifTrue: [ rowElements add: acc trim. acc := ''  ]
 					ifFalse: [ acc := acc, (String with: each) ]
 						 ].
+		(line last = $|)
+			ifFalse: [ rowElements add: acc trim ].
 		^ rowElements 			
 					
 		
