@@ -18,7 +18,7 @@ Class {
 	#category : #'GithubMarkdown-Model'
 }
 
-{ #category : #testing }
+{ #category : #actions }
 GHMContinuousMarkedBlock >> addLineAndReturnNextNode: line [
 	"line is assumed to be of the form 'chararacters some text' e.g., '> some text'
 	the prefix spaces after $> are removed"
@@ -50,7 +50,7 @@ GHMContinuousMarkedBlock >> doesLineStartWithMarkup: line [
 	
 ]
 
-{ #category : #testing }
+{ #category : #actions }
 GHMContinuousMarkedBlock >> extractLine: line [
 	^ (line copyFrom: self lineMarkup size + 1 to: line size) trim
 ]

@@ -12,6 +12,7 @@ BaselineOfGithubMarkdown >> baseline: spec [
 	"We will remove the dependency to pillar from markdown when we will move
 	the part related to microdown. Then microdown will depend on pillar and such 
 	dependency will have to be made explicit"
+	
 	spec for: #'common' do: [
 		spec 
 			package: #'GithubMarkdown';

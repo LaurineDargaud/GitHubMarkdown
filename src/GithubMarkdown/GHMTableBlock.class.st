@@ -38,28 +38,33 @@ Class {
 	#category : #'GithubMarkdown-Model'
 }
 
-{ #category : #markups }
+{ #category : #actions }
 GHMTableBlock >> addLineAndReturnNextNode: line [
 	"line is assumed to be of the form 'chararacters some text' e.g., '> some text'
 	the prefix spaces after $> are removed"
 
-	rows add: (self extractLine: line)
+	(self isHeader: line)
+		ifTrue: [ hasHeader := true ]
+		ifFalse: [ rows add: (self extractLine: line) ].
 	
 ]
 
-{ #category : #markups }
+{ #category : #actions }
 GHMTableBlock >> extractLine: line [
-	"For now we have 
+	"recondition line starts with |
+	
+	For now we have 
 		| something | something | 
 		or 
 		| something | something"
+		
 		^ (line findBetweenSubstrings: #($|)) collect: [ :each | each trim ]
 		
 				
 		
 ]
 
-{ #category : #markups }
+{ #category : #actions }
 GHMTableBlock >> extractLineOld: line [
 	"For now we have 
 		| something | something | 
@@ -83,10 +88,25 @@ GHMTableBlock >> extractLineOld: line [
 		
 ]
 
-{ #category : #markups }
+{ #category : #accessing }
+GHMTableBlock >> hasHeader [
+	^ hasHeader
+]
+
+{ #category : #initialization }
 GHMTableBlock >> initialize [ 
 	super initialize.
 	rows := OrderedCollection new.
+]
+
+{ #category : #testing }
+GHMTableBlock >> isHeader: line [
+	"Return true whether a line is a table header identification i.e., | --- | --- |"
+	
+	| authorised |
+	authorised := {$| . $- . Character space}.
+	^  line allButFirst allSatisfy: [ :each | authorised includes: each ].
+	
 ]
 
 { #category : #markups }
