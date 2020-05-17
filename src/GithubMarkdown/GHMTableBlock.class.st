@@ -1,3 +1,25 @@
+"
+Support
+
+| aaab | jkhjh |
+| --- |
+| bar |
+
+or 
+|aaab|jkhjh|
+|---|
+|bar|
+
+Block-level elements cannot be inserted in a table.
+
+Todo: 
+A table may have inferior number of columns than the others.
+
+
+Known limits: how to put a pipe in a table? 
+No support for \|
+
+"
 Class {
 	#name : #GHMTableBlock,
 	#superclass : #GHMContinuousMarkedBlock,
