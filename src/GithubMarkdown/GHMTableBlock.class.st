@@ -1,5 +1,6 @@
 "
-Support
+Support table with a simple and more relax setup than github.
+A table is not forced to have a header definition.
 
 | aaab | jkhjh |
 | --- |
@@ -10,10 +11,17 @@ or
 |---|
 |bar|
 
+or 
+| aaa | bbb |
+|ccc |ddd |
+
+or 
+| aaa | bbb
+| cc | ddd
+
 Block-level elements cannot be inserted in a table.
 
-Todo: 
-A table may have inferior number of columns than the others.
+When a table contains a header it is the first row and all rows should have that size else they are cut. 
 
 
 Known limits: how to put a pipe in a table? 
@@ -24,7 +32,8 @@ Class {
 	#name : #GHMTableBlock,
 	#superclass : #GHMContinuousMarkedBlock,
 	#instVars : [
-		'rows'
+		'rows',
+		'hasHeader'
 	],
 	#category : #'GithubMarkdown-Model'
 }
@@ -40,6 +49,18 @@ GHMTableBlock >> addLineAndReturnNextNode: line [
 
 { #category : #markups }
 GHMTableBlock >> extractLine: line [
+	"For now we have 
+		| something | something | 
+		or 
+		| something | something"
+		^ (line findBetweenSubstrings: #($|)) collect: [ :each | each trim ]
+		
+				
+		
+]
+
+{ #category : #markups }
+GHMTableBlock >> extractLineOld: line [
 	"For now we have 
 		| something | something | 
 		or 

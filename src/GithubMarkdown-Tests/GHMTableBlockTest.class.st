@@ -10,9 +10,25 @@ GHMTableBlockTest >> testExtractLine [
 	| table |
 	table := GHMTableBlock new.
 	self assert: (table extractLine: '| x y | z k |') asArray equals: #( 'x y' 'z k').
-	self assert: (table extractLine: '| x y | z k') asArray equals: #( 'x y' 'z k').
+	self assert: (table extractLine: '|x y|z k|') asArray equals: #( 'x y' 'z k').
+]
+
+{ #category : #tests }
+GHMTableBlockTest >> testExtractLineSupportEmptyCell [
+
+	| table |
+	table := GHMTableBlock new.
 	self assert: (table extractLine: '| x y | z k | |') asArray equals: #( 'x y' 'z k' '').
 	self assert: (table extractLine: '|     | z k | oui |') asArray equals: #( '' 'z k' 'oui').
+]
+
+{ #category : #tests }
+GHMTableBlockTest >> testExtractLineSupportUnfinished [
+
+	| table |
+	table := GHMTableBlock new.
+	self assert: (table extractLine: '| x y | z k') asArray equals: #( 'x y' 'z k').
+
 ]
 
 { #category : #tests }
