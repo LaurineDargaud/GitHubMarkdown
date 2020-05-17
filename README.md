@@ -1,5 +1,5 @@
 # GitHubMarkdown
-To store the parser developed by Kasper Osterbye (and to make it independent of RichText and Pillar)
+To store the parser originally developed by K. Osterbye (and to make it independent of RichText and Pillar) and further extended by S. Ducasse.
 
 I am a light parser for github markdown. I'm not fully implementing markdown (far too complex and clumsy). I do not accept lazy definition. I do not accept three different ways to do the same. Except for bulleted list where * and - are accepted. 
 
