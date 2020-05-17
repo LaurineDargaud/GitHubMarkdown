@@ -24,7 +24,7 @@ GHMContinuousMarkedBlock >> addLineAndReturnNextNode: line [
 	the prefix spaces after $> are removed"
 
 	| treatedLine |
-	treatedLine := self treatLine: line.
+	treatedLine := self extractLine: line.
 	text := text
 		ifNil: [ treatedLine ]
 		ifNotNil: [ text , String cr , treatedLine ]

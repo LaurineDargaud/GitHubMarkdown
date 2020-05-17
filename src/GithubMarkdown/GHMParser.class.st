@@ -115,7 +115,7 @@ GHMParser >> blockExtensionStarterClassFrom: line [
 { #category : #'node creation' }
 GHMParser >> blockStarterClassFrom: line [
 	"return the class of a block which can start with line, or nil if none"
-
+	
 	(self blockExtensionStarterClassFrom: line)
 		ifNotNil: [ :c | ^ c ]
 		ifNil: [ 
@@ -128,7 +128,7 @@ GHMParser >> blockStarterClassFrom: line [
 		(self matchOrdered: line)
 			ifTrue: [ ^ GHMOrderedListBlock ].	"number followed by . or ). We could treat this one separated and fall back on a dictionary
 			By moving this into the extension for example."
-		(line beginsWith: '>')
+		(line beginsWith: self preformattedMarkup)
 			ifTrue: [ ^ GHMQuoteBlock ].	"or '> '??"
 		(line beginsWith: self tableCellMarkup)
 			ifTrue: [ ^ GHMTableBlock ].	
@@ -159,7 +159,6 @@ GHMParser >> handleErrorInLine: line [
 GHMParser >> handleLine: line [
 	| normalized |
 	normalized := line copyReplaceAll: String tab with: String space.
-	
 	[ (current canConsumeLine: normalized)
 		ifTrue: [ ^ current := current addLineAndReturnNextNode: normalized ]
 		ifFalse: [ current closeMe ].
