@@ -69,15 +69,29 @@ GHMTableBlockTest >> testSimpleTable [
 ]
 
 { #category : #tests }
+GHMTableBlockTest >> testSimpleTableChopped [
+
+	| source root table |
+	source := '| col1 row1 | col2 row1 |
+| col1 row2 | col2 row2 |  col3 row2 |  col4 row2 '.
+	root := parser parse: source.
+	table := root children first.
+	self assert: table rows first asArray equals: #('col1 row1'  'col2 row1').
+	self assert: table rows second asArray equals: #('col1 row2'  'col2 row2').
+	self assert: table rows first size equals: 2
+]
+
+{ #category : #tests }
 GHMTableBlockTest >> testTableWithHeader [
 
 	| source root table |
 	source := '| col1 row1 | col2 row1 |
 | -- | - |	
-| col1 row2 | col2 row2 |'.
+| col1 row2 | col2 row2 | col4 row2 |
+| col1 row3 |   | col3 row3 |  c '.
+
 	root := parser parse: source.
 	table := root children first.
-	self assert: (table isKindOf: GHMTableBlock).
-	self assert: table rows first asArray equals: #('col1 row1'  'col2 row1').
 	self assert: table rows second asArray equals: #('col1 row2'  'col2 row2').
+	self assert: table rows third asArray equals: #('col1 row3'  '').
 ]

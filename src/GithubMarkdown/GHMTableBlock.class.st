@@ -49,6 +49,22 @@ GHMTableBlock >> addLineAndReturnNextNode: line [
 	
 ]
 
+{ #category : #private }
+GHMTableBlock >> closeMe [ 
+
+	| firstSize |
+	firstSize := rows first size.
+	rows := rows collect: [ :each | self cut: each toSize: firstSize ].
+	
+]
+
+{ #category : #private }
+GHMTableBlock >> cut: row toSize: firstSize [
+
+	^ row copyFrom: 1 to: firstSize 
+	
+]
+
 { #category : #actions }
 GHMTableBlock >> extractLine: line [
 	"recondition line starts with |
