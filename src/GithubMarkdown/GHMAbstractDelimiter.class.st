@@ -29,12 +29,12 @@ GHMAbstractDelimiter >> isBoth [
 
 { #category : #accessing }
 GHMAbstractDelimiter >> isCloser [
-	self subclassResponsibility 
+	^ self subclassResponsibility 
 ]
 
 { #category : #accessing }
 GHMAbstractDelimiter >> isOpener [
-	self subclassResponsibility 
+	^ self subclassResponsibility 
 ]
 
 { #category : #accessing }
@@ -49,5 +49,5 @@ GHMAbstractDelimiter >> size [
 
 { #category : #accessing }
 GHMAbstractDelimiter >> type [
-	self subclassResponsibility 
+	^ self subclassResponsibility 
 ]

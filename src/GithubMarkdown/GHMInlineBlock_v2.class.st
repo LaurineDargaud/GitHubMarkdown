@@ -38,6 +38,17 @@ GHMInlineBlock_v2 >> kind: aKind [
 	kind := aKind
 ]
 
+{ #category : #printing }
+GHMInlineBlock_v2 >> printOn: aStream [
+	aStream 
+		nextPut: $[;
+		nextPutAll: self substring;
+		nextPut: $];
+		nextPut: $(;
+		nextPutAll: self kind;
+		nextPut: $)
+]
+
 { #category : #accessing }
 GHMInlineBlock_v2 >> start [ 	
 	^ start

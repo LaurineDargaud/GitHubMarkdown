@@ -23,16 +23,15 @@ GHMInlineSplitter >> emphasisProcess [
 	"1. search first opener"
 	first_opener_index := delimiter_stack findFirst: [ :delimiter | delimiter isOpener ].
 	"1. a. opener not found = exit"
-	first_opener_index isZero ifTrue: [ "quit" ].
+	first_opener_index isZero ifTrue: [ ^ result_array asArray ].
 	"1. b. opener found"
 	first_opener := delimiter_stack at: first_opener_index.
 	
 	"2. search first closer with same type after opener found index"	
 	associate_closer_index := (delimiter_stack allButFirst: first_opener_index) findFirst: [ :delimiter | delimiter isCloser and: delimiter type = first_opener type].
-	"2. a. first closer with same type not found"
+	"2. a. first closer with same type not found >> when a pair isn't complete"
 	associate_closer_index isZero ifTrue: [ 
 		delimiter_stack := delimiter_stack withIndexSelect: [ :value :i | (i = first_opener_index) not ].
-		self halt.
 		^ self emphasisProcess.
 	].
 	"2. b. closer found"
@@ -44,8 +43,7 @@ GHMInlineSplitter >> emphasisProcess [
 			to: associate_closer index - associate_closer size
 			withKind: first_opener type
 			withString: string).
-	delimiter_stack := delimiter_stack withIndexSelect: [:value :i | i > first_opener_index and: i < associate_closer_index ].
-	self halt.
+	delimiter_stack := delimiter_stack withIndexSelect: [:value :i | (i between: first_opener_index and: associate_closer_index) not ].
 	^ self emphasisProcess
 	
 	
@@ -102,8 +100,8 @@ GHMInlineSplitter >> searchForDelimiterAtHead: aChar [
 { #category : #public }
 GHMInlineSplitter >> start: aString [
 	delimiter_stack := Stack new.
-	result_array := Set new.
+	result_array := LinkedList new.
 	index := 1.
 	string := aString.
-	self read: aString
+	^ self read: aString
 ]
