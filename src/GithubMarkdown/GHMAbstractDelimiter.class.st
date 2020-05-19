@@ -54,6 +54,11 @@ GHMAbstractDelimiter >> markup [
 ]
 
 { #category : #accessing }
+GHMAbstractDelimiter >> size [
+	^ self markup size
+]
+
+{ #category : #accessing }
 GHMAbstractDelimiter >> type [
 	self subclassResponsibility 
 ]
