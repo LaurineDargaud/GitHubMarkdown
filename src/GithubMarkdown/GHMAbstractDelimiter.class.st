@@ -1,0 +1,59 @@
+Class {
+	#name : #GHMAbstractDelimiter,
+	#superclass : #Object,
+	#instVars : [
+		'isActive',
+		'index'
+	],
+	#category : #'GithubMarkdown-Model - inline'
+}
+
+{ #category : #accessing }
+GHMAbstractDelimiter class >> index: anIndex [
+	^ self new index: anIndex; isActive: true; yourself
+]
+
+{ #category : #accessing }
+GHMAbstractDelimiter >> index [
+	^ index
+]
+
+{ #category : #accessing }
+GHMAbstractDelimiter >> index: anInteger [
+	index := anInteger
+]
+
+{ #category : #accessing }
+GHMAbstractDelimiter >> isActive [
+	^ isActive
+]
+
+{ #category : #accessing }
+GHMAbstractDelimiter >> isActive: aBoolean [
+	isActive := aBoolean
+]
+
+{ #category : #testing }
+GHMAbstractDelimiter >> isBoth [
+	^ self isCloser and: self isOpener
+]
+
+{ #category : #accessing }
+GHMAbstractDelimiter >> isCloser [
+	self subclassResponsibility 
+]
+
+{ #category : #accessing }
+GHMAbstractDelimiter >> isOpener [
+	self subclassResponsibility 
+]
+
+{ #category : #accessing }
+GHMAbstractDelimiter >> markup [
+	^ self subclassResponsibility 
+]
+
+{ #category : #accessing }
+GHMAbstractDelimiter >> type [
+	self subclassResponsibility 
+]
