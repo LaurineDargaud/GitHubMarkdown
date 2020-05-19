@@ -23,8 +23,8 @@ GHMAbstractDelimiter >> index: anInteger [
 ]
 
 { #category : #testing }
-GHMAbstractDelimiter >> isBoth [
-	^ self isCloser and: self isOpener
+GHMAbstractDelimiter >> isActive [
+	^ true
 ]
 
 { #category : #accessing }

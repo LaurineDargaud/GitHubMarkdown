@@ -17,6 +17,13 @@ GHMInlineSplitter >> allDelimiters [
 ]
 
 { #category : #process }
+GHMInlineSplitter >> delimiterFoundProcess: aDelimiterSubclass [
+	(aDelimiterSubclass new type == 'linkNameCloser') 
+		ifTrue: [ ^ self linkOrImageProcess ]			
+		ifFalse: [ delimiter_stack add: (aDelimiterSubclass index: index)]
+]
+
+{ #category : #process }
 GHMInlineSplitter >> emphasisProcess [
 	| first_opener first_opener_index associate_closer associate_closer_index |
 	
@@ -40,7 +47,7 @@ GHMInlineSplitter >> emphasisProcess [
 	result_array add: 
 		(GHMInlineBlock_v2
 			from: first_opener index + first_opener size
-			to: associate_closer index - associate_closer size
+			to: associate_closer index - 1
 			withKind: first_opener type
 			withString: string).
 	delimiter_stack := delimiter_stack withIndexSelect: [:value :i | (i between: first_opener_index and: associate_closer_index) not ].
@@ -56,45 +63,44 @@ GHMInlineSplitter >> index [
 	^ index
 ]
 
-{ #category : #accessing }
+{ #category : #actions }
 GHMInlineSplitter >> indexIncrement [
-	index := self index + 1
+	^ self indexIncrement: 1
+]
+
+{ #category : #actions }
+GHMInlineSplitter >> indexIncrement: anInteger [
+	index := self index + anInteger
 ]
 
 { #category : #initialization }
 GHMInlineSplitter >> initialize [
 	allDelimiters := Dictionary new.
-	GHMAbstractDelimiter subclasses do: [ :subclass | allDelimiters at: subclass new markup put: (subclass name asClass)].
+	GHMAbstractDelimiter subclasses select: [ :subclass | subclass new isActive ] thenDo: [ :subclass | allDelimiters at: subclass new markup put: (subclass name asClass)].
 ]
 
 { #category : #process }
 GHMInlineSplitter >> linkOrImageProcess [
-	
+	|linkNameCloser_index linkNameCloser |
+	"1. search the linkname closer delimiter"
+	linkNameCloser_index := delimiter_stack findLast: [ :delimiter | delimiter isOpener and: delimiter type = #linkName].
 ]
 
 { #category : #actions }
 GHMInlineSplitter >> read: aString [
-	| head rest |
-	aString ifNotEmpty: [ 
-		head := aString first.
-		rest := aString allButFirst.
-		self searchForDelimiterAtHead: head.
-		self indexIncrement.
-		^ self read: rest.
-		 ]
-	ifEmpty:
-		[ ^ self emphasisProcess ]
-]
-
-{ #category : #actions }
-GHMInlineSplitter >> searchForDelimiterAtHead: aChar [
-	allDelimiters at: (aChar asString)
-		ifPresent: [ :class |
-			(class new type == 'linkNameCloser') 
-				ifTrue: [ ^ self linkOrImageProcess ]			
-				ifFalse: [ delimiter_stack add: (class index: index)]
-			 ] 
-		ifAbsent: [ "do nothing" ]
+	| incrementation |
+	incrementation := 1.
+	aString ifEmpty: [ ^ self emphasisProcess ].
+	allDelimiters keysDo: [ :key | 
+		(aString beginsWith: key) 
+			ifTrue: [ 
+				self delimiterFoundProcess: (allDelimiters at: key).
+				incrementation := key size.
+			].
+	].
+	self indexIncrement: incrementation.
+	^ self read: (aString allButFirst: incrementation)
+	
 ]
 
 { #category : #public }

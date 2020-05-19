@@ -16,7 +16,7 @@ GHMBoldDelimiter >> isOpener [
 
 { #category : #accessing }
 GHMBoldDelimiter >> markup [
-	^ '*'
+	^ '**'
 ]
 
 { #category : #accessing }
