@@ -18,39 +18,49 @@ GHMInlineSplitter >> allDelimiters [
 
 { #category : #process }
 GHMInlineSplitter >> emphasisProcess [
-]
-
-{ #category : #process }
-GHMInlineSplitter >> emphasisProcessWithCurrentPosition [
-	^ self emphasisProcessWithCurrentPosition: 1 withOpenersBottom: 1 withStackBottom: 1
-]
-
-{ #category : #process }
-GHMInlineSplitter >> emphasisProcessWithCurrentPosition: aCurrentPosition withOpenersBottom: anOpenersBottom withStackBottom: aStackBottom [
-	| current_position openers_bottom stack_bottom first_closer first_closer_index associate_opener associate_opener_index |
+	| first_opener first_opener_index associate_closer associate_closer_index |
 	
-	"0. initialization"
-	current_position := aCurrentPosition.
-	openers_bottom := anOpenersBottom.
-	stack_bottom := aStackBottom.
+	"1. search first opener"
+	first_opener_index := delimiter_stack findFirst: [ :delimiter | delimiter isOpener ].
+	"1. a. opener not found = exit"
+	first_opener_index isZero ifTrue: [ "quit" ].
+	"1. b. opener found"
+	first_opener := delimiter_stack at: first_opener_index.
 	
-	"1. search first closer"
-	first_closer_index := delimiter_stack findFirst: [ :delimiter | delimiter isCloser ].
-	"1. a. closer not found = exit"
-	first_closer_index isZero ifTrue: [ ^ self exitProcess ].
-	"1. b. closer found"
-	first_closer := delimiter_stack at: first_closer_index.
-	
-	"2. search first opener with same type pulling up from found closer index"
-	associate_opener_index := (delimiter_stack allButLast: delimiter_stack - first_closer_index ) findLast: [ :delimiter | delimiter isOpener and: delimiter type = first_closer type].
-	"2. a. first opener not found"
-	associate_opener_index isZero ifTrue: [  ].
-	"2. b. opener found"
-	associate_opener := delimiter_stack at: associate_opener_index.
+	"2. search first closer with same type after opener found index"	
+	associate_closer_index := (delimiter_stack allButFirst: first_opener_index) findFirst: [ :delimiter | delimiter isCloser and: delimiter type = first_opener type].
+	"2. a. first closer with same type not found"
+	associate_closer_index isZero ifTrue: [ 
+		delimiter_stack := delimiter_stack withIndexSelect: [ :value :i | (i = first_opener_index) not ].
+		self halt.
+		^ self emphasisProcess.
+	].
+	"2. b. closer found"
+	associate_closer_index := associate_closer_index + first_opener_index.
+	associate_closer := delimiter_stack at: associate_closer_index.
+	result_array add: 
+		(GHMInlineBlock_v2
+			from: first_opener index + first_opener size
+			to: associate_closer index - associate_closer size
+			withKind: first_opener type
+			withString: string).
+	delimiter_stack := delimiter_stack withIndexSelect: [:value :i | i > first_opener_index and: i < associate_closer_index ].
+	self halt.
+	^ self emphasisProcess
 	
 	
 	
 		
+]
+
+{ #category : #accessing }
+GHMInlineSplitter >> index [
+	^ index
+]
+
+{ #category : #accessing }
+GHMInlineSplitter >> indexIncrement [
+	index := self index + 1
 ]
 
 { #category : #initialization }
@@ -71,7 +81,7 @@ GHMInlineSplitter >> read: aString [
 		head := aString first.
 		rest := aString allButFirst.
 		self searchForDelimiterAtHead: head.
-		index := index + 1.
+		self indexIncrement.
 		^ self read: rest.
 		 ]
 	ifEmpty:
@@ -80,19 +90,20 @@ GHMInlineSplitter >> read: aString [
 
 { #category : #actions }
 GHMInlineSplitter >> searchForDelimiterAtHead: aChar [
-	allDelimiters at: aChar 
+	allDelimiters at: (aChar asString)
 		ifPresent: [ :class |
-			(class type == 'linkNameCloser') 
+			(class new type == 'linkNameCloser') 
 				ifTrue: [ ^ self linkOrImageProcess ]			
 				ifFalse: [ delimiter_stack add: (class index: index)]
 			 ] 
 		ifAbsent: [ "do nothing" ]
 ]
 
-{ #category : #actions }
+{ #category : #public }
 GHMInlineSplitter >> start: aString [
 	delimiter_stack := Stack new.
-	result_array := SequenceableCollection new.
-	index = 1.
+	result_array := Set new.
+	index := 1.
+	string := aString.
 	self read: aString
 ]

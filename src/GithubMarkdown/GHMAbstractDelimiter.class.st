@@ -2,7 +2,6 @@ Class {
 	#name : #GHMAbstractDelimiter,
 	#superclass : #Object,
 	#instVars : [
-		'isActive',
 		'index'
 	],
 	#category : #'GithubMarkdown-Model - inline'
@@ -10,7 +9,7 @@ Class {
 
 { #category : #accessing }
 GHMAbstractDelimiter class >> index: anIndex [
-	^ self new index: anIndex; isActive: true; yourself
+	^ self new index: anIndex; yourself
 ]
 
 { #category : #accessing }
@@ -21,16 +20,6 @@ GHMAbstractDelimiter >> index [
 { #category : #accessing }
 GHMAbstractDelimiter >> index: anInteger [
 	index := anInteger
-]
-
-{ #category : #accessing }
-GHMAbstractDelimiter >> isActive [
-	^ isActive
-]
-
-{ #category : #accessing }
-GHMAbstractDelimiter >> isActive: aBoolean [
-	isActive := aBoolean
 ]
 
 { #category : #testing }
