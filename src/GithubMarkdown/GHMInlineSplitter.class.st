@@ -71,7 +71,7 @@ GHMInlineSplitter >> emphasisProcess [
 			to: associate_closer index + associate_closer size - 1
 			withKind: first_opener type
 			withSubstring: correctSubstring).
-	delimiter_stack := delimiter_stack withIndexSelect: [:value :i | (i between: first_opener_index and: associate_closer_index) not ].
+	delimiter_stack := delimiter_stack withIndexSelect: [:value :i | (i = first_opener_index) not and: (i = associate_closer_index) not ].
 	^ self emphasisProcess
 	
 		
