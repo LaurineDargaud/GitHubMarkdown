@@ -11,6 +11,26 @@ Class {
 	#category : #'GithubMarkdown-Model - inline'
 }
 
+{ #category : #process }
+GHMInlineSplitter >> addBasicTextBlocks [
+	|string_array |
+	string_array := string asArray.
+	result_array do: [ :anInlineBlock | anInlineBlock start to: anInlineBlock end do: [ :k | string_array at: k put: nil ] ].
+	string_array splitOn: nil indicesDo: [ :start :end | 
+		| substring |
+		substring := string collect: [ :c | c ] from: start to: end.
+		(substring isEmpty) ifFalse: [ 
+			result_array add: 
+				(GHMInlineBlock_v2
+					from: start
+					to: end
+					withKind: #basic
+					withSubstring: substring )
+			 ]
+	].
+	^ (result_array sort: [ :block :block2 | block start < block2 start ]) asArray
+]
+
 { #category : #accessing }
 GHMInlineSplitter >> allDelimiters [
 	^ allDelimiters
@@ -25,12 +45,12 @@ GHMInlineSplitter >> delimiterFoundProcess: aDelimiterSubclass [
 
 { #category : #process }
 GHMInlineSplitter >> emphasisProcess [
-	| first_opener first_opener_index associate_closer associate_closer_index |
+	| first_opener first_opener_index associate_closer associate_closer_index correctSubstring |
 	
 	"1. search first opener"
 	first_opener_index := delimiter_stack findFirst: [ :delimiter | delimiter isOpener ].
 	"1. a. opener not found = exit"
-	first_opener_index isZero ifTrue: [ ^ result_array asArray ].
+	first_opener_index isZero ifTrue: [ ^ self addBasicTextBlocks].
 	"1. b. opener found"
 	first_opener := delimiter_stack at: first_opener_index.
 	
@@ -44,16 +64,15 @@ GHMInlineSplitter >> emphasisProcess [
 	"2. b. closer found"
 	associate_closer_index := associate_closer_index + first_opener_index.
 	associate_closer := delimiter_stack at: associate_closer_index.
+	correctSubstring := string collect: [ :c | c ] from: first_opener index + first_opener size to: associate_closer index - 1.
 	result_array add: 
 		(GHMInlineBlock_v2
-			from: first_opener index + first_opener size
-			to: associate_closer index - 1
+			from: first_opener index
+			to: associate_closer index + associate_closer size - 1
 			withKind: first_opener type
-			withString: string).
+			withSubstring: correctSubstring).
 	delimiter_stack := delimiter_stack withIndexSelect: [:value :i | (i between: first_opener_index and: associate_closer_index) not ].
 	^ self emphasisProcess
-	
-	
 	
 		
 ]

@@ -11,10 +11,8 @@ Class {
 }
 
 { #category : #'instance creation' }
-GHMInlineBlock_v2 class >> from: aStartInteger to: anEndInteger withKind: aKind withString: aString [
-	| correctSubstring |
-	correctSubstring := aString collect: [ :c | c ] from: aStartInteger to: anEndInteger.
-	^ self new start: aStartInteger; end: anEndInteger; kind: aKind; substring: correctSubstring; yourself.
+GHMInlineBlock_v2 class >> from: aStartInteger to: anEndInteger withKind: aKind withSubstring: aString [
+	^ self new start: aStartInteger; end: anEndInteger; kind: aKind; substring: aString; yourself.
 	
 ]
 
@@ -40,13 +38,19 @@ GHMInlineBlock_v2 >> kind: aKind [
 
 { #category : #printing }
 GHMInlineBlock_v2 >> printOn: aStream [
-	aStream 
-		nextPut: $[;
-		nextPutAll: self substring;
-		nextPut: $];
-		nextPut: $(;
-		nextPutAll: self kind;
-		nextPut: $)
+	(self kind == #basic) 
+		ifTrue: [ 
+			aStream nextPutAll: self substring
+		] 
+		ifFalse: [ 
+			aStream nextPut: $[;
+				nextPutAll: self substring;
+				nextPut: $];
+				nextPut: $(;
+				nextPutAll: self kind;
+				nextPut: $) 
+		]
+			
 ]
 
 { #category : #accessing }
