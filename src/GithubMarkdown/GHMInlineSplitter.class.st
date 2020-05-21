@@ -12,23 +12,25 @@ Class {
 }
 
 { #category : #process }
-GHMInlineSplitter >> addBasicTextBlocks [
-	|string_array |
+GHMInlineSplitter >> addBasicTextBlocksWithResult: aResultArray withStart: startString withEnd: endString [
+	| string_array |
 	string_array := string asArray.
-	result_array do: [ :anInlineBlock | anInlineBlock start to: anInlineBlock end do: [ :k | string_array at: k put: nil ] ].
+	string_array doWithIndex: [ :each :i | (i between: startString and: endString) ifFalse: [ string_array at: i put: nil ]  ].
+	aResultArray do: [ :anInlineBlock | anInlineBlock start to: anInlineBlock end do: [ :k | string_array at: k put: nil ] ].
 	string_array splitOn: nil indicesDo: [ :start :end | 
 		| substring |
 		substring := string collect: [ :c | c ] from: start to: end.
 		(substring isEmpty) ifFalse: [ 
-			result_array add: 
+			aResultArray add: 
 				(GHMInlineBlock_v2
 					from: start
 					to: end
 					withKind: #basic
-					withSubstring: substring )
+					withSubstring: substring
+					withChildren: Array empty)
 			 ]
 	].
-	^ (result_array sort: [ :block :block2 | block start < block2 start ]) asArray
+	^ (aResultArray sort: [ :block :block2 | block start < block2 start ]) asArray
 ]
 
 { #category : #accessing }
@@ -45,34 +47,45 @@ GHMInlineSplitter >> delimiterFoundProcess: aDelimiterSubclass [
 
 { #category : #process }
 GHMInlineSplitter >> emphasisProcess [
-	| first_opener first_opener_index associate_closer associate_closer_index correctSubstring |
-	
+	result_array := self emphasisProcessWithStack: delimiter_stack withResult: LinkedList new withStart: 1 withEnd: string size.
+	^ result_array
+]
+
+{ #category : #process }
+GHMInlineSplitter >> emphasisProcessWithStack: aStack withResult: aResultArray withStart: aStartSubstringIndex withEnd: anEndSubstringIndex [
+	| first_opener first_opener_index associate_closer associate_closer_index correctSubstring children start end |
 	"1. search first opener"
-	first_opener_index := delimiter_stack findFirst: [ :delimiter | delimiter isOpener ].
+	first_opener_index := aStack findFirst: [ :delimiter | delimiter isOpener ].
 	"1. a. opener not found = exit"
-	first_opener_index isZero ifTrue: [ ^ self addBasicTextBlocks].
+	first_opener_index isZero ifTrue: [ ^ self addBasicTextBlocksWithResult: aResultArray withStart: aStartSubstringIndex withEnd: anEndSubstringIndex].
 	"1. b. opener found"
-	first_opener := delimiter_stack at: first_opener_index.
+	first_opener := aStack at: first_opener_index.
 	
 	"2. search first closer with same type after opener found index"	
-	associate_closer_index := (delimiter_stack allButFirst: first_opener_index) findFirst: [ :delimiter | delimiter isCloser and: delimiter type = first_opener type].
+	associate_closer_index := (aStack allButFirst: first_opener_index) findFirst: [ :delimiter | delimiter isCloser and: delimiter type = first_opener type].
 	"2. a. first closer with same type not found >> when a pair isn't complete"
 	associate_closer_index isZero ifTrue: [ 
-		delimiter_stack := delimiter_stack withIndexSelect: [ :value :i | (i = first_opener_index) not ].
-		^ self emphasisProcess.
+		^ self emphasisProcessWithStack: (aStack withIndexSelect: [ :value :i | (i = first_opener_index) not ]) withResult: aResultArray withStart: aStartSubstringIndex withEnd: anEndSubstringIndex.
 	].
 	"2. b. closer found"
 	associate_closer_index := associate_closer_index + first_opener_index.
-	associate_closer := delimiter_stack at: associate_closer_index.
-	correctSubstring := string collect: [ :c | c ] from: first_opener index + first_opener size to: associate_closer index - 1.
-	result_array add: 
+	associate_closer := aStack at: associate_closer_index.
+	start := first_opener index + first_opener size.
+	end := associate_closer index - 1.
+	correctSubstring := string collect: [ :c | c ] from: start to: end.
+	"case: nested"
+	(associate_closer_index = (first_opener_index + 1))
+		ifTrue: [ children := Array empty ]
+		ifFalse: [ children := self emphasisProcessWithStack: (aStack withIndexSelect: [:value :i | i between: first_opener_index + 1 and: associate_closer_index - 1 ]) withResult: LinkedList new withStart: start withEnd: end ].
+	"add in result_array"
+	aResultArray add: 
 		(GHMInlineBlock_v2
 			from: first_opener index
 			to: associate_closer index + associate_closer size - 1
 			withKind: first_opener type
-			withSubstring: correctSubstring).
-	delimiter_stack := delimiter_stack withIndexSelect: [:value :i | (i = first_opener_index) not and: (i = associate_closer_index) not ].
-	^ self emphasisProcess
+			withSubstring: correctSubstring
+			withChildren: children).
+	^ self emphasisProcessWithStack: (aStack withIndexSelect: [:value :i | (i between: first_opener_index and: associate_closer_index) not ]) withResult: aResultArray withStart: aStartSubstringIndex withEnd: anEndSubstringIndex
 	
 		
 ]
@@ -125,7 +138,6 @@ GHMInlineSplitter >> read: aString [
 { #category : #public }
 GHMInlineSplitter >> start: aString [
 	delimiter_stack := Stack new.
-	result_array := LinkedList new.
 	index := 1.
 	string := aString.
 	^ self read: aString

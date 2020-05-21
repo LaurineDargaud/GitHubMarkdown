@@ -5,15 +5,31 @@ Class {
 		'substring',
 		'start',
 		'end',
-		'kind'
+		'kind',
+		'children'
 	],
 	#category : #'GithubMarkdown-Model - inline'
 }
 
 { #category : #'instance creation' }
-GHMInlineBlock_v2 class >> from: aStartInteger to: anEndInteger withKind: aKind withSubstring: aString [
-	^ self new start: aStartInteger; end: anEndInteger; kind: aKind; substring: aString; yourself.
+GHMInlineBlock_v2 class >> from: aStartInteger to: anEndInteger withKind: aKind withSubstring: aString withChildren: aChildren [
+	^ self new start: aStartInteger; end: anEndInteger; kind: aKind; substring: aString; children: aChildren; yourself.
 	
+]
+
+{ #category : #accessing }
+GHMInlineBlock_v2 >> children [
+	^ children
+]
+
+{ #category : #accessing }
+GHMInlineBlock_v2 >> children: anArray [
+	children := anArray
+]
+
+{ #category : #printing }
+GHMInlineBlock_v2 >> childrenPrintOn [
+	^ ((children asString) allButFirst: 9) allButLast
 ]
 
 { #category : #accessing }
@@ -43,8 +59,10 @@ GHMInlineBlock_v2 >> printOn: aStream [
 			aStream nextPutAll: self substring
 		] 
 		ifFalse: [ 
+			|contents|
+			children ifEmpty: [ contents := self substring ] ifNotEmpty: [ contents := self childrenPrintOn ].
 			aStream nextPut: $[;
-				nextPutAll: self substring;
+				nextPutAll: contents;
 				nextPut: $];
 				nextPut: $(;
 				nextPutAll: self kind;

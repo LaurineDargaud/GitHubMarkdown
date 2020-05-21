@@ -75,11 +75,10 @@ GHMInlineSplitterTest >> testSplitBlockMultipleSequenceAnnotation [
 GHMInlineSplitterTest >> testSplitBlockNested [
 	"Test with nested annotations"
 	| res |
-	self skip.
 	res := self splitter start: 'abc**bold_italic_bold**xyz'.
 	self
 		assert: (res collect: [ :x | x printString ])
-		equals: {'abc' . '[bold [italic] bold]' . 'xyz'}
+		equals: {'abc' . '[bold [italic](italic) bold](bold)' . 'xyz'}
 ]
 
 { #category : #tests }
