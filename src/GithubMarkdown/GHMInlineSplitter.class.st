@@ -11,26 +11,9 @@ Class {
 	#category : #'GithubMarkdown-Model - inline'
 }
 
-{ #category : #process }
-GHMInlineSplitter >> addBasicTextBlocksWithResult: aResultArray withStart: startString withEnd: endString [
-	| string_array |
-	string_array := string asArray.
-	string_array doWithIndex: [ :each :i | (i between: startString and: endString) ifFalse: [ string_array at: i put: nil ]  ].
-	aResultArray do: [ :anInlineBlock | anInlineBlock start to: anInlineBlock end do: [ :k | string_array at: k put: nil ] ].
-	string_array splitOn: nil indicesDo: [ :start :end | 
-		| substring |
-		substring := string collect: [ :c | c ] from: start to: end.
-		(substring isEmpty) ifFalse: [ 
-			aResultArray add: 
-				(GHMInlineBlock_v2
-					from: start
-					to: end
-					withKind: #basic
-					withSubstring: substring
-					withChildren: Array empty)
-			 ]
-	].
-	^ (aResultArray sort: [ :block :block2 | block start < block2 start ]) asArray
+{ #category : #'class references' }
+GHMInlineSplitter >> abstractDelimiterClass [
+	^ GHMAbstractDelimiter
 ]
 
 { #category : #accessing }
@@ -47,47 +30,13 @@ GHMInlineSplitter >> delimiterFoundProcess: aDelimiterSubclass [
 
 { #category : #process }
 GHMInlineSplitter >> emphasisProcess [
-	result_array := self emphasisProcessWithStack: delimiter_stack withResult: LinkedList new withStart: 1 withEnd: string size.
+	result_array := self emphasisProcessClass startWithStack: delimiter_stack withResult: LinkedList new withStart: 1 withEnd: string size withString: string.
 	^ result_array
 ]
 
-{ #category : #process }
-GHMInlineSplitter >> emphasisProcessWithStack: aStack withResult: aResultArray withStart: aStartSubstringIndex withEnd: anEndSubstringIndex [
-	| first_opener first_opener_index associate_closer associate_closer_index correctSubstring children start end |
-	"1. search first opener"
-	first_opener_index := aStack findFirst: [ :delimiter | delimiter isOpener ].
-	"1. a. opener not found = exit"
-	first_opener_index isZero ifTrue: [ ^ self addBasicTextBlocksWithResult: aResultArray withStart: aStartSubstringIndex withEnd: anEndSubstringIndex].
-	"1. b. opener found"
-	first_opener := aStack at: first_opener_index.
-	
-	"2. search first closer with same type after opener found index"	
-	associate_closer_index := (aStack allButFirst: first_opener_index) findFirst: [ :delimiter | delimiter isCloser and: delimiter type = first_opener type].
-	"2. a. first closer with same type not found >> when a pair isn't complete"
-	associate_closer_index isZero ifTrue: [ 
-		^ self emphasisProcessWithStack: (aStack withIndexSelect: [ :value :i | (i = first_opener_index) not ]) withResult: aResultArray withStart: aStartSubstringIndex withEnd: anEndSubstringIndex.
-	].
-	"2. b. closer found"
-	associate_closer_index := associate_closer_index + first_opener_index.
-	associate_closer := aStack at: associate_closer_index.
-	start := first_opener index + first_opener size.
-	end := associate_closer index - 1.
-	correctSubstring := string collect: [ :c | c ] from: start to: end.
-	"case: nested"
-	(associate_closer_index = (first_opener_index + 1))
-		ifTrue: [ children := Array empty ]
-		ifFalse: [ children := self emphasisProcessWithStack: (aStack withIndexSelect: [:value :i | i between: first_opener_index + 1 and: associate_closer_index - 1 ]) withResult: LinkedList new withStart: start withEnd: end ].
-	"add in result_array"
-	aResultArray add: 
-		(GHMInlineBlock_v2
-			from: first_opener index
-			to: associate_closer index + associate_closer size - 1
-			withKind: first_opener type
-			withSubstring: correctSubstring
-			withChildren: children).
-	^ self emphasisProcessWithStack: (aStack withIndexSelect: [:value :i | (i between: first_opener_index and: associate_closer_index) not ]) withResult: aResultArray withStart: aStartSubstringIndex withEnd: anEndSubstringIndex
-	
-		
+{ #category : #'class references' }
+GHMInlineSplitter >> emphasisProcessClass [
+	^ GHMInlineEmphasisProcess
 ]
 
 { #category : #accessing }
@@ -108,7 +57,7 @@ GHMInlineSplitter >> indexIncrement: anInteger [
 { #category : #initialization }
 GHMInlineSplitter >> initialize [
 	allDelimiters := Dictionary new.
-	GHMAbstractDelimiter subclasses select: [ :subclass | subclass new isActive ] thenDo: [ :subclass | allDelimiters at: subclass new markup put: (subclass name asClass)].
+	self abstractDelimiterClass subclasses select: [ :subclass | subclass new isActive ] thenDo: [ :subclass | allDelimiters at: subclass new markup put: (subclass name asClass)].
 ]
 
 { #category : #process }
