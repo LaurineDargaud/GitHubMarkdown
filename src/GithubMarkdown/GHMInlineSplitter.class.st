@@ -30,7 +30,7 @@ GHMInlineSplitter >> delimiterFoundProcess: aDelimiterSubclass [
 
 { #category : #process }
 GHMInlineSplitter >> emphasisProcess [
-	result_array := self emphasisProcessClass startWithStack: delimiter_stack withResult: LinkedList new withStart: 1 withEnd: string size withString: string.
+	result_array := self emphasisProcessClass startWithStack: delimiter_stack withString: string.
 	^ result_array
 ]
 

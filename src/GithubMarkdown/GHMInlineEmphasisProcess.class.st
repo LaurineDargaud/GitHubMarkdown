@@ -1,3 +1,14 @@
+"
+I am a recursive algorithm to find different kinds of emphasis i.e. inline formats in a text line.
+
+To proceed, call my constructor which start automatically the emphasis process.
+
+I need:
+- stack = stack of delimiters determined by the inline splitter algorithm
+- string = the initial text line
+
+At the end, I return an array of GHMInlineBlock which represents the initial text line.
+"
 Class {
 	#name : #GHMInlineEmphasisProcess,
 	#superclass : #Object,
@@ -23,6 +34,11 @@ GHMInlineEmphasisProcess class >> startWithStack: aStack withResult: aResultArra
 	| newProcess |
 	newProcess := self new stack: aStack; result: aResultArray; start: aStartSubstringIndex; end: anEndSubstringIndex; string: aString; yourself.
 	^ newProcess emphasisProcess.
+]
+
+{ #category : #'new & start' }
+GHMInlineEmphasisProcess class >> startWithStack: aStack withString: aString [
+	^ self startWithStack: aStack withResult: LinkedList new withStart: 1 withEnd: aString size withString: aString
 ]
 
 { #category : #actions }
