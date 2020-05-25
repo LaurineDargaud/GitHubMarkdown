@@ -20,10 +20,10 @@ Class {
 		'end',
 		'startIndex',
 		'endIndex',
-		'first_opener',
-		'first_opener_index',
-		'associate_closer',
-		'associate_closer_index',
+		'firstOpener',
+		'firstOpenerIndex',
+		'associateCloser',
+		'associateCloserIndex',
 		'children'
 	],
 	#category : #'GithubMarkdown-Model - inline'
@@ -66,7 +66,7 @@ GHMInlineEmphasisProcess >> addBasicTextBlocks [
 { #category : #actions }
 GHMInlineEmphasisProcess >> childrenInNestedCase [
 	^ self class 
-		startWithStack: (stack withIndexSelect: [:value :i | i between: first_opener_index + 1 and: associate_closer_index - 1 ]) 
+		startWithStack: (stack withIndexSelect: [:value :i | i between: firstOpenerIndex + 1 and: associateCloserIndex - 1 ]) 
 		withResult: LinkedList new 
 		withStart: startIndex 
 		withEnd: endIndex 
@@ -77,35 +77,35 @@ GHMInlineEmphasisProcess >> childrenInNestedCase [
 GHMInlineEmphasisProcess >> emphasisProcess [
 	| correctSubstring |
 	"1. search first opener. If not found, exit case."
-	first_opener_index := stack findFirst: [ :delimiter | delimiter isOpener ].
-	first_opener_index isZero 
+	firstOpenerIndex := stack findFirst: [ :delimiter | delimiter isOpener ].
+	firstOpenerIndex isZero 
 		ifTrue: [ ^ self addBasicTextBlocks ].
-	first_opener := stack at: first_opener_index.
+	firstOpener := stack at: firstOpenerIndex.
 	"2. search first closer with same type, just after. If not found, pair isn't complete so we skip it and keep going."	
-	associate_closer_index := (stack allButFirst: first_opener_index) findFirst: [ :delimiter | delimiter isCloser and: delimiter type = first_opener type].
-	associate_closer_index isZero 
+	associateCloserIndex := (stack allButFirst: firstOpenerIndex) findFirst: [ :delimiter | delimiter isCloser and: delimiter type = firstOpener type].
+	associateCloserIndex isZero 
 		ifTrue: [ 
-			stack := (stack withIndexSelect: [ :value :i | (i = first_opener_index) not ]).
+			stack := (stack withIndexSelect: [ :value :i | (i = firstOpenerIndex) not ]).
 			^ self emphasisProcess ].
 	"3. translate index in delimiters stack"
-	associate_closer_index := associate_closer_index + first_opener_index.
-	associate_closer := stack at: associate_closer_index.	
+	associateCloserIndex := associateCloserIndex + firstOpenerIndex.
+	associateCloser := stack at: associateCloserIndex.	
 	"4. set substring in global string concerned by found emphasis"
-	startIndex := first_opener index + first_opener size.
-	endIndex := associate_closer index - 1.
+	startIndex := firstOpener index + firstOpener size.
+	endIndex := associateCloser index - 1.
 	correctSubstring := string collect: [ :c | c ] from: startIndex to: endIndex.
 	"5. are we in a nested emphasis case?"
 	self processNestedCase.
 	"6. add in result_array"
 	result add: 
 		(self inlineBlockClass
-			from: first_opener index
-			to: associate_closer index + associate_closer size - 1
-			withKind: first_opener type
+			from: firstOpener index
+			to: associateCloser index + associateCloser size - 1
+			withKind: firstOpener type
 			withSubstring: correctSubstring
 			withChildren: children).
 	"7. keep going"
-	stack := (stack withIndexSelect: [:value :i | (i between: first_opener_index and: associate_closer_index) not ]).
+	stack := (stack withIndexSelect: [:value :i | (i between: firstOpenerIndex and: associateCloserIndex) not ]).
 	^ self emphasisProcess
 	
 		
@@ -123,7 +123,7 @@ GHMInlineEmphasisProcess >> inlineBlockClass [
 
 { #category : #actions }
 GHMInlineEmphasisProcess >> processNestedCase [
-	(associate_closer_index = (first_opener_index + 1))
+	(associateCloserIndex = (firstOpenerIndex + 1))
 		ifTrue: [ children := Array empty ]
 		ifFalse: [ children := self childrenInNestedCase ].
 ]

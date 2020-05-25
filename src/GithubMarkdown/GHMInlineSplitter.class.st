@@ -3,9 +3,9 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'string',
-		'result_array',
+		'resultArray',
 		'index',
-		'delimiter_stack',
+		'delimiterStack',
 		'allDelimiters'
 	],
 	#category : #'GithubMarkdown-Model - inline'
@@ -25,13 +25,13 @@ GHMInlineSplitter >> allDelimiters [
 GHMInlineSplitter >> delimiterFoundProcess: aDelimiterSubclass [
 	(aDelimiterSubclass new type == 'linkNameCloser') 
 		ifTrue: [ ^ self linkOrImageProcess ]			
-		ifFalse: [ delimiter_stack add: (aDelimiterSubclass index: index)]
+		ifFalse: [ delimiterStack add: (aDelimiterSubclass index: index)]
 ]
 
 { #category : #process }
 GHMInlineSplitter >> emphasisProcess [
-	result_array := self emphasisProcessClass startWithStack: delimiter_stack withString: string.
-	^ result_array
+	resultArray := self emphasisProcessClass startWithStack: delimiterStack withString: string.
+	^ resultArray
 ]
 
 { #category : #'class references' }
@@ -62,9 +62,9 @@ GHMInlineSplitter >> initialize [
 
 { #category : #process }
 GHMInlineSplitter >> linkOrImageProcess [
-	|linkNameCloser_index linkNameCloser |
+	|linkNameCloser_index |
 	"1. search the linkname closer delimiter"
-	linkNameCloser_index := delimiter_stack findLast: [ :delimiter | delimiter isOpener and: delimiter type = #linkName].
+	linkNameCloser_index := delimiterStack findLast: [ :delimiter | delimiter isOpener and: delimiter type = #linkName].
 ]
 
 { #category : #actions }
@@ -86,7 +86,7 @@ GHMInlineSplitter >> read: aString [
 
 { #category : #public }
 GHMInlineSplitter >> start: aString [
-	delimiter_stack := Stack new.
+	delimiterStack := Stack new.
 	index := 1.
 	string := aString.
 	^ self read: aString
