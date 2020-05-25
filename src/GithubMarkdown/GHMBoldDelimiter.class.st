@@ -1,3 +1,6 @@
+"
+I am the delimiter for bold/strong format.
+"
 Class {
 	#name : #GHMBoldDelimiter,
 	#superclass : #GHMAbstractDelimiter,

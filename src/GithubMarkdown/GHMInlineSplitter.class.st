@@ -1,3 +1,8 @@
+"
+I represent the class which is in charge of splitting sentences to parse inline blocks.
+
+To proceed: `GHMInlineSplitter new start: stringToParse`
+"
 Class {
 	#name : #GHMInlineSplitter,
 	#superclass : #Object,

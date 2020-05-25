@@ -1,3 +1,6 @@
+"
+I am the delimiter for monospace/inline code format.
+"
 Class {
 	#name : #GHMMonospaceDelimiter,
 	#superclass : #GHMAbstractDelimiter,

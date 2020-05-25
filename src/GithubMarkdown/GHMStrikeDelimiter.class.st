@@ -1,3 +1,6 @@
+"
+I'm the delimiter for strikethrough format.
+"
 Class {
 	#name : #GHMStrikeDelimiter,
 	#superclass : #GHMAbstractDelimiter,

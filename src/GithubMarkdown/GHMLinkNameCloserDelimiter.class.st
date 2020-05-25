@@ -1,3 +1,6 @@
+"
+I am the closer delimiter for link name.
+"
 Class {
 	#name : #GHMLinkNameCloserDelimiter,
 	#superclass : #GHMAbstractDelimiter,

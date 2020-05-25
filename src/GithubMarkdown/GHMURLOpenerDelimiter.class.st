@@ -1,3 +1,6 @@
+"
+I'm the opener delimiter for URL.
+"
 Class {
 	#name : #GHMURLOpenerDelimiter,
 	#superclass : #GHMAbstractDelimiter,

@@ -1,3 +1,6 @@
+"
+I am the delimiter for italic/emphasis format.
+"
 Class {
 	#name : #GHMItalicDelimiter,
 	#superclass : #GHMAbstractDelimiter,

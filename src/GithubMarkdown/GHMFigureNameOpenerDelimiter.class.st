@@ -1,3 +1,6 @@
+"
+I am the opener delimiter for figure name.
+"
 Class {
 	#name : #GHMFigureNameOpenerDelimiter,
 	#superclass : #GHMAbstractDelimiter,

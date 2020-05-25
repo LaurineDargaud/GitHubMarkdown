@@ -1,3 +1,6 @@
+"
+I am the opener delimiter for link name.
+"
 Class {
 	#name : #GHMLinkNameOpenerDelimiter,
 	#superclass : #GHMAbstractDelimiter,

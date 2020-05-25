@@ -1,3 +1,6 @@
+"
+I am the closer delimiter for URL.
+"
 Class {
 	#name : #GHMURLCloserDelimiter,
 	#superclass : #GHMAbstractDelimiter,
