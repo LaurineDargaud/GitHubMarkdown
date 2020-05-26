@@ -13,3 +13,15 @@ Class {
 	#superclass : #GHMStartStopMarkupBlock,
 	#category : #'GithubMicrodown-Core'
 }
+
+{ #category : #markups }
+MicMetaDataBlock >> lineStartMarkup [
+
+	^ parser metaDataOpeningBlockMarkup
+]
+
+{ #category : #markups }
+MicMetaDataBlock >> lineStopMarkup [
+
+	^ parser metaDataClosingBlockMarkup 
+]

@@ -48,9 +48,9 @@ GHMStartStopMarkupBlock >> canConsumeLine: line [
 	"As soon as a line closes a code block, it does not accept anymore any line.
 	Indeed imagine 
 	
-	```
+	<
 	a line 
-	```
+	>
 	The first line was accepted by its parent (a root block and the code block got created.
 	then a line was accepting since done was false...
 	then the closing line was reached and the code block got closed.)
@@ -59,7 +59,7 @@ GHMStartStopMarkupBlock >> canConsumeLine: line [
 
 	isClosed
 		ifTrue: [ ^ false ].
-	isClosed := self doesLineStartWithMarkup: line.
+	isClosed := self doesLineStartWithStopMarkup: line.
 	^ true
 ]
 
@@ -68,6 +68,14 @@ GHMStartStopMarkupBlock >> doesLineStartWithMarkup: line [
 	"return if the line starts with a markup"
 
 	^ line beginsWith: self lineStartMarkup
+	
+]
+
+{ #category : #testing }
+GHMStartStopMarkupBlock >> doesLineStartWithStopMarkup: line [
+	"return if the line starts with a stop markup"
+
+	^ line beginsWith: self lineStopMarkup
 	
 ]
 
@@ -94,6 +102,12 @@ GHMStartStopMarkupBlock >> isClosed [
 
 { #category : #markups }
 GHMStartStopMarkupBlock >> lineStartMarkup [
+
+	^ self subclassResponsibility 
+]
+
+{ #category : #markups }
+GHMStartStopMarkupBlock >> lineStopMarkup [
 
 	^ self subclassResponsibility 
 ]

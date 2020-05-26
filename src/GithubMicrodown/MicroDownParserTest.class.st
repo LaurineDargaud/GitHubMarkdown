@@ -224,3 +224,19 @@ MicroDownParserTest >> testMathBlockOnMulitpleLines [
 support(I) \geq minsup \}'
 	
 ]
+
+{ #category : #'tests-metaData' }
+MicroDownParserTest >> testMetaData [
+
+	| source root math |
+	source := parser metaDataOpeningBlockMarkup , String cr, 
+	 '"author": "S Ducasse"', String cr,
+	parser metaDataClosingBlockMarkup, String cr.
+
+	root :=  parser parse: source.
+	self assert: root children size equals: 1.
+	math := root children first. 
+	self assert: (math isKindOf: MicMetaDataBlock). 
+	self assert: math body equals: '"author": "S Ducasse"'
+	
+]
