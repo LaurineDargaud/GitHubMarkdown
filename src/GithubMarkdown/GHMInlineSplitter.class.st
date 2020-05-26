@@ -61,15 +61,21 @@ GHMInlineSplitter >> indexIncrement: anInteger [
 
 { #category : #initialization }
 GHMInlineSplitter >> initialize [
+	super initialize.
 	allDelimiters := Dictionary new.
-	self abstractDelimiterClass subclasses select: [ :subclass | subclass new isActive ] thenDo: [ :subclass | allDelimiters at: subclass new markup put: (subclass name asClass)].
+	self flag: #torevisit. "why creating two times the class when we do not need at all."
+	self abstractDelimiterClass subclasses 
+		select: [ :subclass | subclass new isActive ] 
+		thenDo: [ :subclass | allDelimiters 
+										at: subclass new markup 
+										put: (self class environment at: subclass name) ].
 ]
 
 { #category : #process }
 GHMInlineSplitter >> linkOrImageProcess [
-	|linkNameCloser_index |
+	| linkNameCloserIndex |
 	"1. search the linkname closer delimiter"
-	linkNameCloser_index := delimiterStack findLast: [ :delimiter | delimiter isOpener and: delimiter type = #linkName].
+	linkNameCloserIndex := delimiterStack findLast: [ :delimiter | delimiter isOpener and: delimiter type = #linkName].
 ]
 
 { #category : #actions }

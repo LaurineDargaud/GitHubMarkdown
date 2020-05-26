@@ -1,3 +1,6 @@
+"
+This class contains tests about the new approach to identify inline elements inside blocks.
+"
 Class {
 	#name : #GHMInlineSplitterTest,
 	#superclass : #TestCase,
