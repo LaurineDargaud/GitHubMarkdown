@@ -62,6 +62,11 @@ GHMInlineSplitter >> indexIncrement: anInteger [
 { #category : #initialization }
 GHMInlineSplitter >> initialize [
 	super initialize.
+	self initializeDelimiters
+]
+
+{ #category : #initialization }
+GHMInlineSplitter >> initializeDelimiters [
 	allDelimiters := Dictionary new.
 	self flag: #torevisit. "why creating two times the class when we do not need at all."
 	self abstractDelimiterClass subclasses 
