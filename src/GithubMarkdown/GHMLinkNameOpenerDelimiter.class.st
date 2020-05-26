@@ -7,11 +7,6 @@ Class {
 	#category : #'GithubMarkdown-Model - inline'
 }
 
-{ #category : #testing }
-GHMLinkNameOpenerDelimiter class >> isActive [
-	^ false
-]
-
 { #category : #accessing }
 GHMLinkNameOpenerDelimiter class >> isCloser [
 	^ false
