@@ -1,6 +1,6 @@
 Class {
 	#name : #MicMathBlock,
-	#superclass : #GHMStartStopDelimitedBlock,
+	#superclass : #GHMSameMarkupDelimitedBlock,
 	#category : #'GithubMicrodown-Core'
 }
 
