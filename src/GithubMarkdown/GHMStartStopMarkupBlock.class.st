@@ -1,14 +1,8 @@
 "
-I'm abstract block for the logic of elements which are managed by a 
-
-startMarkup
-body 
-endMarkup 
-
-My subclass should define lineMarkup
+May be in the future we will be able to say that SameMarkup is the same as a StartStop with the same delimiter but for now we do not know. 
 "
 Class {
-	#name : #GHMSameMarkupDelimitedBlock,
+	#name : #GHMStartStopMarkupBlock,
 	#superclass : #GHMAbstractBlock,
 	#instVars : [
 		'isClosed',
@@ -19,7 +13,7 @@ Class {
 }
 
 { #category : #handle }
-GHMSameMarkupDelimitedBlock >> addLineAndReturnNextNode: line [
+GHMStartStopMarkupBlock >> addLineAndReturnNextNode: line [
 	"add line to this node. 
 	Notice, the action is allowed to create new nodes in the block tree.
 	Returns the node to handle next line - typically self."
@@ -34,23 +28,23 @@ GHMSameMarkupDelimitedBlock >> addLineAndReturnNextNode: line [
 ]
 
 { #category : #accessing }
-GHMSameMarkupDelimitedBlock >> body [
+GHMStartStopMarkupBlock >> body [
 	^ body
 ]
 
 { #category : #accessing }
-GHMSameMarkupDelimitedBlock >> body: anObject [
+GHMStartStopMarkupBlock >> body: anObject [
 	^ body := anObject
 ]
 
 { #category : #handle }
-GHMSameMarkupDelimitedBlock >> bodyFromLine: line [
+GHMStartStopMarkupBlock >> bodyFromLine: line [
 	
 	body := body ifNil: [ line ] ifNotNil: [ body , String cr , line ]
 ]
 
 { #category : #testing }
-GHMSameMarkupDelimitedBlock >> canConsumeLine: line [
+GHMStartStopMarkupBlock >> canConsumeLine: line [
 	"As soon as a line closes a code block, it does not accept anymore any line.
 	Indeed imagine 
 	
@@ -70,7 +64,7 @@ GHMSameMarkupDelimitedBlock >> canConsumeLine: line [
 ]
 
 { #category : #testing }
-GHMSameMarkupDelimitedBlock >> doesLineStartWithMarkup: line [
+GHMStartStopMarkupBlock >> doesLineStartWithMarkup: line [
 	"return if the line starts with a markup"
 
 	^ line beginsWith: self lineStartMarkup
@@ -78,28 +72,28 @@ GHMSameMarkupDelimitedBlock >> doesLineStartWithMarkup: line [
 ]
 
 { #category : #accessing }
-GHMSameMarkupDelimitedBlock >> firstLine [
+GHMStartStopMarkupBlock >> firstLine [
 	^ firstLine
 ]
 
 { #category : #accessing }
-GHMSameMarkupDelimitedBlock >> firstLine: anObject [
+GHMStartStopMarkupBlock >> firstLine: anObject [
 	firstLine := anObject
 ]
 
 { #category : #initialization }
-GHMSameMarkupDelimitedBlock >> initialize [
+GHMStartStopMarkupBlock >> initialize [
 	super initialize. 
 	isClosed := false
 ]
 
 { #category : #testing }
-GHMSameMarkupDelimitedBlock >> isClosed [
+GHMStartStopMarkupBlock >> isClosed [
 	^ isClosed		
 ]
 
 { #category : #markups }
-GHMSameMarkupDelimitedBlock >> lineStartMarkup [
+GHMStartStopMarkupBlock >> lineStartMarkup [
 
 	^ self subclassResponsibility 
 ]

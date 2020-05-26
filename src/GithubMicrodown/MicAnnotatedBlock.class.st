@@ -1,6 +1,12 @@
 "
-I'm an attempt to see how we can extend markdown parser.
-I should not be a subclass of CodeBlock since I want to be able to include lists and others. 
+I'm a block starting with !!text paragraph (@@note @@important in Pillar)
+
+!!note this is important so I used exclamatation mark.
+
+For now I do not accept top level blocks.
+
+Since there is no need to end the block with the marker it is not that nice to have it as subclass of SameStartEndMarkupDelimitedBlock.
+
 "
 Class {
 	#name : #MicAnnotatedBlock,

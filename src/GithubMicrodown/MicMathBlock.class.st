@@ -1,6 +1,15 @@
+"
+I'm a math environment
+
+&
+\frac{3}
+&
+
+may be in the future we should have \[ \]
+"
 Class {
 	#name : #MicMathBlock,
-	#superclass : #GHMSameMarkupDelimitedBlock,
+	#superclass : #GHMSameStartStopMarkupBlock,
 	#category : #'GithubMicrodown-Core'
 }
 

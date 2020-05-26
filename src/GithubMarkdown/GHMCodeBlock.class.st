@@ -11,7 +11,7 @@ line 3
 "
 Class {
 	#name : #GHMCodeBlock,
-	#superclass : #GHMSameMarkupDelimitedBlock,
+	#superclass : #GHMSameStartStopMarkupBlock,
 	#instVars : [
 		'arguments'
 	],
