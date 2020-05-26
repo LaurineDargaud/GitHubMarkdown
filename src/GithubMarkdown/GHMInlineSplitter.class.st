@@ -68,11 +68,10 @@ GHMInlineSplitter >> initialize [
 { #category : #initialization }
 GHMInlineSplitter >> initializeDelimiters [
 	allDelimiters := Dictionary new.
-	self flag: #torevisit. "why creating two times the class when we do not need at all."
 	self abstractDelimiterClass subclasses 
-		select: [ :subclass | subclass new isActive ] 
+		select: [ :subclass | subclass isActive ] 
 		thenDo: [ :subclass | allDelimiters 
-										at: subclass new markup 
+										at: subclass markup 
 										put: (self class environment at: subclass name) ].
 ]
 

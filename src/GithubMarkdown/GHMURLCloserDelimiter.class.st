@@ -8,8 +8,13 @@ Class {
 }
 
 { #category : #testing }
-GHMURLCloserDelimiter >> isActive [
+GHMURLCloserDelimiter class >> isActive [
 	^ false
+]
+
+{ #category : #accessing }
+GHMURLCloserDelimiter class >> markup [
+	^ ')'
 ]
 
 { #category : #accessing }
@@ -20,11 +25,6 @@ GHMURLCloserDelimiter >> isCloser [
 { #category : #accessing }
 GHMURLCloserDelimiter >> isOpener [
 	^ false
-]
-
-{ #category : #accessing }
-GHMURLCloserDelimiter >> markup [
-	^ ')'
 ]
 
 { #category : #accessing }

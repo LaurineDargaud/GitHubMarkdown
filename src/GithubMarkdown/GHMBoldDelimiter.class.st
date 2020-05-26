@@ -8,6 +8,11 @@ Class {
 }
 
 { #category : #accessing }
+GHMBoldDelimiter class >> markup [
+	^ '**'
+]
+
+{ #category : #accessing }
 GHMBoldDelimiter >> isCloser [
 	^ true
 ]
@@ -15,11 +20,6 @@ GHMBoldDelimiter >> isCloser [
 { #category : #accessing }
 GHMBoldDelimiter >> isOpener [
 	^ true
-]
-
-{ #category : #accessing }
-GHMBoldDelimiter >> markup [
-	^ '**'
 ]
 
 { #category : #accessing }

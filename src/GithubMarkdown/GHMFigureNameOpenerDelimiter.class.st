@@ -8,6 +8,11 @@ Class {
 }
 
 { #category : #accessing }
+GHMFigureNameOpenerDelimiter class >> markup [
+	^ '!['
+]
+
+{ #category : #accessing }
 GHMFigureNameOpenerDelimiter >> isCloser [
 	^ false
 ]
@@ -15,11 +20,6 @@ GHMFigureNameOpenerDelimiter >> isCloser [
 { #category : #accessing }
 GHMFigureNameOpenerDelimiter >> isOpener [
 	^ true
-]
-
-{ #category : #accessing }
-GHMFigureNameOpenerDelimiter >> markup [
-	^ '!['
 ]
 
 { #category : #accessing }

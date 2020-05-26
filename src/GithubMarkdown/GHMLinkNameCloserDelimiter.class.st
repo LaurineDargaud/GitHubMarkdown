@@ -8,6 +8,11 @@ Class {
 }
 
 { #category : #accessing }
+GHMLinkNameCloserDelimiter class >> markup [
+	^ ']'
+]
+
+{ #category : #accessing }
 GHMLinkNameCloserDelimiter >> isCloser [
 	^ true
 ]
@@ -15,11 +20,6 @@ GHMLinkNameCloserDelimiter >> isCloser [
 { #category : #accessing }
 GHMLinkNameCloserDelimiter >> isOpener [
 	^ false
-]
-
-{ #category : #accessing }
-GHMLinkNameCloserDelimiter >> markup [
-	^ ']'
 ]
 
 { #category : #accessing }

@@ -8,6 +8,11 @@ Class {
 }
 
 { #category : #accessing }
+GHMStrikeDelimiter class >> markup [
+	^ '~'
+]
+
+{ #category : #accessing }
 GHMStrikeDelimiter >> isCloser [
 	^ true
 ]
@@ -15,11 +20,6 @@ GHMStrikeDelimiter >> isCloser [
 { #category : #accessing }
 GHMStrikeDelimiter >> isOpener [
 	^ true
-]
-
-{ #category : #accessing }
-GHMStrikeDelimiter >> markup [
-	^ '~'
 ]
 
 { #category : #accessing }

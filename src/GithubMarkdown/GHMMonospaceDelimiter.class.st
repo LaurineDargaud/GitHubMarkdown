@@ -8,6 +8,11 @@ Class {
 }
 
 { #category : #accessing }
+GHMMonospaceDelimiter class >> markup [
+	^ '`'
+]
+
+{ #category : #accessing }
 GHMMonospaceDelimiter >> isCloser [
 	^ true
 ]
@@ -15,11 +20,6 @@ GHMMonospaceDelimiter >> isCloser [
 { #category : #accessing }
 GHMMonospaceDelimiter >> isOpener [
 	^ true
-]
-
-{ #category : #accessing }
-GHMMonospaceDelimiter >> markup [
-	^ '`'
 ]
 
 { #category : #accessing }

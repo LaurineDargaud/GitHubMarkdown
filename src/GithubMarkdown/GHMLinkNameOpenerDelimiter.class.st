@@ -8,8 +8,13 @@ Class {
 }
 
 { #category : #testing }
-GHMLinkNameOpenerDelimiter >> isActive [
+GHMLinkNameOpenerDelimiter class >> isActive [
 	^ false
+]
+
+{ #category : #accessing }
+GHMLinkNameOpenerDelimiter class >> markup [
+	^ '['
 ]
 
 { #category : #accessing }
@@ -20,11 +25,6 @@ GHMLinkNameOpenerDelimiter >> isCloser [
 { #category : #accessing }
 GHMLinkNameOpenerDelimiter >> isOpener [
 	^ true
-]
-
-{ #category : #accessing }
-GHMLinkNameOpenerDelimiter >> markup [
-	^ '['
 ]
 
 { #category : #accessing }

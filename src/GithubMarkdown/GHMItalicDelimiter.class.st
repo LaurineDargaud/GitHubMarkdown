@@ -8,6 +8,11 @@ Class {
 }
 
 { #category : #accessing }
+GHMItalicDelimiter class >> markup [
+	^ '_'
+]
+
+{ #category : #accessing }
 GHMItalicDelimiter >> isCloser [
 	^ true
 ]
@@ -15,11 +20,6 @@ GHMItalicDelimiter >> isCloser [
 { #category : #accessing }
 GHMItalicDelimiter >> isOpener [
 	^ true
-]
-
-{ #category : #accessing }
-GHMItalicDelimiter >> markup [
-	^ '_'
 ]
 
 { #category : #accessing }

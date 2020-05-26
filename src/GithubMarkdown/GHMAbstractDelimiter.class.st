@@ -28,6 +28,16 @@ GHMAbstractDelimiter class >> index: anIndex [
 	^ self new index: anIndex; yourself
 ]
 
+{ #category : #testing }
+GHMAbstractDelimiter class >> isActive [
+	^ true
+]
+
+{ #category : #accessing }
+GHMAbstractDelimiter class >> markup [
+	^ self subclassResponsibility 
+]
+
 { #category : #accessing }
 GHMAbstractDelimiter >> index [
 	^ index
@@ -40,7 +50,7 @@ GHMAbstractDelimiter >> index: anInteger [
 
 { #category : #testing }
 GHMAbstractDelimiter >> isActive [
-	^ true
+	^ self class isActive
 ]
 
 { #category : #accessing }
@@ -53,9 +63,9 @@ GHMAbstractDelimiter >> isOpener [
 	^ self subclassResponsibility 
 ]
 
-{ #category : #accessing }
+{ #category : #testing }
 GHMAbstractDelimiter >> markup [
-	^ self subclassResponsibility 
+	^ self class markup
 ]
 
 { #category : #accessing }
