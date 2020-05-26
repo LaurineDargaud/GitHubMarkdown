@@ -238,5 +238,40 @@ MicroDownParserTest >> testMetaData [
 	math := root children first. 
 	self assert: (math isKindOf: MicMetaDataBlock). 
 	self assert: math body equals: '"author": "S Ducasse"'
+	"note that the closing is not part of the body"
+	
+]
+
+{ #category : #'tests-metaData' }
+MicroDownParserTest >> testMetaDataEatsOtherBlocks [
+
+	| source root math |
+	source := parser metaDataOpeningBlockMarkup , String cr, 
+	 '"author": "S Ducasse"', String cr,
+	parser headerMarkup, 'newheader here'.
+	root :=  parser parse: source.
+	self assert: root children size equals: 1.
+	math := root children first. 
+	self assert: (math isKindOf: MicMetaDataBlock). 
+	self assert: math body equals: '"author": "S Ducasse"',String cr, parser headerMarkup, 'newheader here'.
+	
+]
+
+{ #category : #'tests-metaData' }
+MicroDownParserTest >> testMetaDataMultipleLines [
+
+	| source root math |
+	source := parser metaDataOpeningBlockMarkup , String cr, 
+	 '"author": "S Ducasse",', String cr,
+	 '"title": "Ze Great Book from Frenchies"', String cr,
+	parser metaDataClosingBlockMarkup, String cr.
+
+	root :=  parser parse: source.
+	self assert: root children size equals: 1.
+	math := root children first. 
+	self assert: (math isKindOf: MicMetaDataBlock). 
+	self assert: math body equals: '"author": "S Ducasse",
+"title": "Ze Great Book from Frenchies"'
+	"note that the closing is not part of the body"
 	
 ]
