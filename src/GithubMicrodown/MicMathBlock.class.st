@@ -13,6 +13,12 @@ Class {
 	#category : #'GithubMicrodown-Core'
 }
 
+{ #category : #accessing }
+MicMathBlock >> arguments [
+	
+	^ arguments ifNil: [ arguments := ZnResourceMetaUtils parseQueryFrom: firstLine readStream ]
+]
+
 { #category : #markups }
 MicMathBlock >> lineStartMarkup [
 

@@ -279,6 +279,21 @@ support(I) \geq minsup \}'
 	
 ]
 
+{ #category : #'tests-math' }
+MicroDownParserTest >> testMathBlockWithArguments [
+
+	| source root math |
+	source := parser mathOpeningBlockMarkup, 'label=equation&doNiceMath' , String cr, 
+	 '\mathcal{F} = \{ I \subseteq B | support(I) \geq minsup \}', String cr,
+	parser mathClosingBlockMarkup, String cr.
+
+	root :=  parser parse: source.
+	self assert: root children size equals: 1.
+	math := root children first.
+	self assert: (math arguments at: 'label') equals: 'equation'.
+	self assert: (math arguments at: 'doNiceMath') equals: nil
+]
+
 { #category : #'tests-metaData' }
 MicroDownParserTest >> testMetaData [
 
