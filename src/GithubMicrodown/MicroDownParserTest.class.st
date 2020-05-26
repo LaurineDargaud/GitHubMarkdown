@@ -192,7 +192,7 @@ MicroDownParserTest >> testCommentedLineMarkupInsideLine [
 	
 ]
 
-{ #category : #'tests-emvironment' }
+{ #category : #'tests-environment' }
 MicroDownParserTest >> testEnvironment [
 
 	| source root math environmentName |
@@ -210,7 +210,7 @@ MicroDownParserTest >> testEnvironment [
 	
 ]
 
-{ #category : #'tests-emvironment' }
+{ #category : #'tests-environment' }
 MicroDownParserTest >> testEnvironmentEatsNonClosedCodeMarkup [
 	| source root math environmentName contents |
 	environmentName := 'card'.
@@ -227,7 +227,27 @@ MicroDownParserTest >> testEnvironmentEatsNonClosedCodeMarkup [
 	self assert: math body equals: contents
 ]
 
-{ #category : #'tests-emvironment' }
+{ #category : #'tests-environment' }
+MicroDownParserTest >> testEnvironmentWithArguments [
+	| source root environment environmentName contents |
+	environmentName := 'card'.
+	contents := 'blbababbab
+bababba
+
+toto'.
+	source := parser environmentOpeningBlockMarkup, environmentName, parser argumentListStartDelimiter, 'a=1&b=17&c'
+		, String cr , contents , String cr
+		, parser environmentClosingBlockMarkup , String cr.
+	root := parser parse: source.
+	self assert: root children size equals: 1.
+	environment := root children first.
+	
+	self assert: (environment arguments at: 'a') equals: '1'.
+	self assert: (environment arguments at: 'b') equals: '17'.
+	self assert: (environment arguments at: 'c') equals: nil.
+]
+
+{ #category : #'tests-environment' }
 MicroDownParserTest >> testEnvironmentWithMultipleLines [
 	| source root math environmentName contents |
 	environmentName := 'card'.

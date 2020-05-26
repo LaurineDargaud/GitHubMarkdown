@@ -49,8 +49,33 @@ Point class >> x: xInteger y: yInteger
 Class {
 	#name : #MicEnvironmentBlock,
 	#superclass : #GHMStartStopMarkupBlock,
+	#instVars : [
+		'arguments',
+		'name'
+	],
 	#category : #'GithubMicrodown-Core'
 }
+
+{ #category : #accessing }
+MicEnvironmentBlock >> arguments [
+	
+	^ arguments ifNil: [ | foundIndex |
+		foundIndex := firstLine indexOf: parser argumentListStartDelimiter first.
+		arguments := foundIndex = 0
+			ifTrue: [ Dictionary new ]
+			ifFalse: [ ZnResourceMetaUtils parseQueryFrom: (firstLine copyFrom: foundIndex to: firstLine size) readStream ] ]
+]
+
+{ #category : #accessing }
+MicEnvironmentBlock >> extractFirstLineFrom: aLine [
+
+	| lineWithoutMarkup lineStream |
+	lineWithoutMarkup := super extractFirstLineFrom: aLine.
+	lineStream := lineWithoutMarkup readStream.
+	name := lineStream upTo: parser argumentListStartDelimiter first.
+	arguments := ZnResourceMetaUtils parseQueryFrom: lineStream.
+	^ lineWithoutMarkup
+]
 
 { #category : #markups }
 MicEnvironmentBlock >> lineStartMarkup [
@@ -67,5 +92,5 @@ MicEnvironmentBlock >> lineStopMarkup [
 { #category : #accessing }
 MicEnvironmentBlock >> name [
 
-	^ firstLine
+	^ name
 ]

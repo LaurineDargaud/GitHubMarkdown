@@ -15,6 +15,12 @@ MicroDownParser class >> annotatedParagraphMarkup [
 ]
 
 { #category : #markups }
+MicroDownParser class >> argumentListStartDelimiter [
+	
+	^ '|'
+]
+
+{ #category : #markups }
 MicroDownParser class >> commentedLineMarkup [
 
 	^ '%'
@@ -63,6 +69,12 @@ MicroDownParser >> anchorMarkup [
 { #category : #markups }
 MicroDownParser >> annotatedParagraphMarkup [
 	^ self class annotatedParagraphMarkup
+]
+
+{ #category : #markups }
+MicroDownParser >> argumentListStartDelimiter [
+	
+	^ self class argumentListStartDelimiter
 ]
 
 { #category : #'node creation' }
