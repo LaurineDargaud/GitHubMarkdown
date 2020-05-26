@@ -87,7 +87,7 @@ GHMInlineEmphasisProcess >> emphasisProcess [
 	associateCloserIndex := (stack allButFirst: firstOpenerIndex) findFirst: [ :delimiter | delimiter isCloser and: delimiter type = firstOpener type].
 	associateCloserIndex isZero 
 		ifTrue: [ 
-			stack := (stack withIndexSelect: [ :value :i | (i = firstOpenerIndex) not ]).
+			self stackWithoutFirstOpenerIndex.
 			^ self emphasisProcess ].
 	"3. translate index in delimiters stack"
 	associateCloserIndex := associateCloserIndex + firstOpenerIndex.
@@ -123,24 +123,24 @@ GHMInlineEmphasisProcess >> inlineBlockClass [
 	^ GHMInlineBlock_v2
 ]
 
-{ #category : #actions }
+{ #category : #'global process' }
 GHMInlineEmphasisProcess >> linkOrFigureProcess [
 	| urlCloserStringIndex correctSubstring correctURL |
 	"1. search the linkname closer delimiter"
 	associateCloserIndex := (stack allButFirst: firstOpenerIndex) findFirst: [ :delimiter | delimiter isCloser and: delimiter type = #linkName].
 	associateCloserIndex isZero 
 		ifTrue: [ 
-			stack := (stack withIndexSelect: [ :value :i | (i = firstOpenerIndex) not ]).
+			self stackWithoutFirstOpenerIndex.
 			^ self emphasisProcess ].
 	"2. translate index in delimiters stack"
 	associateCloserIndex := associateCloserIndex + firstOpenerIndex.
 	associateCloser := stack at: associateCloserIndex.
 	"3. check we find a ( just after closer in string"
 	((string allButFirst: associateCloser index + associateCloser size - 1) beginsWith: self urlOpenerDelimiterClass markup) 
-		ifFalse: [ stack := (stack withIndexSelect: [ :value :i | (i = firstOpenerIndex) not ]). ^ self emphasisProcess ].
+		ifFalse: [ self stackWithoutFirstOpenerIndex. ^ self emphasisProcess ].
 	"4. search url closer"
 	urlCloserStringIndex := string indexOfSubCollection: self urlCloserDelimiterClass markup startingAt: associateCloser index 
-		ifAbsent: [ stack := (stack withIndexSelect: [ :value :i | (i = firstOpenerIndex) not ]). ^ self emphasisProcess ].
+		ifAbsent: [ self stackWithoutFirstOpenerIndex. ^ self emphasisProcess ].
 	"5. link or figure found"
 	startIndex := firstOpener index + firstOpener size.
 	endIndex := associateCloser index - 1.
@@ -180,6 +180,11 @@ GHMInlineEmphasisProcess >> result: anArray [
 { #category : #accessing }
 GHMInlineEmphasisProcess >> stack: aStack [
 	stack := aStack
+]
+
+{ #category : #actions }
+GHMInlineEmphasisProcess >> stackWithoutFirstOpenerIndex [
+	stack := (stack withIndexSelect: [ :value :i | (i = firstOpenerIndex) not ])
 ]
 
 { #category : #accessing }
