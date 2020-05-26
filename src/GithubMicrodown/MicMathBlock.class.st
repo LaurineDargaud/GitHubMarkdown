@@ -10,6 +10,9 @@ may be in the future we should have \[ \]
 Class {
 	#name : #MicMathBlock,
 	#superclass : #GHMSameStartStopMarkupBlock,
+	#instVars : [
+		'arguments'
+	],
 	#category : #'GithubMicrodown-Core'
 }
 
