@@ -70,7 +70,7 @@ MicroDownParserTest >> testAnnotatedBlock [
 	self assert: root children size equals: 1.
 	annotated := root children first. 
 	self assert: annotated label equals: 'important'.
-	self assert: annotated code equals: 'this is an important paragraph on one line.'
+	self assert: annotated body equals: 'this is an important paragraph on one line.'
 	
 
 ]
@@ -192,6 +192,80 @@ MicroDownParserTest >> testCommentedLineMarkupInsideLine [
 	
 ]
 
+{ #category : #'tests-environment' }
+MicroDownParserTest >> testEnvironment [
+
+	| source root math environmentName |
+	environmentName := 'card'.
+	source := parser environmentOpeningBlockMarkup , environmentName, String cr, 
+	 'blbababbab bababba', String cr,
+	parser environmentClosingBlockMarkup, String cr.
+
+	root :=  parser parse: source.
+	self assert: root children size equals: 1.
+	math := root children first. 
+	self assert: (math isKindOf: MicEnvironmentBlock). 
+	self assert: math name equals: environmentName.
+	self assert: math body equals: 'blbababbab bababba'
+	
+]
+
+{ #category : #'tests-environment' }
+MicroDownParserTest >> testEnvironmentEatsNonClosedCodeMarkup [
+	| source root math environmentName contents |
+	environmentName := 'card'.
+	contents := '```smalltalk
+^ self foo'.
+	source := parser environmentOpeningBlockMarkup , environmentName
+		, String cr , contents , String cr
+		, parser environmentClosingBlockMarkup , String cr.
+	root := parser parse: source.
+	self assert: root children size equals: 1.
+	math := root children first.
+	self assert: (math isKindOf: MicEnvironmentBlock).
+	self assert: math name equals: environmentName.
+	self assert: math body equals: contents
+]
+
+{ #category : #'tests-environment' }
+MicroDownParserTest >> testEnvironmentWithArguments [
+	| source root environment environmentName contents |
+	environmentName := 'card'.
+	contents := 'blbababbab
+bababba
+
+toto'.
+	source := parser environmentOpeningBlockMarkup, environmentName, parser argumentListStartDelimiter, 'a=1&b=17&c'
+		, String cr , contents , String cr
+		, parser environmentClosingBlockMarkup , String cr.
+	root := parser parse: source.
+	self assert: root children size equals: 1.
+	environment := root children first.
+	
+	self assert: (environment arguments at: 'a') equals: '1'.
+	self assert: (environment arguments at: 'b') equals: '17'.
+	self assert: (environment arguments at: 'c') equals: nil.
+]
+
+{ #category : #'tests-environment' }
+MicroDownParserTest >> testEnvironmentWithMultipleLines [
+	| source root math environmentName contents |
+	environmentName := 'card'.
+	contents := 'blbababbab
+bababba
+
+toto'.
+	source := parser environmentOpeningBlockMarkup , environmentName
+		, String cr , contents , String cr
+		, parser environmentClosingBlockMarkup , String cr.
+	root := parser parse: source.
+	self assert: root children size equals: 1.
+	math := root children first.
+	self assert: (math isKindOf: MicEnvironmentBlock).
+	self assert: math name equals: environmentName.
+	self assert: math body equals: contents
+]
+
 { #category : #'tests-math' }
 MicroDownParserTest >> testMathBlock [
 
@@ -205,5 +279,88 @@ MicroDownParserTest >> testMathBlock [
 	math := root children first. 
 	self assert: (math isKindOf: MicMathBlock). 
 	self assert: math body equals: '\mathcal{F} = \{ I \subseteq B | support(I) \geq minsup \}'
+	
+]
+
+{ #category : #'tests-math' }
+MicroDownParserTest >> testMathBlockOnMulitpleLines [
+
+	| source root math |
+	source := parser mathOpeningBlockMarkup , String cr, 
+	 '\mathcal{F} = \{ I \subseteq B |', String cr, 'support(I) \geq minsup \}', String cr,
+	parser mathClosingBlockMarkup, String cr.
+
+	root :=  parser parse: source.
+	self assert: root children size equals: 1.
+	math := root children first. 
+	self assert: (math isKindOf: MicMathBlock). 
+	self assert: math body equals: '\mathcal{F} = \{ I \subseteq B |
+support(I) \geq minsup \}'
+	
+]
+
+{ #category : #'tests-math' }
+MicroDownParserTest >> testMathBlockWithArguments [
+
+	| source root math |
+	source := parser mathOpeningBlockMarkup, 'label=equation&doNiceMath' , String cr, 
+	 '\mathcal{F} = \{ I \subseteq B | support(I) \geq minsup \}', String cr,
+	parser mathClosingBlockMarkup, String cr.
+
+	root :=  parser parse: source.
+	self assert: root children size equals: 1.
+	math := root children first.
+	self assert: (math arguments at: 'label') equals: 'equation'.
+	self assert: (math arguments at: 'doNiceMath') equals: nil
+]
+
+{ #category : #'tests-metaData' }
+MicroDownParserTest >> testMetaData [
+
+	| source root math |
+	source := parser metaDataOpeningBlockMarkup , String cr, 
+	 '"author": "S Ducasse"', String cr,
+	parser metaDataClosingBlockMarkup, String cr.
+
+	root :=  parser parse: source.
+	self assert: root children size equals: 1.
+	math := root children first. 
+	self assert: (math isKindOf: MicMetaDataBlock). 
+	self assert: math body equals: '"author": "S Ducasse"'
+	"note that the closing is not part of the body"
+	
+]
+
+{ #category : #'tests-metaData' }
+MicroDownParserTest >> testMetaDataEatsOtherBlocks [
+
+	| source root math |
+	source := parser metaDataOpeningBlockMarkup , String cr, 
+	 '"author": "S Ducasse"', String cr,
+	parser headerMarkup, 'newheader here'.
+	root :=  parser parse: source.
+	self assert: root children size equals: 1.
+	math := root children first. 
+	self assert: (math isKindOf: MicMetaDataBlock). 
+	self assert: math body equals: '"author": "S Ducasse"',String cr, parser headerMarkup, 'newheader here'.
+	
+]
+
+{ #category : #'tests-metaData' }
+MicroDownParserTest >> testMetaDataMultipleLines [
+
+	| source root math |
+	source := parser metaDataOpeningBlockMarkup , String cr, 
+	 '"author": "S Ducasse",', String cr,
+	 '"title": "Ze Great Book from Frenchies"', String cr,
+	parser metaDataClosingBlockMarkup, String cr.
+
+	root :=  parser parse: source.
+	self assert: root children size equals: 1.
+	math := root children first. 
+	self assert: (math isKindOf: MicMetaDataBlock). 
+	self assert: math body equals: '"author": "S Ducasse",
+"title": "Ze Great Book from Frenchies"'
+	"note that the closing is not part of the body"
 	
 ]

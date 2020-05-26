@@ -157,13 +157,18 @@ GHMParser >> handleErrorInLine: line [
 
 { #category : #parsing }
 GHMParser >> handleLine: line [
+	"The logic is the following: 
+		-first line is cleaned to avoid noise,
+		-then if the current block can consume the line, it manages it and this potentially creates a new block that becomes the current one.
+		When the line is not consume, the current block is closed and its parent becomes the current one and the process is called back to treat the line."
 	| normalized |
 	normalized := line copyReplaceAll: String tab with: String space.
-	[ (current canConsumeLine: normalized)
+	[ 
+	(current canConsumeLine: normalized)
 		ifTrue: [ ^ current := current addLineAndReturnNextNode: normalized ]
 		ifFalse: [ current closeMe ].
 	current := current parent.
-	self handleLine: normalized] on: Error do: [ self handleErrorInLine: line ]
+	self handleLine: normalized ] on: Error do: [ self handleErrorInLine: line ]
 ]
 
 { #category : #markups }

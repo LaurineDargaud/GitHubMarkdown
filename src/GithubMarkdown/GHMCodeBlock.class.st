@@ -11,7 +11,7 @@ line 3
 "
 Class {
 	#name : #GHMCodeBlock,
-	#superclass : #GHMStartStopDelimitedBlock,
+	#superclass : #GHMSameStartStopMarkupBlock,
 	#instVars : [
 		'arguments'
 	],
@@ -26,13 +26,6 @@ GHMCodeBlock >> arguments [
 { #category : #accessing }
 GHMCodeBlock >> arguments: aString [
 	firstLine := aString
-]
-
-{ #category : #testing }
-GHMCodeBlock >> canCloseWith: line [
-	self flag: #nosenders.
-	"looks like unfinished but this is probably an important hook to add for example for our <? ?>"
-	^ line beginsWith: self codeblockMarkup
 ]
 
 { #category : #accessing }

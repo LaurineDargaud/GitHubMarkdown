@@ -15,9 +15,25 @@ MicroDownParser class >> annotatedParagraphMarkup [
 ]
 
 { #category : #markups }
+MicroDownParser class >> argumentListStartDelimiter [
+	
+	^ '|'
+]
+
+{ #category : #markups }
 MicroDownParser class >> commentedLineMarkup [
 
 	^ '%'
+]
+
+{ #category : #markups }
+MicroDownParser class >> environmentClosingBlockMarkup [
+	^ '?>'
+]
+
+{ #category : #markups }
+MicroDownParser class >> environmentOpeningBlockMarkup [
+	^ '<?'
 ]
 
 { #category : #markups }
@@ -36,6 +52,16 @@ MicroDownParser class >> mathOpeningBlockMarkup [
 ]
 
 { #category : #markups }
+MicroDownParser class >> metaDataClosingBlockMarkup [
+	^ '}'
+]
+
+{ #category : #markups }
+MicroDownParser class >> metaDataOpeningBlockMarkup [
+	^ '{'
+]
+
+{ #category : #markups }
 MicroDownParser >> anchorMarkup [
 	^ self class anchorMarkup
 ]
@@ -45,10 +71,17 @@ MicroDownParser >> annotatedParagraphMarkup [
 	^ self class annotatedParagraphMarkup
 ]
 
+{ #category : #markups }
+MicroDownParser >> argumentListStartDelimiter [
+	
+	^ self class argumentListStartDelimiter
+]
+
 { #category : #'node creation' }
 MicroDownParser >> blockExtensionStarterClassFrom: line [
 	"return the class of a block which can start with line, or nil if none"
-
+	(line beginsWith: self metaDataOpeningBlockMarkup)
+		ifTrue: [ ^ MicMetaDataBlock ].
 	(line beginsWith: self annotatedParagraphMarkup)
 		ifTrue: [ ^ MicAnnotatedBlock ].
 	(line beginsWith: self anchorMarkup )
@@ -57,6 +90,8 @@ MicroDownParser >> blockExtensionStarterClassFrom: line [
 		ifTrue: [ ^ MicCommentBlock ].
 	(line beginsWith: self mathOpeningBlockMarkup)
 		ifTrue: [ ^ MicMathBlock ].
+	(line beginsWith: self environmentOpeningBlockMarkup)
+		ifTrue: [ ^ MicEnvironmentBlock ].	
 	^ nil
 ]
 
@@ -67,6 +102,16 @@ MicroDownParser >> commentedLineMarkup [
 ]
 
 { #category : #markups }
+MicroDownParser >> environmentClosingBlockMarkup [
+	^ self class environmentClosingBlockMarkup
+]
+
+{ #category : #markups }
+MicroDownParser >> environmentOpeningBlockMarkup [
+	^ self class environmentOpeningBlockMarkup
+]
+
+{ #category : #markups }
 MicroDownParser >> mathClosingBlockMarkup [
 	^ self class mathClosingBlockMarkup
 ]
@@ -74,4 +119,14 @@ MicroDownParser >> mathClosingBlockMarkup [
 { #category : #markups }
 MicroDownParser >> mathOpeningBlockMarkup [
 	^ self class mathOpeningBlockMarkup
+]
+
+{ #category : #markups }
+MicroDownParser >> metaDataClosingBlockMarkup [
+	^ self class metaDataClosingBlockMarkup
+]
+
+{ #category : #markups }
+MicroDownParser >> metaDataOpeningBlockMarkup [
+	^ self class metaDataOpeningBlockMarkup
 ]
