@@ -51,3 +51,15 @@ Class {
 	#superclass : #GHMStartStopMarkupBlock,
 	#category : #'GithubMicrodown-Core'
 }
+
+{ #category : #markups }
+MicEnvironmentBlock >> lineStartMarkup [
+
+	^ parser environmentOpeningBlockMarkup 
+]
+
+{ #category : #markups }
+MicEnvironmentBlock >> lineStopMarkup [
+
+	^ parser environmentClosingBlockMarkup 
+]

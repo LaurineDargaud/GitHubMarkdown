@@ -21,6 +21,16 @@ MicroDownParser class >> commentedLineMarkup [
 ]
 
 { #category : #markups }
+MicroDownParser class >> environmentClosingBlockMarkup [
+	^ '?>'
+]
+
+{ #category : #markups }
+MicroDownParser class >> environmentOpeningBlockMarkup [
+	^ '<?'
+]
+
+{ #category : #markups }
 MicroDownParser class >> mathClosingBlockMarkup [
 	self flag: #fixMe. 
 	"should implement block logic for different opening and closing this way we could have 
@@ -68,6 +78,8 @@ MicroDownParser >> blockExtensionStarterClassFrom: line [
 		ifTrue: [ ^ MicCommentBlock ].
 	(line beginsWith: self mathOpeningBlockMarkup)
 		ifTrue: [ ^ MicMathBlock ].
+	(line beginsWith: self environmentOpeningBlockMarkup)
+		ifTrue: [ ^ MicEnvironmentBlock ].	
 	^ nil
 ]
 
@@ -75,6 +87,16 @@ MicroDownParser >> blockExtensionStarterClassFrom: line [
 MicroDownParser >> commentedLineMarkup [
 
 	^ self class commentedLineMarkup
+]
+
+{ #category : #markups }
+MicroDownParser >> environmentClosingBlockMarkup [
+	^ self class environmentClosingBlockMarkup
+]
+
+{ #category : #markups }
+MicroDownParser >> environmentOpeningBlockMarkup [
+	^ self class environmentOpeningBlockMarkup
 ]
 
 { #category : #markups }

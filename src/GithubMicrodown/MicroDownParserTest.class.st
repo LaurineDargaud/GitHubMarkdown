@@ -192,6 +192,22 @@ MicroDownParserTest >> testCommentedLineMarkupInsideLine [
 	
 ]
 
+{ #category : #'tests-emvironment' }
+MicroDownParserTest >> testEnvironment [
+
+	| source root math |
+	source := parser environmentOpeningBlockMarkup , 'card', String cr, 
+	 'blbababbab bababba', String cr,
+	parser environmentClosingBlockMarkup, String cr.
+
+	root :=  parser parse: source.
+	self assert: root children size equals: 1.
+	math := root children first. 
+	self assert: (math isKindOf: MicEnvironmentBlock). 
+	self assert: math body equals: 'blbababbab bababba'
+	
+]
+
 { #category : #'tests-math' }
 MicroDownParserTest >> testMathBlock [
 
