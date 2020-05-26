@@ -21,9 +21,9 @@ GHMStartStopMarkupBlock >> addLineAndReturnNextNode: line [
 	isClosed
 		ifTrue: [ ^ self ].
 	firstLine
-		ifNil: [ firstLine := line copyFrom: self lineStartMarkup size + 1 to: line size ]
-		ifNotNil:
-			[ self bodyFromLine: line ].
+		ifNil:
+			[ firstLine := self extractFirstLineFrom: line ]
+		ifNotNil: [ self bodyFromLine: line ].
 	^ self
 ]
 
@@ -77,6 +77,11 @@ GHMStartStopMarkupBlock >> doesLineStartWithStopMarkup: line [
 
 	^ line beginsWith: self lineStopMarkup
 	
+]
+
+{ #category : #handle }
+GHMStartStopMarkupBlock >> extractFirstLineFrom: line [
+	^ line copyFrom: self lineStartMarkup size + 1 to: line size
 ]
 
 { #category : #accessing }

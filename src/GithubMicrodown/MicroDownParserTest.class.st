@@ -195,8 +195,9 @@ MicroDownParserTest >> testCommentedLineMarkupInsideLine [
 { #category : #'tests-emvironment' }
 MicroDownParserTest >> testEnvironment [
 
-	| source root math |
-	source := parser environmentOpeningBlockMarkup , 'card', String cr, 
+	| source root math environmentName |
+	environmentName := 'card'.
+	source := parser environmentOpeningBlockMarkup , environmentName, String cr, 
 	 'blbababbab bababba', String cr,
 	parser environmentClosingBlockMarkup, String cr.
 
@@ -204,8 +205,45 @@ MicroDownParserTest >> testEnvironment [
 	self assert: root children size equals: 1.
 	math := root children first. 
 	self assert: (math isKindOf: MicEnvironmentBlock). 
+	self assert: math name equals: environmentName.
 	self assert: math body equals: 'blbababbab bababba'
 	
+]
+
+{ #category : #'tests-emvironment' }
+MicroDownParserTest >> testEnvironmentEatsNonClosedCodeMarkup [
+	| source root math environmentName contents |
+	environmentName := 'card'.
+	contents := '```smalltalk
+^ self foo'.
+	source := parser environmentOpeningBlockMarkup , environmentName
+		, String cr , contents , String cr
+		, parser environmentClosingBlockMarkup , String cr.
+	root := parser parse: source.
+	self assert: root children size equals: 1.
+	math := root children first.
+	self assert: (math isKindOf: MicEnvironmentBlock).
+	self assert: math name equals: environmentName.
+	self assert: math body equals: contents
+]
+
+{ #category : #'tests-emvironment' }
+MicroDownParserTest >> testEnvironmentWithMultipleLines [
+	| source root math environmentName contents |
+	environmentName := 'card'.
+	contents := 'blbababbab
+bababba
+
+toto'.
+	source := parser environmentOpeningBlockMarkup , environmentName
+		, String cr , contents , String cr
+		, parser environmentClosingBlockMarkup , String cr.
+	root := parser parse: source.
+	self assert: root children size equals: 1.
+	math := root children first.
+	self assert: (math isKindOf: MicEnvironmentBlock).
+	self assert: math name equals: environmentName.
+	self assert: math body equals: contents
 ]
 
 { #category : #'tests-math' }

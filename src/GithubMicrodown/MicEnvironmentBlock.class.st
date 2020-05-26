@@ -63,3 +63,9 @@ MicEnvironmentBlock >> lineStopMarkup [
 
 	^ parser environmentClosingBlockMarkup 
 ]
+
+{ #category : #accessing }
+MicEnvironmentBlock >> name [
+
+	^ firstLine
+]
