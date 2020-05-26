@@ -70,7 +70,7 @@ MicroDownParserTest >> testAnnotatedBlock [
 	self assert: root children size equals: 1.
 	annotated := root children first. 
 	self assert: annotated label equals: 'important'.
-	self assert: annotated code equals: 'this is an important paragraph on one line.'
+	self assert: annotated body equals: 'this is an important paragraph on one line.'
 	
 
 ]

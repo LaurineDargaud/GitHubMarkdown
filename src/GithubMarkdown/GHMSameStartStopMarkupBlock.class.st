@@ -13,6 +13,12 @@ Class {
 	#category : #'GithubMarkdown-Model'
 }
 
+{ #category : #testing }
+GHMSameStartStopMarkupBlock class >> isAbstract [
+
+	^ self == GHMSameStartStopMarkupBlock
+]
+
 { #category : #markups }
 GHMSameStartStopMarkupBlock >> lineStopMarkup [
 

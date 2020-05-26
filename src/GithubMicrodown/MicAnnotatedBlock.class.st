@@ -10,10 +10,7 @@ Since there is no need to end the block with the marker it is not that nice to h
 "
 Class {
 	#name : #MicAnnotatedBlock,
-	#superclass : #GHMCodeBlock,
-	#instVars : [
-		'label'
-	],
+	#superclass : #GHMAnnotatedBlock,
 	#category : #'GithubMicrodown-Core'
 }
 
@@ -51,11 +48,11 @@ MicAnnotatedBlock >> label [
 { #category : #testing }
 MicAnnotatedBlock >> lineMarkup [
 
-	^ '@@'
+	^ parser annotatedParagraphMarkup
 ]
 
 { #category : #accessing }
 MicAnnotatedBlock >> text [ 
 
-	^ self code
+	^ self body
 ]

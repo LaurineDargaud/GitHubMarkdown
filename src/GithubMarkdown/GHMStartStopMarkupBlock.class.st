@@ -12,6 +12,12 @@ Class {
 	#category : #'GithubMarkdown-Model'
 }
 
+{ #category : #testing }
+GHMStartStopMarkupBlock class >> isAbstract [
+
+	^ self == GHMStartStopMarkupBlock
+]
+
 { #category : #handle }
 GHMStartStopMarkupBlock >> addLineAndReturnNextNode: line [
 	"add line to this node. 
