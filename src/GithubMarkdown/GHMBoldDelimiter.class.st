@@ -8,13 +8,13 @@ Class {
 }
 
 { #category : #accessing }
-GHMBoldDelimiter class >> markup [
-	^ '**'
+GHMBoldDelimiter class >> isCloser [
+	^ true
 ]
 
 { #category : #accessing }
-GHMBoldDelimiter >> isCloser [
-	^ true
+GHMBoldDelimiter class >> markup [
+	^ '**'
 ]
 
 { #category : #accessing }

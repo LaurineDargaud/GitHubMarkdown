@@ -13,13 +13,13 @@ GHMURLOpenerDelimiter class >> isActive [
 ]
 
 { #category : #accessing }
-GHMURLOpenerDelimiter class >> markup [
-	^ '('
+GHMURLOpenerDelimiter class >> isCloser [
+	^ false
 ]
 
 { #category : #accessing }
-GHMURLOpenerDelimiter >> isCloser [
-	^ false
+GHMURLOpenerDelimiter class >> markup [
+	^ '('
 ]
 
 { #category : #accessing }

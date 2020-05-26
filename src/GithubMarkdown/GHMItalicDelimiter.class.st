@@ -8,13 +8,13 @@ Class {
 }
 
 { #category : #accessing }
-GHMItalicDelimiter class >> markup [
-	^ '_'
+GHMItalicDelimiter class >> isCloser [
+	^ true
 ]
 
 { #category : #accessing }
-GHMItalicDelimiter >> isCloser [
-	^ true
+GHMItalicDelimiter class >> markup [
+	^ '_'
 ]
 
 { #category : #accessing }

@@ -34,8 +34,18 @@ GHMAbstractDelimiter class >> isActive [
 ]
 
 { #category : #accessing }
+GHMAbstractDelimiter class >> isCloser [
+	^ self subclassResponsibility 
+]
+
+{ #category : #accessing }
 GHMAbstractDelimiter class >> markup [
 	^ self subclassResponsibility 
+]
+
+{ #category : #accessing }
+GHMAbstractDelimiter class >> size [
+	^ self markup size
 ]
 
 { #category : #accessing }
@@ -53,9 +63,9 @@ GHMAbstractDelimiter >> isActive [
 	^ self class isActive
 ]
 
-{ #category : #accessing }
+{ #category : #testing }
 GHMAbstractDelimiter >> isCloser [
-	^ self subclassResponsibility 
+	^ self class isCloser
 ]
 
 { #category : #accessing }
@@ -70,7 +80,7 @@ GHMAbstractDelimiter >> markup [
 
 { #category : #accessing }
 GHMAbstractDelimiter >> size [
-	^ self markup size
+	^ self class size
 ]
 
 { #category : #accessing }

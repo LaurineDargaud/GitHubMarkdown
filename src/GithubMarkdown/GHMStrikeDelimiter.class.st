@@ -8,13 +8,13 @@ Class {
 }
 
 { #category : #accessing }
-GHMStrikeDelimiter class >> markup [
-	^ '~'
+GHMStrikeDelimiter class >> isCloser [
+	^ true
 ]
 
 { #category : #accessing }
-GHMStrikeDelimiter >> isCloser [
-	^ true
+GHMStrikeDelimiter class >> markup [
+	^ '~'
 ]
 
 { #category : #accessing }

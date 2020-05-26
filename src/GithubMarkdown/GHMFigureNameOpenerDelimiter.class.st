@@ -8,13 +8,13 @@ Class {
 }
 
 { #category : #accessing }
-GHMFigureNameOpenerDelimiter class >> markup [
-	^ '!['
+GHMFigureNameOpenerDelimiter class >> isCloser [
+	^ false
 ]
 
 { #category : #accessing }
-GHMFigureNameOpenerDelimiter >> isCloser [
-	^ false
+GHMFigureNameOpenerDelimiter class >> markup [
+	^ '!['
 ]
 
 { #category : #accessing }

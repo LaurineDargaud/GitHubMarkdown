@@ -13,13 +13,13 @@ GHMLinkNameOpenerDelimiter class >> isActive [
 ]
 
 { #category : #accessing }
-GHMLinkNameOpenerDelimiter class >> markup [
-	^ '['
+GHMLinkNameOpenerDelimiter class >> isCloser [
+	^ false
 ]
 
 { #category : #accessing }
-GHMLinkNameOpenerDelimiter >> isCloser [
-	^ false
+GHMLinkNameOpenerDelimiter class >> markup [
+	^ '['
 ]
 
 { #category : #accessing }
