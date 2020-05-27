@@ -8,23 +8,23 @@ Class {
 }
 
 { #category : #testing }
-GHMURLOpenerDelimiter >> isActive [
+GHMURLOpenerDelimiter class >> isActive [
 	^ false
 ]
 
 { #category : #accessing }
-GHMURLOpenerDelimiter >> isCloser [
+GHMURLOpenerDelimiter class >> isCloser [
 	^ false
+]
+
+{ #category : #accessing }
+GHMURLOpenerDelimiter class >> markup [
+	^ '('
 ]
 
 { #category : #accessing }
 GHMURLOpenerDelimiter >> isOpener [
 	^ true
-]
-
-{ #category : #accessing }
-GHMURLOpenerDelimiter >> markup [
-	^ '('
 ]
 
 { #category : #accessing }

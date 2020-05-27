@@ -7,24 +7,19 @@ Class {
 	#category : #'GithubMarkdown-Model - inline'
 }
 
-{ #category : #testing }
-GHMLinkNameOpenerDelimiter >> isActive [
+{ #category : #accessing }
+GHMLinkNameOpenerDelimiter class >> isCloser [
 	^ false
 ]
 
 { #category : #accessing }
-GHMLinkNameOpenerDelimiter >> isCloser [
-	^ false
+GHMLinkNameOpenerDelimiter class >> markup [
+	^ '['
 ]
 
 { #category : #accessing }
 GHMLinkNameOpenerDelimiter >> isOpener [
 	^ true
-]
-
-{ #category : #accessing }
-GHMLinkNameOpenerDelimiter >> markup [
-	^ '['
 ]
 
 { #category : #accessing }

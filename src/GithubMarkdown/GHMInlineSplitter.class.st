@@ -28,9 +28,7 @@ GHMInlineSplitter >> allDelimiters [
 
 { #category : #process }
 GHMInlineSplitter >> delimiterFoundProcess: aDelimiterSubclass [
-	(aDelimiterSubclass new type == 'linkNameCloser') 
-		ifTrue: [ ^ self linkOrImageProcess ]			
-		ifFalse: [ delimiterStack add: (aDelimiterSubclass index: index)]
+	delimiterStack add: (aDelimiterSubclass index: index)
 ]
 
 { #category : #process }
@@ -68,19 +66,11 @@ GHMInlineSplitter >> initialize [
 { #category : #initialization }
 GHMInlineSplitter >> initializeDelimiters [
 	allDelimiters := Dictionary new.
-	self flag: #torevisit. "why creating two times the class when we do not need at all."
 	self abstractDelimiterClass subclasses 
-		select: [ :subclass | subclass new isActive ] 
+		select: [ :subclass | subclass isActive ]
 		thenDo: [ :subclass | allDelimiters 
-										at: subclass new markup 
+										at: subclass markup 
 										put: (self class environment at: subclass name) ].
-]
-
-{ #category : #process }
-GHMInlineSplitter >> linkOrImageProcess [
-	| linkNameCloserIndex |
-	"1. search the linkname closer delimiter"
-	linkNameCloserIndex := delimiterStack findLast: [ :delimiter | delimiter isOpener and: delimiter type = #linkName].
 ]
 
 { #category : #actions }
@@ -103,6 +93,7 @@ GHMInlineSplitter >> read: aString [
 { #category : #public }
 GHMInlineSplitter >> start: aString [
 	delimiterStack := Stack new.
+	resultArray := LinkedList new.
 	index := 1.
 	string := aString.
 	^ self read: aString

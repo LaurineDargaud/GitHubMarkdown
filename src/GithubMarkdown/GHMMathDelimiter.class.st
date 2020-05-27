@@ -1,28 +1,28 @@
 "
-I'm the delimiter for strikethrough format.
+I'm a delimiter for math inline environment.
 "
 Class {
-	#name : #GHMStrikeDelimiter,
+	#name : #GHMMathDelimiter,
 	#superclass : #GHMAbstractDelimiter,
 	#category : #'GithubMarkdown-Model - inline'
 }
 
 { #category : #accessing }
-GHMStrikeDelimiter class >> isCloser [
+GHMMathDelimiter class >> isCloser [
 	^ true
 ]
 
 { #category : #accessing }
-GHMStrikeDelimiter class >> markup [
-	^ '~'
+GHMMathDelimiter class >> markup [
+	^ '$'
 ]
 
 { #category : #accessing }
-GHMStrikeDelimiter >> isOpener [
+GHMMathDelimiter >> isOpener [
 	^ true
 ]
 
 { #category : #accessing }
-GHMStrikeDelimiter >> type [
-	^ #strike
+GHMMathDelimiter >> type [
+	^ #math
 ]
